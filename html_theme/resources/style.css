@@ -99,3 +99,13 @@ textarea {
   font-size: 1.2rem;
 }
 
+.header .cancel-btn {
+  position: absolute;
+  right: 0;
+}
+
+.submit-btn {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}

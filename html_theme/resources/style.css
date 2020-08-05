@@ -1,5 +1,6 @@
 :root {
   --primary-color: #ff6961;
+  --lighter-color: #ffe2e1;
 }
 
 * {
@@ -58,6 +59,14 @@ textarea {
   background-color: var(--primary-color);
   border-color: transparent;
   filter: brightness(120%);
+}
+
+.fas {
+  color: var(--primary-color);
+}
+
+.btn-lighter:hover {
+  background-color: var(--lighter-color);
 }
 
 .new-post-button {

@@ -31,8 +31,15 @@ a {
   text-decoration: none;
 }
 
-a:hover {
+a:hover,
+a:focus {
   color: #555;
+}
+
+a.underline:hover,
+a.underline:focus {
+  color: black;
+  text-decoration: underline;
 }
 
 ul {
@@ -71,6 +78,7 @@ textarea {
 
 .new-post-button {
   position: fixed;
+  z-index: 1030;
   right: 1rem;
   bottom: 1rem;
   border-radius: 50%;
@@ -81,8 +89,14 @@ textarea {
   height: 40px;
 }
 
+.fixed-lt {
+  position: fixed;
+  z-index: 1030;
+  left: 1rem;
+  top: .5rem;
+}
+
 .post {
-  margin: 1rem;
   border-radius: 10px;
   -webkit-box-shadow: 0px 5px 8px 0px rgba(200, 200, 200, 0.75);
   -moz-box-shadow: 0px 5px 8px 0px rgba(200, 200, 200, 0.75);
@@ -99,6 +113,10 @@ textarea {
   font-size: 1.2rem;
 }
 
+.font-sm {
+  font-size: .8rem;
+}
+
 .header .cancel-btn {
   position: absolute;
   right: 0;
@@ -108,4 +126,15 @@ textarea {
   display: flex;
   justify-content: center;
   margin-top: 2rem;
+}
+
+.tapbar .tap {
+  width: 33.33%;
+  border: none;
+  color: black;
+}
+
+.tap.selected {
+  color: var(--primary-color);
+  border-bottom: 1px var(--primary-color) solid;
 }

@@ -18,7 +18,10 @@ html {
 body {
   font: 400 1rem/1.6 'Noto Sans', sans-serif;
   margin: 0 auto;
-  padding-bottom: 3rem;
+}
+
+.main.container {
+  min-height: 100vh;
 }
 
 h1,
@@ -67,6 +70,10 @@ textarea {
   pointer-events: none;
 }
 
+.text-primary {
+  color: var(--primary-color) !important;
+}
+
 .btn-primary {
   background-color: var(--primary-color);
   border-color: transparent;
@@ -96,6 +103,10 @@ textarea {
   z-index: 1030;
   left: 1rem;
   top: .5rem;
+}
+
+.posts {
+  padding-bottom: 3rem;
 }
 
 .post {
@@ -163,4 +174,28 @@ textarea {
   width: 40px;
   height: 40px;
   border-color: white;
+}
+
+.splash {
+  height: 480px;
+  max-height: 100vh;
+  max-width: 350px;
+}
+
+.splash-promotion {
+  max-width: 350px;
+  vertical-align: center;
+  min-height: 252px;
+  height: min(350px, calc(100vh - 110px));
+}
+
+.splash-promotion .fa-image {
+  font-size: 8rem;
+  font-style: italic;
+  color: var(--primary-color);
+}
+
+.btn-lighter-border {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
 }

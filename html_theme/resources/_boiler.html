@@ -9,42 +9,33 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
     integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
   <link rel="stylesheet" href="../resources/style.css" type="text/css" />
-  <title>Feed / Tweetx</title>
+  <title>Feed / TweetX</title>
 </head>
 
 <body>
   <div id="main" class="container">
-    <a href="./create-post" class="btn btn-primary new-post-button">
-      <i class="far fa-edit"></i>
-    </a>
-    <div class="header sticky-top font-lg text-center bg-white py-1 border-bottom">
-      My Feed
-    </div>
-    <a href="./hamburger-menu" class="nav-open-btn sticky-top">☰</a>
-    <div class="posts">
-      <div class="post d-flex border p-3">
-        <img src="https://source.unsplash.com/featured?painting" alt="" class="profile-img" />
-        <div class="d-flex flex-column ml-2">
-          <div class="font-weight-bold">Melissa Berry</div>
-          <div class="text-secondary mb-3">10 mins ago</div>
-          <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-            Reprehenderit iure distinctio dolorum iste esse dolorem similique
-            nobis sed quibusdam earum?
-          </p>
+    <a href="./hamburger-menu.html" class="nav-open-btn fixed-lt mobile">☰</a>
+    <div class="header sticky-top bg-white py-1 border-bottom">
+      <div class="font-lg text-center mobile">
+        My Feed
+      </div>
+      <div class="font-lg text-center desktop d-flex justify-content-between align-items-baseline">
+        <div>
+          <a href="./feed.html" class="font-main-logo text-primary">TweetX</a>
+        </div>
+        <div class="header-menubar">
+          <a href="./feed.html" class="selected">Feed</a>
+          <a href="./users.html">Users</a>
+          <a href="./profile.html">Profile</a>
         </div>
       </div>
-      <div class="post d-flex border p-3">
-        <img src="https://source.unsplash.com/featured?painting" alt="" class="profile-img" />
-        <div class="d-flex flex-column ml-2">
-          <div class="font-weight-bold">Melissa Berry</div>
-          <div class="text-secondary mb-3">10 mins ago</div>
-          <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-            Reprehenderit iure distinctio dolorum iste esse dolorem similique
-            nobis sed quibusdam earum?
-          </p>
-        </div>
+    </div>
+    <div class="posts">
+      <a href="./create-post.html" class="btn btn-primary new-post-button">
+        <i class="far fa-edit mobile"></i>
+        <span class="desktop">New Post</span>
+      </a>
+      <div class="post d-flex border p-3 my-3">
       </div>
     </div>
   </div>

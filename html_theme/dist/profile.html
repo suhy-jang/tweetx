@@ -9,19 +9,28 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
     integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
   <link rel="stylesheet" href="../resources/style.css" type="text/css" />
-  <title>William Franklin(@williamfranklin) / Tweetx</title>
+  <title>William Franklin(@williamfranklin) / TweetX</title>
 </head>
 
 <body>
   <div id="main" class="container">
-    <a href="./create-post.html" class="btn btn-primary new-post-button">
-      <i class="far fa-edit"></i>
-    </a>
     <a href="./feed.html" class="sticky-top fixed-lt">
       <i class="fas fa-chevron-left"></i>
     </a>
     <div class="header sticky-top font-lg text-center bg-white py-1 border-bottom">
-      You
+      <div class="font-lg text-center mobile">
+        You
+      </div>
+      <div class="font-lg text-center desktop d-flex justify-content-between align-items-baseline">
+        <div>
+          <a href="./feed.html" class="font-main-logo text-primary">TweetX</a>
+        </div>
+        <div class="header-menubar">
+          <a href="./feed.html" class="selected">Feed</a>
+          <a href="./users.html">Users</a>
+          <a href="./profile.html">Profile</a>
+        </div>
+      </div>
     </div>
     <div class="d-flex my-4">
       <img src="https://source.unsplash.com/featured?painting" alt="" class="profile-img" />
@@ -46,79 +55,21 @@
       </a>
     </div>
     <div class="posts border-top">
+      <a href="./create-post.html" class="btn btn-primary new-post-button">
+        <i class="far fa-edit mobile"></i>
+        <span class="desktop">New Post</span>
+      </a>
       <div class="post my-3 d-flex border p-2">
         <a href="./profile.html">
           <img src="https://source.unsplash.com/featured?painting" alt="" class="profile-img" />
         </a>
         <div class="d-flex flex-column ml-2">
-          <a href="./profile.html" class="underline font-weight-bold d-inline">
-            William Franklin
-          </a>
-          <span class="text-secondary">@williamfranklin - 10 mins ago</span>
-          <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-            Reprehenderit iure distinctio dolorum iste esse dolorem similique
-            nobis sed quibusdam earum?
-          </p>
-        </div>
-      </div>
-      <div class="post my-3 d-flex border p-2">
-        <a href="./profile.html">
-          <img src="https://source.unsplash.com/featured?painting" alt="" class="profile-img" />
-        </a>
-        <div class="d-flex flex-column ml-2">
-          <a href="./profile.html" class="underline font-weight-bold d-inline">
-            William Franklin
-          </a>
-          <span class="text-secondary">@williamfranklin - 10 mins ago</span>
-          <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-            Reprehenderit iure distinctio dolorum iste esse dolorem similique
-            nobis sed quibusdam earum?
-          </p>
-        </div>
-      </div>
-      <div class="post my-3 d-flex border p-2">
-        <a href="./profile.html">
-          <img src="https://source.unsplash.com/featured?painting" alt="" class="profile-img" />
-        </a>
-        <div class="d-flex flex-column ml-2">
-          <a href="./profile.html" class="underline font-weight-bold d-inline">
-            William Franklin
-          </a>
-          <span class="text-secondary">@williamfranklin - 10 mins ago</span>
-          <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-            Reprehenderit iure distinctio dolorum iste esse dolorem similique
-            nobis sed quibusdam earum?
-          </p>
-        </div>
-      </div>
-      <div class="post my-3 d-flex border p-2">
-        <a href="./profile.html">
-          <img src="https://source.unsplash.com/featured?painting" alt="" class="profile-img" />
-        </a>
-        <div class="d-flex flex-column ml-2">
-          <a href="./profile.html" class="underline font-weight-bold d-inline">
-            William Franklin
-          </a>
-          <span class="text-secondary">@williamfranklin - 10 mins ago</span>
-          <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-            Reprehenderit iure distinctio dolorum iste esse dolorem similique
-            nobis sed quibusdam earum?
-          </p>
-        </div>
-      </div>
-      <div class="post my-3 d-flex border p-2">
-        <a href="./profile.html">
-          <img src="https://source.unsplash.com/featured?painting" alt="" class="profile-img" />
-        </a>
-        <div class="d-flex flex-column ml-2">
-          <a href="./profile.html" class="underline font-weight-bold d-inline">
-            William Franklin
-          </a>
-          <span class="text-secondary">@williamfranklin - 10 mins ago</span>
+          <div class="d-md-flex justify-content-between">
+            <a href="./profile.html" class="underline font-weight-bold d-inline">
+              William Franklin
+            </a>
+            <div class="text-secondary">@williamfranklin - 10 mins ago</div>
+          </div>
           <p>
             Lorem, ipsum dolor sit amet consectetur adipisicing elit.
             Reprehenderit iure distinctio dolorum iste esse dolorem similique

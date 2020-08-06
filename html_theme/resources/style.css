@@ -317,6 +317,10 @@ textarea {
     width: 250px;
   }
 
+  .desktop-mt-3 {
+    margin-top: 3rem;
+  }
+
   .floating-follow-btn {
     position: static;
   }

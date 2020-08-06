@@ -18,24 +18,7 @@ html {
 body {
   font: 400 1rem/1.6 'Noto Sans', sans-serif;
   margin: 0 auto;
-  min-width: 100vw;
   min-height: 100vh;
-}
-
-.fixed-lt {
-  position: fixed;
-  z-index: 1030;
-  left: 1rem;
-  top: .5rem;
-}
-
-.floated {
-  position: fixed;
-  background-color: white;
-  width: 100vw;
-  max-width: 350px;
-  height: 480px;
-  max-height: 100vh;
 }
 
 .main.container {
@@ -131,6 +114,45 @@ textarea {
 .btn-lighter-border:hover {
   color: white;
   background-color: var(--primary-color);
+}
+
+.position-fixed {
+  z-index: 1030;
+}
+
+.position-absolute {
+  z-index: 1040;
+}
+
+.fixed-lt {
+  position: fixed;
+  z-index: 1030;
+  left: 1rem;
+  top: .5rem;
+}
+
+.floated-container {
+  position: fixed;
+  background-color: white;
+  width: 100vw;
+  max-width: 350px;
+  height: 480px;
+  max-height: 100vh;
+}
+
+.floating-follow-btn-cover {
+  width: 80px;
+  height: 80px;
+}
+
+.floating-follow-btn {
+  position: fixed;
+  z-index: 1040;
+  top: .1rem;
+}
+
+.btn-following {
+  background-color: white;
 }
 
 .btn-following:hover {
@@ -282,6 +304,14 @@ textarea {
     display: initial;
   }
 
+  .desktop-p-3 {
+    padding: 3rem;
+  }
+
+  .floating-follow-btn {
+    position: static;
+  }
+
   .new-post-button {
     position: static;
     border-radius: 10px;
@@ -307,7 +337,7 @@ textarea {
   
  /* Large devices (desktops, 992px and up) */
  @media (min-width: 992px) {
-  /*  */
+   /*  */
  }
   
  /* Extra large devices (large desktops, 1200px and up) */

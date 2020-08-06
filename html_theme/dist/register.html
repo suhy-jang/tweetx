@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
     integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
   <link rel="stylesheet" href="../resources/style.css" type="text/css" />
-  <title>Sign In / TweetX</title>
+  <title>Create Account / Tweetx</title>
 </head>
 
 <body>
@@ -19,28 +19,31 @@
         <i class="fas fa-chevron-left"></i>
       </a>
       <div class="header sticky-top font-lg text-center bg-white py-1 border-bottom">
-        <span class="">Sign In</span>
+        <span class="">Create Account</span>
       </div>
       <div class="pb-3 d-flex flex-column justify-content-between">
-        <div class="font-sm description my-5">
-          Type in your Email ID or Username and Password you chose for Momento and click Go to Feed
+        <div class="font-sm description mt-5">
+          Fill in the required details and click Proceed. <br />
+          Fields marked * are mandatory
         </div>
         <form onsubmit="() => {console.log('submit')}" class="form my-3">
           <div class="form-group">
-            <input type="email" placeholder="Email or Username" value="" class="form-control" />
+            <input type="email" placeholder="Email ID" value="" class="form-control" />
           </div>
           <div class="form-group">
             <input type="password" placeholder="Password" value="" class="form-control" />
           </div>
           <div class="form-group">
-            <input type="submit" value="Login" class="btn btn-primary rounded-pill form-control submit-btn" />
+            <input type="password" placeholder="Confirm Password" value="" class="form-control" />
+          </div>
+          <div class="font-sm description text-center mx-auto my-4">
+            By Creating Account, you are automatically accepting all the <a href="#">Terms & Conditions</a> related to
+            Momento
+          </div>
+          <div class="form-group">
+            <input type="submit" value="Register" class="btn btn-primary rounded-pill form-control submit-btn" />
           </div>
         </form>
-        <div class="font-sm description">
-          <a href="./reset-password.html" class="text-primary">
-            Can't Sign In? Reset Password
-          </a>
-        </div>
       </div>
     </div>
   </div>

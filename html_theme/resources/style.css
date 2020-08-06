@@ -18,6 +18,33 @@ html {
 body {
   font: 400 1rem/1.6 'Noto Sans', sans-serif;
   margin: 0 auto;
+  min-width: 100vw;
+  min-height: 100vh;
+}
+
+.fixed-lt {
+  position: fixed;
+  z-index: 1030;
+  left: 1rem;
+  top: .5rem;
+  /* md */
+  left: calc(50% - 150px);
+  top: 2.5rem;
+}
+
+.floated {
+  position: fixed;
+  background-color: white;
+  width: 100vw;
+  max-width: 350px;
+  height: 480px;
+  max-height: 100vh;
+  /* md */
+  border-radius: 10px;
+  padding: 1rem;
+  margin: 0 auto;
+  left: calc(50% - 170px);
+  top: 1rem;
 }
 
 .main.container {
@@ -35,20 +62,38 @@ h4 {
   color: var(--primary-color);
 }
 
+.flex-1 {
+  flex: 1;
+}
+
 a {
   color: black;
-  text-decoration: none;
+  /* text-decoration: none; */
 }
 
 a:hover,
-a:focus {
+a:focus,
+a:active,
+a:link,
+a:visited {
   color: #555;
+  text-decoration: none;
 }
 
 a.underline:hover,
-a.underline:focus {
+a.underline:focus,
+a.underline:active,
+a.underline:link {
   color: black;
   text-decoration: underline;
+}
+
+a.text-primary:hover,
+a.text-primary:focus,
+a.text-primary:active,
+a.text-primary:link,
+a.text-primary:visited {
+  color: var(--primary-color) !important;
 }
 
 ul {
@@ -75,6 +120,7 @@ textarea {
 }
 
 .btn-primary {
+  color: white !important;
   background-color: var(--primary-color);
   border-color: transparent;
 }
@@ -89,20 +135,14 @@ textarea {
   background-color: var(--lighter-color);
 }
 
+.btn-lighter-border:hover {
+  color: white;
+  background-color: var(--primary-color);
+}
+
 .btn-following:hover {
   color: white;
   background-color: var(--danger-color);
-}
-
-.flex-1 {
-  flex: 1;
-}
-
-.fixed-lt {
-  position: fixed;
-  z-index: 1030;
-  left: 1rem;
-  top: .5rem;
 }
 
 .posts {
@@ -176,6 +216,14 @@ textarea {
   border-color: white;
 }
 
+.description {
+  max-width: 350px;
+}
+
+.white-space-pre {
+  white-space: pre;
+}
+
 .splash {
   height: 480px;
   max-height: 100vh;
@@ -198,4 +246,8 @@ textarea {
 .btn-lighter-border {
   color: var(--primary-color);
   border-color: var(--primary-color);
+}
+
+.bg-lighter {
+  background-color: var(--lighter-color);
 }

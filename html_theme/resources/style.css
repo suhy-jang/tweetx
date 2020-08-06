@@ -292,6 +292,11 @@ textarea {
   .desktop {
     display: none !important;
   }
+
+  .main-user-info {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
  }
 
  /* Medium devices (tablets, 768px and up) */
@@ -304,8 +309,12 @@ textarea {
     display: initial;
   }
 
-  .desktop-p-3 {
+  .main-user-info {
     padding: 3rem;
+  }
+
+  .user-info {
+    width: 250px;
   }
 
   .floating-follow-btn {

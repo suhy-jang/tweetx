@@ -17,9 +17,6 @@
     <div class="container">
       <div class="text-center mobile">
         James Oliver
-        <button id="floating-follow-btn" class="btn btn-following border rounded-pill font-sm position-fixed right-2-5">
-          FOLLOWING
-        </button>
       </div>
       <div class="desktop d-flex justify-content-between align-items-baseline">
         <div>
@@ -28,7 +25,7 @@
         <div class="header-menubar">
           <a href="./feed.html" class="selected">Feed</a>
           <a href="./users.html">Users</a>
-          <a href="./profile.html">Profile</a>
+          <a href="./myprofile.html">Profile</a>
         </div>
       </div>
     </div>
@@ -37,15 +34,17 @@
     <a href="./feed.html" class="sticky-top fixed-lt mobile">
       <i class="fas fa-chevron-left"></i>
     </a>
-    <div class="desktop-p-3 d-flex">
-      <img src="https://source.unsplash.com/featured?painting" alt="" class="profile-img" />
-      <div class="ml-3 flex-1">
-        <div class="font-weight-bold font-lg">James Oliver</div>
-        <div class="text-secondary">@james_oliver</div>
-        <div class="text-secondary">Joined on 06 Dec 2019</div>
+    <div class="d-flex justify-content-around main-user-info">
+      <div class="user-info d-flex">
+        <img src="https://source.unsplash.com/featured?painting" alt="" class="profile-img" />
+        <div class="ml-3 flex-1">
+          <div class="font-weight-bold font-lg">James Oliver</div>
+          <div class="text-secondary">@james_oliver</div>
+          <div class="text-secondary">Joined on 06 Dec 2019</div>
+        </div>
       </div>
-      <div>
-        <button class="btn btn-following rounded-pill font-sm float-right">
+      <div class="floating-follow-btn-cover">
+        <button id="floating-follow-btn" class="btn btn-following rounded-pill font-sm">
           FOLLOWING
         </button>
       </div>
@@ -55,11 +54,11 @@
         <div>8</div>
         <div>POSTS</div>
       </a>
-      <a href="./followers.html" class="tap btn btn-lighter font-sm py-2">
+      <a href="./myprofile-followers.html" class="tap btn btn-lighter font-sm py-2">
         <div>16</div>
         <div>FOLLOWERS</div>
       </a>
-      <a href="./following.html" class="tap btn btn-lighter font-sm py-2">
+      <a href="./myprofile-following.html" class="tap btn btn-lighter font-sm py-2">
         <div>34</div>
         <div>FOLLOWINGS</div>
       </a>

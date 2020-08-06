@@ -1,5 +1,7 @@
 :root {
   --primary-color: #ff6961;
+  --secondary-color: #6c757d;
+  --danger-color: #dc3545;
   --lighter-color: #ffe2e1;
 }
 
@@ -24,6 +26,10 @@ h2,
 h3,
 h4 {
   line-height: 1.3;
+}
+
+.fas {
+  color: var(--primary-color);
 }
 
 a {
@@ -53,6 +59,10 @@ textarea {
   resize: none;
 }
 
+.btn {
+  line-height: unset;
+}
+
 .btn:disabled {
   pointer-events: none;
 }
@@ -68,12 +78,13 @@ textarea {
   filter: brightness(120%);
 }
 
-.fas {
-  color: var(--primary-color);
-}
-
 .btn-lighter:hover {
   background-color: var(--lighter-color);
+}
+
+.btn-following:hover {
+  color: white;
+  background-color: var(--danger-color);
 }
 
 .new-post-button {
@@ -131,10 +142,20 @@ textarea {
 .tapbar .tap {
   width: 33.33%;
   border: none;
+  border-radius: 0;
   color: black;
 }
 
 .tap.selected {
   color: var(--primary-color);
   border-bottom: 1px var(--primary-color) solid;
+}
+
+.user-element .btn {
+  min-width: 6.5rem;
+}
+
+.user-element:nth-child(2) {
+  width: calc(100% - 160px);
+  flex: 1;
 }

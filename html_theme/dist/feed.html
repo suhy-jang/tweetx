@@ -13,13 +13,12 @@
 </head>
 
 <body>
-  <div id="main" class="container">
-    <a href="./hamburger-menu.html" class="nav-open-btn fixed-lt mobile">☰</a>
-    <div class="header sticky-top bg-white py-1 border-bottom">
-      <div class="font-lg text-center mobile">
+  <div class="header sticky-top font-lg bg-white py-1 border-bottom">
+    <div class="container">
+      <div class="text-center mobile">
         My Feed
       </div>
-      <div class="font-lg text-center desktop d-flex justify-content-between align-items-baseline">
+      <div class="desktop d-flex justify-content-between align-items-baseline">
         <div>
           <a href="./feed.html" class="font-main-logo text-primary">TweetX</a>
         </div>
@@ -27,25 +26,29 @@
           <a href="./feed.html" class="selected">Feed</a>
           <a href="./users.html">Users</a>
           <a href="./myprofile.html">Profile</a>
+          <a href="./logout.html">Logout</a>
         </div>
       </div>
     </div>
+  </div>
+  <div id="main" class="container">
+    <a href="./hamburger-menu.html" class="nav-open-btn position-fixed lt mobile">
+      ☰
+    </a>
     <div class="posts">
       <a href="./create-post.html" class="btn btn-primary new-post-button">
         <i class="far fa-edit mobile"></i>
         <span class="desktop">New Post</span>
       </a>
-      <div class="post d-flex border p-3 my-3">
+      <div class="post d-flex border">
         <a href="./profile-follower.html">
           <img src="https://source.unsplash.com/featured?painting" alt="" class="profile-img" />
         </a>
-        <div class="d-flex flex-column ml-3">
-          <div class="d-md-flex justify-content-between">
-            <a href="./profile-follower.html" class="underline font-weight-bold d-inline">
-              <div class="font-weight-bold">Melissa Berry</div>
-            </a>
-            <div class="text-secondary">10 mins ago</div>
-          </div>
+        <div class="post-content d-flex flex-column">
+          <a href="./profile-follower.html" class="underline font-weight-bold d-inline">
+            Melissa Berry
+          </a>
+          <span class="text-secondary font-sm mb-3">@melissa_berry - 10 mins ago</span>
           <p>
             Lorem, ipsum dolor sit amet consectetur adipisicing elit.
             Reprehenderit iure distinctio dolorum iste esse dolorem similique
@@ -53,13 +56,15 @@
           </p>
         </div>
       </div>
-      <div class="post d-flex border p-3 my-3">
-        <img src="https://source.unsplash.com/featured?painting" alt="" class="profile-img" />
-        <div class="d-flex flex-column ml-3">
-          <div class="d-md-flex justify-content-between">
-            <div class="font-weight-bold">Melissa Berry</div>
-            <div class="text-secondary mb-3">10 mins ago</div>
-          </div>
+      <div class="post d-flex border">
+        <a href="./profile-follower.html">
+          <img src="https://source.unsplash.com/featured?painting" alt="" class="profile-img" />
+        </a>
+        <div class="post-content d-flex flex-column">
+          <a href="./profile-follower.html" class="underline font-weight-bold d-inline">
+            Melissa Berry
+          </a>
+          <span class="text-secondary font-sm mb-3">@melissa_berry - 10 mins ago</span>
           <p>
             Lorem, ipsum dolor sit amet consectetur adipisicing elit.
             Reprehenderit iure distinctio dolorum iste esse dolorem similique
@@ -67,13 +72,15 @@
           </p>
         </div>
       </div>
-      <div class="post d-flex border p-3 my-3">
-        <img src="https://source.unsplash.com/featured?painting" alt="" class="profile-img" />
-        <div class="d-flex flex-column ml-3">
-          <div class="d-md-flex justify-content-between">
-            <div class="font-weight-bold">Melissa Berry</div>
-            <div class="text-secondary mb-3">10 mins ago</div>
-          </div>
+      <div class="post d-flex border">
+        <a href="./profile-follower.html">
+          <img src="https://source.unsplash.com/featured?painting" alt="" class="profile-img" />
+        </a>
+        <div class="post-content d-flex flex-column">
+          <a href="./profile-follower.html" class="underline font-weight-bold d-inline">
+            Melissa Berry
+          </a>
+          <span class="text-secondary font-sm mb-3">@melissa_berry - 10 mins ago</span>
           <p>
             Lorem, ipsum dolor sit amet consectetur adipisicing elit.
             Reprehenderit iure distinctio dolorum iste esse dolorem similique
@@ -81,13 +88,47 @@
           </p>
         </div>
       </div>
-      <div class="post d-flex border p-3 my-3">
-        <img src="https://source.unsplash.com/featured?painting" alt="" class="profile-img" />
-        <div class="d-flex flex-column ml-3">
-          <div class="d-md-flex justify-content-between">
-            <div class="font-weight-bold">Melissa Berry</div>
-            <div class="text-secondary mb-3">10 mins ago</div>
-          </div>
+      <div class="post d-flex border">
+        <a href="./profile-follower.html">
+          <img src="https://source.unsplash.com/featured?painting" alt="" class="profile-img" />
+        </a>
+        <div class="post-content d-flex flex-column">
+          <a href="./profile-follower.html" class="underline font-weight-bold d-inline">
+            Melissa Berry
+          </a>
+          <span class="text-secondary font-sm mb-3">@melissa_berry - 10 mins ago</span>
+          <p>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+            Reprehenderit iure distinctio dolorum iste esse dolorem similique
+            nobis sed quibusdam earum?
+          </p>
+        </div>
+      </div>
+      <div class="post d-flex border">
+        <a href="./profile-follower.html">
+          <img src="https://source.unsplash.com/featured?painting" alt="" class="profile-img" />
+        </a>
+        <div class="post-content d-flex flex-column">
+          <a href="./profile-follower.html" class="underline font-weight-bold d-inline">
+            Melissa Berry
+          </a>
+          <span class="text-secondary font-sm mb-3">@melissa_berry - 10 mins ago</span>
+          <p>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+            Reprehenderit iure distinctio dolorum iste esse dolorem similique
+            nobis sed quibusdam earum?
+          </p>
+        </div>
+      </div>
+      <div class="post d-flex border">
+        <a href="./profile-follower.html">
+          <img src="https://source.unsplash.com/featured?painting" alt="" class="profile-img" />
+        </a>
+        <div class="post-content d-flex flex-column">
+          <a href="./profile-follower.html" class="underline font-weight-bold d-inline">
+            Melissa Berry
+          </a>
+          <span class="text-secondary font-sm mb-3">@melissa_berry - 10 mins ago</span>
           <p>
             Lorem, ipsum dolor sit amet consectetur adipisicing elit.
             Reprehenderit iure distinctio dolorum iste esse dolorem similique

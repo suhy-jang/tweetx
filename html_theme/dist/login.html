@@ -14,14 +14,14 @@
 
 <body>
   <div id="main" class="container">
-    <div class="floated-container">
-      <a href="./splash.html" class="sticky-top fixed-lt">
+    <div class="splash position-relative">
+      <a href="./splash.html" class="position-absolute">
         <i class="fas fa-chevron-left"></i>
       </a>
-      <div class="header sticky-top font-lg text-center bg-white py-1 border-bottom">
+      <div class="header sticky-top font-lg text-center py-1 border-bottom">
         <span class="">Sign In</span>
       </div>
-      <div class="pb-3 d-flex flex-column justify-content-between">
+      <div class="p-3 flex-column-between">
         <div class="font-sm description my-5">
           Type in your Email ID or Username and Password you chose for Momento and click Go to Feed
         </div>
@@ -37,7 +37,15 @@
             <a href="./feed.html" class="btn btn-primary rounded-pill form-control submit-btn">Login</a>
           </div>
         </form>
-        <div class="font-sm description">
+        <div class="splash-description font-sm mb-3">
+          <a href="./register.html" class="text-primary">
+            Create an account
+          </a>
+          <span class="text-secondary">
+            to use TweetX for free!
+          </span>
+        </div>
+        <div class="splash-description font-sm">
           <a href="./reset-password.html" class="text-primary">
             Can't Sign In? Reset Password
           </a>

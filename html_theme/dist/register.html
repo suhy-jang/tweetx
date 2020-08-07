@@ -14,19 +14,19 @@
 
 <body>
   <div id="main" class="container">
-    <div class="floated-container">
-      <a href="./splash.html" class="sticky-top fixed-lt">
+    <div class="splash position-relative">
+      <a href="./splash.html" class="position-absolute">
         <i class="fas fa-chevron-left"></i>
       </a>
-      <div class="header sticky-top font-lg text-center bg-white py-1 border-bottom">
+      <div class="header font-lg text-center py-1 border-bottom">
         <span class="">Create Account</span>
       </div>
-      <div class="pb-3 d-flex flex-column justify-content-between">
-        <div class="font-sm description mt-5">
+      <div class="p-3 d-flex flex-column justify-content-between">
+        <div class="font-sm description mt-5 mb-3">
           Fill in the required details and click Proceed. <br />
           Fields marked * are mandatory
         </div>
-        <form onsubmit="() => {console.log('submit')}" class="form my-3">
+        <form onsubmit="() => {console.log('submit')}" class="form">
           <div class="form-group">
             <input type="email" placeholder="Email ID" value="" class="form-control" />
           </div>
@@ -45,9 +45,13 @@
             <a href="./feed.html" class="btn btn-primary rounded-pill form-control submit-btn">Register</a>
           </div>
         </form>
+        <div class="splash-description font-sm">
+          <a href="./login.html" class="text-primary">
+            Already have an account?
+          </a>
+        </div>
       </div>
     </div>
-  </div>
 </body>
 
 </html>

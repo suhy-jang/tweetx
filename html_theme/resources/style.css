@@ -1,6 +1,6 @@
 :root {
   --primary-color: #ff6961;
-  --secondary-color: #6c757d;
+  --primary-selected: #FF7477;
   --danger-color: #dc3545;
   --lighter-color: #ffe2e1;
 }
@@ -40,15 +40,16 @@ h4 {
   flex: 1;
 }
 
-a {
-  color: black;
+a,
+a:link,
+a:visited {
+  color: #555;
+  text-decoration: none;
 }
 
 a:hover,
 a:focus,
-a:active,
-a:link,
-a:visited {
+a:active {
   color: #555;
   text-decoration: none;
 }
@@ -57,6 +58,7 @@ a.underline:link,
 a.underline:visited {
   color: black;
 }
+
 a.underline:hover,
 a.underline:focus,
 a.underline:active {
@@ -95,16 +97,20 @@ textarea {
   color: var(--primary-color) !important;
 }
 
-.btn-primary {
+.btn-primary,
+.btn-primary:link,
+.btn-primary:visited {
   color: white !important;
   background-color: var(--primary-color);
   border-color: transparent;
+  background-image: none;
 }
 
-.btn-primary:hover {
-  background-color: var(--primary-color);
-  border-color: transparent;
-  filter: brightness(120%);
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background-color: var(--primary-selected) !important;
+  border-color: transparent !important;
 }
 
 .btn-lighter:hover {
@@ -124,20 +130,16 @@ textarea {
   z-index: 1040;
 }
 
+.lt {
+  left: 1rem;
+  top: .5rem;
+}
+
 .fixed-lt {
   position: fixed;
   z-index: 1030;
   left: 1rem;
   top: .5rem;
-}
-
-.floated-container {
-  position: fixed;
-  background-color: white;
-  width: 100vw;
-  max-width: 350px;
-  height: 480px;
-  max-height: 100vh;
 }
 
 .floating-follow-btn-cover {
@@ -169,6 +171,22 @@ textarea {
   -webkit-box-shadow: 0px 5px 8px 0px rgba(200, 200, 200, 0.75);
   -moz-box-shadow: 0px 5px 8px 0px rgba(200, 200, 200, 0.75);
   box-shadow: 0px 5px 8px 0px rgba(200, 200, 200, 0.75);
+  padding: 8px;
+  margin: 16px 0;
+}
+
+.header {
+  -webkit-box-shadow: 0px 5px 8px 0px rgba(200, 200, 200, 0.75);
+  -moz-box-shadow: 0px 5px 8px 0px rgba(200, 200, 200, 0.75);
+  box-shadow: 0px 5px 8px 0px rgba(200, 200, 200, 0.75);
+}
+
+.user {
+  padding: 8px;
+}
+
+.post .post-content {
+  margin-left: 8px;
 }
 
 .profile-img {
@@ -189,13 +207,8 @@ textarea {
   font-size: 2rem;
 }
 
-.header .cancel-btn {
-  position: absolute;
-  right: 0;
-}
-
 .header-menubar {
-  width: 200px;
+  width: 270px;
   display: flex;
   justify-content: space-between;
 }
@@ -244,31 +257,8 @@ textarea {
   border-color: white;
 }
 
-.description {
-  max-width: 350px;
-}
-
 .white-space-pre {
   white-space: pre;
-}
-
-.splash {
-  height: 480px;
-  max-height: 100vh;
-  max-width: 350px;
-}
-
-.splash-promotion {
-  max-width: 350px;
-  vertical-align: center;
-  min-height: 252px;
-  height: min(350px, calc(100vh - 110px));
-}
-
-.splash-promotion .fa-image {
-  font-size: 8rem;
-  font-style: italic;
-  color: var(--primary-color);
 }
 
 .btn-lighter-border {
@@ -278,6 +268,72 @@ textarea {
 
 .bg-lighter {
   background-color: var(--lighter-color);
+}
+
+.buttons .btn {
+  margin: .5rem;
+}
+
+.splash {
+  width: 350px;
+  max-width: 100%;
+  height: min(100%, 550px);
+  border-radius: 10px;
+  margin: 0 auto;
+  background-color: white;
+  border: 1px solid var(--primary-color);
+}
+
+.splash.wider {
+  width: 550px;
+  height: 430px;
+}
+
+.flex-column-between {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.flex-column-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.splash .position-absolute {
+  margin-left: .5rem;
+  margin-top: .5rem;
+}
+
+.logout {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 350px;
+  max-width: 100%;
+  height: 350px;
+  border-radius: 10px;
+  margin: 0 auto;
+  padding: 1rem;
+  background-color: white;
+}
+
+.splash-promotion {
+  max-width: 100%;
+  vertical-align: center;
+  height: 320px;
+}
+
+.splash-promotion .fa-image {
+  font-size: 8rem;
+  font-style: italic;
+  color: var(--primary-color);
+}
+
+.splash-description {
+  max-width: 350px;
 }
 
 /* Small devices (landscape phones, 576px and up) */
@@ -309,12 +365,30 @@ textarea {
     display: initial;
   }
 
+  .post {
+    padding: 16px;
+    margin: 16px 0;
+  }
+
+  .user {
+    padding: 16px;
+  }
+
+  .post .post-content {
+    margin-left: 16px;
+  }
+
   .main-user-info {
     padding: 3rem;
   }
 
   .user-info {
-    width: 250px;
+    min-width: 300px;
+  }
+
+  .user-info .profile-img {
+    width: 100px;
+    height: 100px;
   }
 
   .desktop-mt-3 {
@@ -334,18 +408,13 @@ textarea {
     height: 3rem;
   }
 
-  .floated {
+  /* .floated {
     border-radius: 10px;
     padding: 1rem;
     margin: 0 auto;
     left: calc(50% - 170px);
     top: 1rem;
-  }
-
-  .floated .fixed-lt {
-    left: calc(50% - 150px);
-    top: 2.5rem;
-  }
+  } */
  }
   
  /* Large devices (desktops, 992px and up) */

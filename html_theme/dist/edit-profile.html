@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+  <link rel="stylesheet" href="../resources/style.css" type="text/css" />
+  <title>Edit Profile / TweetX</title>
+</head>
+
+<body>
+  <div class="header desktop">
+    <div class="container">
+      <a href="./feed.html" class="font-main-logo text-primary">TweetX</a>
+    </div>
+  </div>
+  <div id="main" class="container">
+    <div class="splash position-relative">
+      <a href="./myprofile.html" class="position-absolute">
+        <i class="fas fa-chevron-left"></i>
+      </a>
+      <div class="header font-lg text-center py-1">
+        <span class="">Edit Profile</span>
+      </div>
+      <div class="edit-user d-flex justify-content-center my-3">
+        <img src="https://source.unsplash.com/featured?painting" alt="" class="profile-img" />
+      </div>
+      <div class="p-3 flex-column-between">
+        <form onsubmit="() => {console.log('submit')}" class="form">
+          <div class="form-group">
+            <label for="profilephoto" class="text-secondary font-sm">Photo</label>
+            <input id="profilephoto" type="file" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="fullname" class="text-secondary font-sm">Name</label>
+            <input id="fullname" type="text" value="William Franklin" class="form-control" />
+          </div>
+          <div class="form-group">
+            <!-- <input type="submit" value="UpdateUser" class="btn btn-primary rounded-pill form-control submit-btn" /> -->
+            <a href="./myprofile.html" class="btn btn-primary rounded-pill form-control submit-btn">Save</a>
+          </div>
+        </form>
+        <div class="splash-description font-sm">
+          <div class="text-secondary mb-1">Unhappy?</div>
+          <button class="btn btn-link-primary text-primary p-0 font-sm">
+            Cancel my account
+          </button>
+        </div>
+      </div>
+    </div>
+    <img src="../resources/img/back.png" alt="" class="d-none d-md-inline-block position-fixed right-0 bottom-0 w-50" />
+  </div>
+</body>
+
+</html>

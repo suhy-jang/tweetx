@@ -13,15 +13,23 @@
 </head>
 
 <body>
+  <div class="header desktop">
+    <div class="container">
+      <a href="./feed.html" class="font-main-logo text-primary">TweetX</a>
+    </div>
+  </div>
   <div id="main" class="container">
     <div class="splash position-relative">
       <a href="./splash.html" class="position-absolute">
         <i class="fas fa-chevron-left"></i>
       </a>
-      <div class="header font-lg text-center py-1 border-bottom">
+      <a href="./login.html" class="desktop btn btn-outline-secondary rounded-pill px-3 py-2 font-lg font-weight-bold">
+        Login
+      </a>
+      <div class="header font-lg text-center py-1">
         <span class="">Create Account</span>
       </div>
-      <div class="p-3 d-flex flex-column justify-content-between">
+      <div class="p-3 flex-column-between">
         <div class="font-sm description mt-5 mb-3">
           Fill in the required details and click Proceed. <br />
           Fields marked * are mandatory
@@ -45,13 +53,15 @@
             <a href="./feed.html" class="btn btn-primary rounded-pill form-control submit-btn">Register</a>
           </div>
         </form>
-        <div class="splash-description font-sm">
+        <div class="mobile splash-description font-sm">
           <a href="./login.html" class="text-primary">
             Already have an account?
           </a>
         </div>
       </div>
     </div>
+    <img src="../resources/img/back.png" alt="" class="d-none d-md-inline-block position-fixed right-0 bottom-0 w-50" />
+  </div>
 </body>
 
 </html>

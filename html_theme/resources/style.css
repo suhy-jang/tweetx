@@ -154,6 +154,10 @@ textarea {
   bottom: 0;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .lt {
   left: 1rem;
   top: .5rem;
@@ -213,6 +217,11 @@ textarea {
   padding: 8px;
 }
 
+.post-indicator {
+  transform: translateY(0px); 
+  transition: opacity 0.3s ease-out 0s;
+}
+
 .post .post-content {
   margin-left: 8px;
 }
@@ -221,6 +230,11 @@ textarea {
   width: 50px;
   height: 50px;
   border-radius: 50%;
+}
+
+.edit-user .profile-img {
+  width: 100px;
+  height: 100px;
 }
 
 .font-lg {
@@ -303,9 +317,9 @@ textarea {
   border: 1px solid var(--primary-color);
 }
 
-.splash.wider {
+.splash.new-post {
   width: 550px;
-  height: 430px;
+  height: 400px;
 }
 
 .flex-column-between {
@@ -434,7 +448,7 @@ textarea {
   }
 
   .splash .header {
-    font-size: 3rem;
+    font-size: 2rem;
     box-shadow: none;
   }
  }

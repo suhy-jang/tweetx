@@ -31,12 +31,17 @@
       </div>
       <div class="p-3 flex-column-between">
         <div class="font-sm description mt-5 mb-3">
-          Fill in the required details and click Proceed. <br />
-          Fields marked * are mandatory
+          Fill in the required details and click Proceed.
         </div>
         <form onsubmit="() => {console.log('submit')}" class="form">
           <div class="form-group">
+            <input type="text" placeholder="Name" value="" class="form-control" />
+          </div>
+          <div class="form-group">
             <input type="email" placeholder="Email ID" value="" class="form-control" />
+          </div>
+          <div class="form-group">
+            <input type="text" placeholder="Username" value="" class="form-control" />
           </div>
           <div class="form-group">
             <input type="password" placeholder="Password" value="" class="form-control" />

@@ -6,7 +6,7 @@ const getUserId = (request, requireAuth = true) => {
     : request.connection.context.Authorization;
 
   if (header) {
-    const token = header.replace('Bearer', '');
+    const token = header.replace('Bearer ', '');
     const decoded = verifyToken(token);
     return decoded.userId;
   }

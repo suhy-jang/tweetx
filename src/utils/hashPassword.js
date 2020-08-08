@@ -1,10 +1,19 @@
 import bcrypt from 'bcryptjs';
 
+const passwordLength = 6;
+
 const hashPassword = (password) => {
-  if (password.length < 6) {
-    throw new Error('Password must be 6 characters or longer.');
+  if (password.length < passwordLength) {
+    throw new Error(`Password must be ${passwordLength} characters or longer.`);
   }
   return bcrypt.hash(password, 10);
 };
 
-export { hashPassword as default };
+const verifyPassword = (inputPW, userPW) => {
+  if (inputPW.length < passwordLength) {
+    throw new Error(`Password must be ${passwordLength} characters or longer.`);
+  }
+  return bcrypt.compare(inputPW, userPW);
+};
+
+export { hashPassword, verifyPassword };

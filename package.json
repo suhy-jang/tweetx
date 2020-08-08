@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "get-schema": "graphql get-schema -p prisma"
   },
   "repository": {
     "type": "git",

@@ -1,4 +1,10 @@
 type User {
   id: ID! @id
-  name: String!
+  username: String! @unique
+  fullname: String!
+  email: String! @unique
+  photoUrl: String
+  password: String!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }

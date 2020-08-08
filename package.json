@@ -7,6 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
+    "dev": "nodemon src --ext js, graphql --exec babel-node",
     "get-schema": "graphql get-schema -p prisma"
   },
   "repository": {

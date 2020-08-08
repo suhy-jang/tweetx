@@ -8,7 +8,13 @@
   },
   "scripts": {
     "dev": "env-cmd -f ./config/dev.env nodemon src --ext js, graphql --exec babel-node",
-    "get-schema": "graphql get-schema -p prisma"
+    "test": "env-cmd -f ./config/test.env jest --watch --runInBand --notify",
+    "get-schema": "graphql get-schema -p prisma --dotenv config/dev.env"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "globalSetup": "./tests/jest/globalSetup.js",
+    "globalTeardown": "./tests/jest/globalTeardown.js"
   },
   "repository": {
     "type": "git",
@@ -37,9 +43,11 @@
     "@babel/core": "^7.11.1",
     "@babel/node": "^7.10.5",
     "@babel/preset-env": "^7.11.0",
+    "axios": "^0.19.2",
     "concurrently": "^5.2.0",
     "env-cmd": "^10.1.0",
     "graphql-cli": "^3.0.14",
+    "graphql-tag": "^2.11.0",
     "jest": "^26.2.2",
     "nodemon": "^2.0.4",
     "regenerator-runtime": "^0.13.7"

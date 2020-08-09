@@ -66,9 +66,12 @@ type User {
   id: ID!
   username: String!
   fullname: String!
-  email: String!
+  email: String
   photoUrl: String
   password: String!
+  posts: [Post!]!
+  followers: [Follow!]!
+  followings: [Follow!]!
   createdAt: String!
   updatedAt: String!
 }
@@ -76,6 +79,7 @@ type User {
 type Post {
   id: ID!
   content: String!
+  author: User!
   createdAt: String!
   updatedAt: String!
 }

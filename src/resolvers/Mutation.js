@@ -1,18 +1,18 @@
 import getUserId from '../utils/getUserId';
 import { generateToken } from '../utils/jwtToken';
 import { hashPassword, verifyPassword } from '../utils/hashPassword';
+import {
+  usernameValidation,
+  emailValidation,
+  nameValidation,
+} from '../utils/userValidation';
 
 const Mutation = {
   async createUser(parent, args, { prisma }, info) {
     const password = await hashPassword(args.data.password);
-
-    const emailTaken = await prisma.exists.User({
-      email: args.data.email,
-    });
-
-    if (emailTaken) {
-      throw new Error('Email already taken.');
-    }
+    await usernameValidation(prisma, args.data.username);
+    await emailValidation(prisma, args.data.email);
+    await nameValidation(prisma, args.data.fullname);
 
     const user = await prisma.mutation.createUser({
       data: {
@@ -26,7 +26,7 @@ const Mutation = {
       token: generateToken(user.id),
     };
   },
-  async login(parent, args, { prisma, request }, info) {
+  async login(parent, args, { prisma }, info) {
     const user = (
       await prisma.query.users({
         where: {
@@ -66,33 +66,105 @@ const Mutation = {
     if (typeof args.data.password === 'string') {
       args.data.password = await hashPassword(args.data.password);
     }
+    if (typeof args.data.username === 'string') {
+      await usernameValidation(prisma, args.data.username);
+    }
+    if (typeof args.data.email === 'string') {
+      await emailValidation(prisma, args.data.email);
+    }
+    if (typeof args.data.fullname === 'string') {
+      await nameValidation(prisma, args.data.fullname);
+    }
 
-    return prisma.mutation.updateUser({
-      where: {
-        id: userId,
+    return prisma.mutation.updateUser(
+      {
+        where: {
+          id: userId,
+        },
+        data: args.data,
       },
-      data: args.data,
-    });
+      info,
+    );
   },
-  createPost(parent, args, { prisma }, info) {
-    return prisma.mutation.createPost({
-      data: args.data,
-    });
-  },
-  deletePost(parent, args, { prisma }, info) {
-    return prisma.mutation.deletePost({
-      where: {
-        id: args.id,
+  createPost(parent, args, { prisma, request }, info) {
+    const userId = getUserId(request);
+
+    return prisma.mutation.createPost(
+      {
+        data: {
+          ...args.data,
+          author: {
+            connect: {
+              id: userId,
+            },
+          },
+        },
       },
-    });
+      info,
+    );
   },
-  updatePost(parent, args, { prisma }, info) {
-    return prisma.mutation.updatePost({
-      where: {
-        id: args.id,
+  async deletePost(parent, args, { prisma, request }, info) {
+    const userId = getUserId(request);
+
+    const post = (
+      await prisma.query.posts(
+        {
+          where: {
+            id: args.id,
+          },
+        },
+        info,
+      )
+    )[0];
+
+    if (!post) {
+      throw new Error('Post not found');
+    }
+
+    if (post.author.id !== userId) {
+      throw new Error('Forbidden to delete post');
+    }
+
+    return prisma.mutation.deletePost(
+      {
+        where: {
+          id: args.id,
+        },
       },
-      data: args.data,
-    });
+      info,
+    );
+  },
+  async updatePost(parent, args, { prisma, request }, info) {
+    const userId = getUserId(request);
+
+    const post = (
+      await prisma.query.posts(
+        {
+          where: {
+            id: args.id,
+          },
+        },
+        info,
+      )
+    )[0];
+
+    if (!post) {
+      throw new Error('Post not found');
+    }
+
+    if (post.author.id !== userId) {
+      throw new Error('Forbidden to update post');
+    }
+
+    return prisma.mutation.updatePost(
+      {
+        where: {
+          id: args.id,
+        },
+        data: args.data,
+      },
+      info,
+    );
   },
   async follow(parent, args, { prisma, request }, info) {
     const userId = getUserId(request);
@@ -102,6 +174,9 @@ const Mutation = {
         where: {
           follower: {
             id: userId,
+          },
+          following: {
+            id: args.id,
           },
         },
       })
@@ -137,6 +212,9 @@ const Mutation = {
         where: {
           follower: {
             id: userId,
+          },
+          following: {
+            id: args.id,
           },
         },
       })

@@ -29,8 +29,8 @@ const Query = {
       info,
     );
   },
-  user(parent, args, { prisma }, info) {
-    return prisma.query.user(
+  async user(parent, args, { prisma }, info) {
+    const user = await prisma.query.user(
       {
         where: {
           id: args.id,
@@ -38,6 +38,12 @@ const Query = {
       },
       info,
     );
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    return user;
   },
   posts(parent, args, { prisma }, info) {
     const opArgs = {
@@ -55,8 +61,8 @@ const Query = {
 
     return prisma.query.posts(opArgs, info);
   },
-  post(parent, args, { prisma }, info) {
-    return prisma.query.post(
+  async post(parent, args, { prisma }, info) {
+    const post = await prisma.query.post(
       {
         where: {
           id: args.id,
@@ -64,6 +70,12 @@ const Query = {
       },
       info,
     );
+
+    if (!post) {
+      throw new Error('Post not found');
+    }
+
+    return post;
   },
   followers(parent, args, { prisma, request }, info) {
     const userId = getUserId(request);

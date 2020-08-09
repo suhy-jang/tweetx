@@ -12,6 +12,8 @@ type Query {
   posts: [Post!]!
   user(id: ID!): User!
   post(id: ID!): Post!
+  followers: [Follow!]!
+  followings: [Follow!]!
 }
 
 type Mutation {
@@ -22,6 +24,8 @@ type Mutation {
   createPost(data: PostCreateInput!): Post!
   deletePost(id: ID!): Post!
   updatePost(id: ID!, data: PostUpdateInput!): Post!
+  follow(id: ID!): Follow!
+  unfollow(id: ID!): Follow!
 }
 
 type AuthPayload {
@@ -72,6 +76,14 @@ type User {
 type Post {
   id: ID!
   content: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type Follow {
+  id: ID!
+  follower: User!
+  following: User!
   createdAt: String!
   updatedAt: String!
 }

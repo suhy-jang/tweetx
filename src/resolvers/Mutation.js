@@ -94,6 +94,67 @@ const Mutation = {
       data: args.data,
     });
   },
+  async follow(parent, args, { prisma, request }, info) {
+    const userId = getUserId(request);
+
+    const follow = (
+      await prisma.query.follows({
+        where: {
+          follower: {
+            id: userId,
+          },
+        },
+      })
+    )[0];
+
+    if (follow) {
+      throw new Error('Failed follow');
+    }
+
+    return prisma.mutation.createFollow(
+      {
+        data: {
+          follower: {
+            connect: {
+              id: userId,
+            },
+          },
+          following: {
+            connect: {
+              id: args.id,
+            },
+          },
+        },
+      },
+      info,
+    );
+  },
+  async unfollow(parent, args, { prisma, request }, info) {
+    const userId = getUserId(request);
+
+    const follow = (
+      await prisma.query.follows({
+        where: {
+          follower: {
+            id: userId,
+          },
+        },
+      })
+    )[0];
+
+    if (!follow) {
+      throw new Error('Failed unfollow');
+    }
+
+    return prisma.mutation.deleteFollow(
+      {
+        where: {
+          id: follow.id,
+        },
+      },
+      info,
+    );
+  },
 };
 
 export { Mutation as default };

@@ -1,5 +1,5 @@
-# source: http://localhost:4466
-# timestamp: Sat Aug 08 2020 13:44:37 GMT+0900 (Korean Standard Time)
+# source: http://localhost:4466/tweetx/dev
+# timestamp: Sun Aug 09 2020 14:34:45 GMT+0900 (Korean Standard Time)
 
 type AggregateFollow {
   count: Int!
@@ -22,6 +22,8 @@ scalar DateTime
 
 type Follow implements Node {
   id: ID!
+  following: User!
+  follower: User!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -38,6 +40,28 @@ type FollowConnection {
 
 input FollowCreateInput {
   id: ID
+  following: UserCreateOneWithoutFollowersInput!
+  follower: UserCreateOneWithoutFollowingsInput!
+}
+
+input FollowCreateManyWithoutFollowerInput {
+  create: [FollowCreateWithoutFollowerInput!]
+  connect: [FollowWhereUniqueInput!]
+}
+
+input FollowCreateManyWithoutFollowingInput {
+  create: [FollowCreateWithoutFollowingInput!]
+  connect: [FollowWhereUniqueInput!]
+}
+
+input FollowCreateWithoutFollowerInput {
+  id: ID
+  following: UserCreateOneWithoutFollowersInput!
+}
+
+input FollowCreateWithoutFollowingInput {
+  id: ID
+  follower: UserCreateOneWithoutFollowingsInput!
 }
 
 """An edge in a connection."""
@@ -62,6 +86,101 @@ type FollowPreviousValues {
   id: ID!
   createdAt: DateTime!
   updatedAt: DateTime!
+}
+
+input FollowScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [FollowScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [FollowScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [FollowScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
 }
 
 type FollowSubscriptionPayload {
@@ -99,6 +218,63 @@ input FollowSubscriptionWhereInput {
   """
   updatedFields_contains_some: [String!]
   node: FollowWhereInput
+}
+
+input FollowUpdateInput {
+  following: UserUpdateOneRequiredWithoutFollowersInput
+  follower: UserUpdateOneRequiredWithoutFollowingsInput
+}
+
+input FollowUpdateManyWithoutFollowerInput {
+  create: [FollowCreateWithoutFollowerInput!]
+  connect: [FollowWhereUniqueInput!]
+  set: [FollowWhereUniqueInput!]
+  disconnect: [FollowWhereUniqueInput!]
+  delete: [FollowWhereUniqueInput!]
+  update: [FollowUpdateWithWhereUniqueWithoutFollowerInput!]
+  deleteMany: [FollowScalarWhereInput!]
+  upsert: [FollowUpsertWithWhereUniqueWithoutFollowerInput!]
+}
+
+input FollowUpdateManyWithoutFollowingInput {
+  create: [FollowCreateWithoutFollowingInput!]
+  connect: [FollowWhereUniqueInput!]
+  set: [FollowWhereUniqueInput!]
+  disconnect: [FollowWhereUniqueInput!]
+  delete: [FollowWhereUniqueInput!]
+  update: [FollowUpdateWithWhereUniqueWithoutFollowingInput!]
+  deleteMany: [FollowScalarWhereInput!]
+  upsert: [FollowUpsertWithWhereUniqueWithoutFollowingInput!]
+}
+
+input FollowUpdateWithoutFollowerDataInput {
+  following: UserUpdateOneRequiredWithoutFollowersInput
+}
+
+input FollowUpdateWithoutFollowingDataInput {
+  follower: UserUpdateOneRequiredWithoutFollowingsInput
+}
+
+input FollowUpdateWithWhereUniqueWithoutFollowerInput {
+  where: FollowWhereUniqueInput!
+  data: FollowUpdateWithoutFollowerDataInput!
+}
+
+input FollowUpdateWithWhereUniqueWithoutFollowingInput {
+  where: FollowWhereUniqueInput!
+  data: FollowUpdateWithoutFollowingDataInput!
+}
+
+input FollowUpsertWithWhereUniqueWithoutFollowerInput {
+  where: FollowWhereUniqueInput!
+  update: FollowUpdateWithoutFollowerDataInput!
+  create: FollowCreateWithoutFollowerInput!
+}
+
+input FollowUpsertWithWhereUniqueWithoutFollowingInput {
+  where: FollowWhereUniqueInput!
+  update: FollowUpdateWithoutFollowingDataInput!
+  create: FollowCreateWithoutFollowingInput!
 }
 
 input FollowWhereInput {
@@ -194,6 +370,8 @@ input FollowWhereInput {
 
   """All values greater than or equal the given value."""
   updatedAt_gte: DateTime
+  following: UserWhereInput
+  follower: UserWhereInput
 }
 
 input FollowWhereUniqueInput {
@@ -215,11 +393,13 @@ type Mutation {
   createFollow(data: FollowCreateInput!): Follow!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
+  updateFollow(data: FollowUpdateInput!, where: FollowWhereUniqueInput!): Follow
   deleteUser(where: UserWhereUniqueInput!): User
   deletePost(where: PostWhereUniqueInput!): Post
   deleteFollow(where: FollowWhereUniqueInput!): Follow
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertPost(where: PostWhereUniqueInput!, create: PostCreateInput!, update: PostUpdateInput!): Post!
+  upsertFollow(where: FollowWhereUniqueInput!, create: FollowCreateInput!, update: FollowUpdateInput!): Follow!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   updateManyPosts(data: PostUpdateManyMutationInput!, where: PostWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
@@ -258,6 +438,7 @@ type PageInfo {
 type Post implements Node {
   id: ID!
   content: String!
+  author: User!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -273,6 +454,17 @@ type PostConnection {
 }
 
 input PostCreateInput {
+  id: ID
+  content: String!
+  author: UserCreateOneWithoutPostsInput!
+}
+
+input PostCreateManyWithoutAuthorInput {
+  create: [PostCreateWithoutAuthorInput!]
+  connect: [PostWhereUniqueInput!]
+}
+
+input PostCreateWithoutAuthorInput {
   id: ID
   content: String!
 }
@@ -302,6 +494,141 @@ type PostPreviousValues {
   content: String!
   createdAt: DateTime!
   updatedAt: DateTime!
+}
+
+input PostScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [PostScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [PostScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [PostScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  content: String
+
+  """All values that are not equal to given value."""
+  content_not: String
+
+  """All values that are contained in given list."""
+  content_in: [String!]
+
+  """All values that are not contained in given list."""
+  content_not_in: [String!]
+
+  """All values less than the given value."""
+  content_lt: String
+
+  """All values less than or equal the given value."""
+  content_lte: String
+
+  """All values greater than the given value."""
+  content_gt: String
+
+  """All values greater than or equal the given value."""
+  content_gte: String
+
+  """All values containing the given string."""
+  content_contains: String
+
+  """All values not containing the given string."""
+  content_not_contains: String
+
+  """All values starting with the given string."""
+  content_starts_with: String
+
+  """All values not starting with the given string."""
+  content_not_starts_with: String
+
+  """All values ending with the given string."""
+  content_ends_with: String
+
+  """All values not ending with the given string."""
+  content_not_ends_with: String
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
 }
 
 type PostSubscriptionPayload {
@@ -343,10 +670,47 @@ input PostSubscriptionWhereInput {
 
 input PostUpdateInput {
   content: String
+  author: UserUpdateOneRequiredWithoutPostsInput
+}
+
+input PostUpdateManyDataInput {
+  content: String
 }
 
 input PostUpdateManyMutationInput {
   content: String
+}
+
+input PostUpdateManyWithoutAuthorInput {
+  create: [PostCreateWithoutAuthorInput!]
+  connect: [PostWhereUniqueInput!]
+  set: [PostWhereUniqueInput!]
+  disconnect: [PostWhereUniqueInput!]
+  delete: [PostWhereUniqueInput!]
+  update: [PostUpdateWithWhereUniqueWithoutAuthorInput!]
+  updateMany: [PostUpdateManyWithWhereNestedInput!]
+  deleteMany: [PostScalarWhereInput!]
+  upsert: [PostUpsertWithWhereUniqueWithoutAuthorInput!]
+}
+
+input PostUpdateManyWithWhereNestedInput {
+  where: PostScalarWhereInput!
+  data: PostUpdateManyDataInput!
+}
+
+input PostUpdateWithoutAuthorDataInput {
+  content: String
+}
+
+input PostUpdateWithWhereUniqueWithoutAuthorInput {
+  where: PostWhereUniqueInput!
+  data: PostUpdateWithoutAuthorDataInput!
+}
+
+input PostUpsertWithWhereUniqueWithoutAuthorInput {
+  where: PostWhereUniqueInput!
+  update: PostUpdateWithoutAuthorDataInput!
+  create: PostCreateWithoutAuthorInput!
 }
 
 input PostWhereInput {
@@ -482,6 +846,7 @@ input PostWhereInput {
 
   """All values greater than or equal the given value."""
   updatedAt_gte: DateTime
+  author: UserWhereInput
 }
 
 input PostWhereUniqueInput {
@@ -523,6 +888,9 @@ type User implements Node {
   email: String!
   photoUrl: String
   password: String!
+  posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
+  followings(where: FollowWhereInput, orderBy: FollowOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Follow!]
+  followers(where: FollowWhereInput, orderBy: FollowOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Follow!]
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -544,6 +912,57 @@ input UserCreateInput {
   email: String!
   photoUrl: String
   password: String!
+  posts: PostCreateManyWithoutAuthorInput
+  followings: FollowCreateManyWithoutFollowerInput
+  followers: FollowCreateManyWithoutFollowingInput
+}
+
+input UserCreateOneWithoutFollowersInput {
+  create: UserCreateWithoutFollowersInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutFollowingsInput {
+  create: UserCreateWithoutFollowingsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutPostsInput {
+  create: UserCreateWithoutPostsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutFollowersInput {
+  id: ID
+  username: String!
+  fullname: String!
+  email: String!
+  photoUrl: String
+  password: String!
+  posts: PostCreateManyWithoutAuthorInput
+  followings: FollowCreateManyWithoutFollowerInput
+}
+
+input UserCreateWithoutFollowingsInput {
+  id: ID
+  username: String!
+  fullname: String!
+  email: String!
+  photoUrl: String
+  password: String!
+  posts: PostCreateManyWithoutAuthorInput
+  followers: FollowCreateManyWithoutFollowingInput
+}
+
+input UserCreateWithoutPostsInput {
+  id: ID
+  username: String!
+  fullname: String!
+  email: String!
+  photoUrl: String
+  password: String!
+  followings: FollowCreateManyWithoutFollowerInput
+  followers: FollowCreateManyWithoutFollowingInput
 }
 
 """An edge in a connection."""
@@ -628,6 +1047,9 @@ input UserUpdateInput {
   email: String
   photoUrl: String
   password: String
+  posts: PostUpdateManyWithoutAuthorInput
+  followings: FollowUpdateManyWithoutFollowerInput
+  followers: FollowUpdateManyWithoutFollowingInput
 }
 
 input UserUpdateManyMutationInput {
@@ -636,6 +1058,72 @@ input UserUpdateManyMutationInput {
   email: String
   photoUrl: String
   password: String
+}
+
+input UserUpdateOneRequiredWithoutFollowersInput {
+  create: UserCreateWithoutFollowersInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutFollowersDataInput
+  upsert: UserUpsertWithoutFollowersInput
+}
+
+input UserUpdateOneRequiredWithoutFollowingsInput {
+  create: UserCreateWithoutFollowingsInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutFollowingsDataInput
+  upsert: UserUpsertWithoutFollowingsInput
+}
+
+input UserUpdateOneRequiredWithoutPostsInput {
+  create: UserCreateWithoutPostsInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutPostsDataInput
+  upsert: UserUpsertWithoutPostsInput
+}
+
+input UserUpdateWithoutFollowersDataInput {
+  username: String
+  fullname: String
+  email: String
+  photoUrl: String
+  password: String
+  posts: PostUpdateManyWithoutAuthorInput
+  followings: FollowUpdateManyWithoutFollowerInput
+}
+
+input UserUpdateWithoutFollowingsDataInput {
+  username: String
+  fullname: String
+  email: String
+  photoUrl: String
+  password: String
+  posts: PostUpdateManyWithoutAuthorInput
+  followers: FollowUpdateManyWithoutFollowingInput
+}
+
+input UserUpdateWithoutPostsDataInput {
+  username: String
+  fullname: String
+  email: String
+  photoUrl: String
+  password: String
+  followings: FollowUpdateManyWithoutFollowerInput
+  followers: FollowUpdateManyWithoutFollowingInput
+}
+
+input UserUpsertWithoutFollowersInput {
+  update: UserUpdateWithoutFollowersDataInput!
+  create: UserCreateWithoutFollowersInput!
+}
+
+input UserUpsertWithoutFollowingsInput {
+  update: UserUpdateWithoutFollowingsDataInput!
+  create: UserCreateWithoutFollowingsInput!
+}
+
+input UserUpsertWithoutPostsInput {
+  update: UserUpdateWithoutPostsDataInput!
+  create: UserCreateWithoutPostsInput!
 }
 
 input UserWhereInput {
@@ -931,6 +1419,15 @@ input UserWhereInput {
 
   """All values greater than or equal the given value."""
   updatedAt_gte: DateTime
+  posts_every: PostWhereInput
+  posts_some: PostWhereInput
+  posts_none: PostWhereInput
+  followings_every: FollowWhereInput
+  followings_some: FollowWhereInput
+  followings_none: FollowWhereInput
+  followers_every: FollowWhereInput
+  followers_some: FollowWhereInput
+  followers_none: FollowWhereInput
 }
 
 input UserWhereUniqueInput {

@@ -65,6 +65,33 @@ const Query = {
       info,
     );
   },
+  followers(parent, args, { prisma, request }, info) {
+    const userId = getUserId(request);
+
+    return prisma.query.follows(
+      {
+        where: {
+          following: {
+            id: userId,
+          },
+        },
+      },
+      info,
+    );
+  },
+  followings(parent, args, { prisma, request }, info) {
+    const userId = getUserId(request);
+    return prisma.query.follows(
+      {
+        where: {
+          follower: {
+            id: userId,
+          },
+        },
+      },
+      info,
+    );
+  },
 };
 
 export { Query as default };

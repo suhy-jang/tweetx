@@ -42,6 +42,36 @@ export const updateUser = gql(`
   }
 `);
 
+export const createPost = gql(`
+  mutation($data: PostCreateInput!) {
+    createPost(data: $data) {
+      id
+      content
+      createdAt
+      updatedAt
+    }
+  }
+`);
+
+export const updatePost = gql(`
+  mutation($id: ID!, $data: PostUpdateInput!) {
+    updatePost(id: $id, data: $data) {
+      id
+      content
+      updatedAt
+    }
+  }
+`);
+
+export const deletePost = gql(`
+  mutation($id: ID!) {
+    deletePost(id: $id) {
+      id
+      content
+    }
+  }
+`);
+
 export const getUsers = gql(`
   query {
     users {
@@ -58,6 +88,35 @@ export const getMe = gql(`
       fullname
       username
       email
+    }
+  }
+`);
+
+export const getUser = gql(`
+  query($id: ID!) {
+    user(id: $id) {
+      id
+      fullname
+      username
+      email
+    }
+  }
+`);
+
+export const getPosts = gql(`
+  query {
+    posts {
+      id
+      content
+    }
+  }
+`);
+
+export const getPost = gql(`
+  query($id: ID!) {
+    post(id: $id) {
+      id
+      content
     }
   }
 `);

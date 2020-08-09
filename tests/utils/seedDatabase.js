@@ -15,17 +15,30 @@ export const userOne = {
   jwt: undefined,
 };
 
+export const postOne = {
+  input: {
+    content: 'king of titans',
+  },
+  post: undefined,
+};
+
 const seedDatabase = async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL *= 10;
 
   // Delete test data
   await prisma.mutation.deleteManyUsers();
+  await prisma.mutation.deleteManyPosts();
 
   // Create User one
   userOne.user = await prisma.mutation.createUser({
     data: userOne.input,
   });
   userOne.jwt = jwt.sign({ userId: userOne.user.id }, process.env.JWT_SECRET);
+
+  // Create Post one
+  postOne.post = await prisma.mutation.createPost({
+    data: postOne.input,
+  });
 };
 
 export { seedDatabase as default };

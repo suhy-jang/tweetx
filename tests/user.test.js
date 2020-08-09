@@ -7,6 +7,7 @@ import {
   createUser,
   login,
   getUsers,
+  getUser,
   getMe,
   deleteUser,
   updateUser,
@@ -18,7 +19,7 @@ beforeAll(seedDatabase);
 
 const serverUrl = 'http://localhost:4000';
 
-test('Should load users', async () => {
+test('Should get users', async () => {
   const res = await axios.post(serverUrl, {
     query: getUsers,
   });
@@ -28,6 +29,23 @@ test('Should load users', async () => {
   } = res;
 
   expect(data.users.length).toBe(1);
+});
+
+test('Should get single user', async () => {
+  const variables = {
+    id: userOne.user.id,
+  };
+
+  const res = await axios.post(serverUrl, {
+    query: getUser,
+    variables,
+  });
+
+  const {
+    data: { data, errors },
+  } = res;
+
+  expect(data.user.username).toBe(userOne.user.username);
 });
 
 test('Should create a new user', async () => {

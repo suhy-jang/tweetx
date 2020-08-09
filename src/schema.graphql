@@ -9,6 +9,9 @@ type Query {
     orderBy: UserOrderByInput
   ): [User!]!
   me: User!
+  posts: [Post!]!
+  user(id: ID!): User!
+  post(id: ID!): Post!
 }
 
 type Mutation {
@@ -16,10 +19,10 @@ type Mutation {
   login(data: UserLoginInput!): AuthPayload!
   deleteUser: User!
   updateUser(data: UserUpdateInput!): User!
+  createPost(data: PostCreateInput!): Post!
+  deletePost(id: ID!): Post!
+  updatePost(id: ID!, data: PostUpdateInput!): Post!
 }
-
-# type Subscription {
-# }
 
 type AuthPayload {
   token: String!
@@ -47,6 +50,14 @@ input UserUpdateInput {
   password: String
 }
 
+input PostCreateInput {
+  content: String!
+}
+
+input PostUpdateInput {
+  content: String
+}
+
 type User {
   id: ID!
   username: String!
@@ -54,6 +65,13 @@ type User {
   email: String!
   photoUrl: String
   password: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type Post {
+  id: ID!
+  content: String!
   createdAt: String!
   updatedAt: String!
 }

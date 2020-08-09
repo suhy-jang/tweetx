@@ -74,6 +74,26 @@ const Mutation = {
       data: args.data,
     });
   },
+  createPost(parent, args, { prisma }, info) {
+    return prisma.mutation.createPost({
+      data: args.data,
+    });
+  },
+  deletePost(parent, args, { prisma }, info) {
+    return prisma.mutation.deletePost({
+      where: {
+        id: args.id,
+      },
+    });
+  },
+  updatePost(parent, args, { prisma }, info) {
+    return prisma.mutation.updatePost({
+      where: {
+        id: args.id,
+      },
+      data: args.data,
+    });
+  },
 };
 
 export { Mutation as default };

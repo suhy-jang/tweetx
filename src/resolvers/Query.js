@@ -1,4 +1,3 @@
-import { query } from 'express';
 import getUserId from '../utils/getUserId';
 
 const Query = {
@@ -10,9 +9,9 @@ const Query = {
       orderBy: args.orderBy,
     };
 
-    if (query) {
+    if (args.query) {
       opArgs.where = {
-        name_contains: query,
+        username_contains: args.query,
       };
     }
 
@@ -25,6 +24,42 @@ const Query = {
       {
         where: {
           id: userId,
+        },
+      },
+      info,
+    );
+  },
+  user(parent, args, { prisma }, info) {
+    return prisma.query.user(
+      {
+        where: {
+          id: args.id,
+        },
+      },
+      info,
+    );
+  },
+  posts(parent, args, { prisma }, info) {
+    const opArgs = {
+      first: args.first,
+      skip: args.skip,
+      after: args.after,
+      orderBy: args.orderBy,
+    };
+
+    if (args.query) {
+      opArgs.where = {
+        content_contains: args.query,
+      };
+    }
+
+    return prisma.query.posts(opArgs, info);
+  },
+  post(parent, args, { prisma }, info) {
+    return prisma.query.post(
+      {
+        where: {
+          id: args.id,
         },
       },
       info,

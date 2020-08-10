@@ -27,7 +27,7 @@ server.express.use(xss());
 
 // Rate limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 mins
+  windowMs: 10 * 60 * 1000, // 10 mins
   max: 100, // limit each IP to 100 requests per windowMs
   message: 'Too many requests, please try again after 15 minutes later.',
 });

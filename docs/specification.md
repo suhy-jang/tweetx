@@ -11,7 +11,7 @@ Create the app for a simple style twitter clone website. All of the functionalit
   - Author email should be hidden for the other users
 - Create a new post
   - Authenticated users only
-  - Field validation via Prisma
+  - Field validation from model, db via Prisma
 - Delete post
   - Owner only
 
@@ -34,7 +34,6 @@ Create the app for a simple style twitter clone website. All of the functionalit
 - Password reset (lost password)
   - User can request to reset password
   - A hashed token will be emailed to the users registered email address
-  - A put request can be made to the generated url to reset password
   - The token will expire after 10 minutes
 - Update user info
   - Authenticated user only
@@ -52,10 +51,10 @@ Create the app for a simple style twitter clone website. All of the functionalit
   - Profile user info (via user id)
 - List all posts for each user
   - The profile user posts
-- List my posts
-  - Current user posts along with the following users posts
+- List my feed
+  - Following users posts along with current user posts
 - Followers / followings
-  - Current user can see followers, following list
+  - Current user can see followers, followings list
 
 ## Test
 
@@ -65,11 +64,10 @@ Create the app for a simple style twitter clone website. All of the functionalit
 
 - Encrypt passwords and reset tokens
 - Prevent cross site scripting - XSS
-- Prevent NoSQL injections
 - Add a rate limit for requests of 100 requests per 10 minutes
 - Protect against http param polution
 - Add headers for security (helmet)
-- Use cors to make API public
+- Use cors to make API public (for test backend)
 
 ## API Documentation
 
@@ -86,6 +84,6 @@ Create the app for a simple style twitter clone website. All of the functionalit
 - Config file for important constants
 - Use query, mutation, subscription methods with documented descriptions
 - Authentication method to give permission
-- Validation using Prisma and no external libraries
+- DB Validation using Prisma and no external libraries
 - Use async/await for prisma CRUD
 - Use resolver using fragment to clean up query methods

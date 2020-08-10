@@ -269,7 +269,7 @@ const Mutation = {
       .digest('hex');
 
     const resetPasswordExpire = new Date(
-      new Date().getTime() + process.env.RESET_EXPIRE * 1000 * 60 * 60 * 24,
+      new Date().getTime() + 10 * 60 * 1000, // 10 minutes
     ).toISOString();
 
     const rootUrl = `${request.request.protocol}://${request.request.get(

@@ -1,4 +1,6 @@
 # import UserOrderByInput from './generated/prisma.graphql'
+# import PostOrderByInput from './generated/prisma.graphql'
+# import FollowOrderByInput from './generated/prisma.graphql'
 
 type Query {
   users(
@@ -14,17 +16,27 @@ type Query {
     first: Int
     after: String
     skip: Int
-    orderBy: UserOrderByInput
+    orderBy: PostOrderByInput
   ): [Post!]!
   user(id: ID!): User!
   post(id: ID!): Post!
-  followers: [Follow!]!
-  followings: [Follow!]!
+  followers(
+    first: Int
+    after: String
+    skip: Int
+    orderBy: FollowOrderByInput
+  ): [Follow!]!
+  followings(
+    first: Int
+    after: String
+    skip: Int
+    orderBy: FollowOrderByInput
+  ): [Follow!]!
   myFeed(
     first: Int
     after: String
     skip: Int
-    orderBy: UserOrderByInput
+    orderBy: PostOrderByInput
   ): [Post!]!
 }
 
@@ -97,22 +109,22 @@ type User {
   posts: [Post!]!
   followers: [Follow!]!
   followings: [Follow!]!
-  createdAt: String!
-  updatedAt: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Post {
   id: ID!
   content: String!
   author: User!
-  createdAt: String!
-  updatedAt: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Follow {
   id: ID!
   follower: User!
   following: User!
-  createdAt: String!
-  updatedAt: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }

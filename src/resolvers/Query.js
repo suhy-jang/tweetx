@@ -92,11 +92,11 @@ const Query = {
       }`,
     );
 
-    const authors = [];
+    const authors = follows.map((follow) => ({
+      id: follow.following.id,
+    }));
+
     authors.push({ id: userId });
-    follows.forEach((follow) => {
-      authors.push({ id: follow.following.id });
-    });
 
     return prisma.query.posts(
       {
@@ -131,8 +131,16 @@ const Query = {
 
     await authCheck(prisma, userId);
 
+    const opArgs = {
+      first: args.first,
+      skip: args.skip,
+      after: args.after,
+      orderBy: args.orderBy || 'createdAt_DESC',
+    };
+
     return prisma.query.follows(
       {
+        ...opArgs,
         where: {
           following: {
             id: userId,
@@ -147,8 +155,16 @@ const Query = {
 
     await authCheck(prisma, userId);
 
+    const opArgs = {
+      first: args.first,
+      skip: args.skip,
+      after: args.after,
+      orderBy: args.orderBy || 'createdAt_DESC',
+    };
+
     return prisma.query.follows(
       {
+        ...opArgs,
         where: {
           follower: {
             id: userId,

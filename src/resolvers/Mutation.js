@@ -307,7 +307,6 @@ const Mutation = {
 
       return 'Email sent.';
     } catch (err) {
-      console.log(err);
       throw new Error('Email could not be sent');
     }
   },

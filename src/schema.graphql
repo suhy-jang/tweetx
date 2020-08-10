@@ -116,9 +116,3 @@ type Follow {
   createdAt: String!
   updatedAt: String!
 }
-
-enum MutationType {
-  CREATED
-  DELETED
-  UPDATED
-}

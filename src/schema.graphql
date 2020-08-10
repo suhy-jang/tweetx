@@ -39,11 +39,17 @@ type Mutation {
   follow(id: ID!): Follow!
   unfollow(id: ID!): Follow!
   forgotPassword(data: ForgotPasswordInput!): String!
+  resetPassword(data: ResetPasswordInput!): AuthPayload!
 }
 
 type AuthPayload {
   token: String!
   user: User!
+}
+
+input ResetPasswordInput {
+  resetToken: String!
+  password: String!
 }
 
 input ForgotPasswordInput {

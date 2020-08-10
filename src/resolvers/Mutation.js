@@ -274,6 +274,47 @@ const Mutation = {
 
     return resetToken;
   },
+  async resetPassword(parent, args, { prisma, request }, info) {
+    const password = await hashPassword(args.data.password);
+
+    const resetPasswordToken = crypto
+      .createHash('sha256')
+      .update(args.data.resetToken)
+      .digest('hex');
+
+    const user = (
+      await prisma.query.users({
+        where: {
+          resetPasswordToken,
+          resetPasswordExpire_gte: new Date().toISOString(),
+        },
+      })
+    )[0];
+
+    if (!user) {
+      throw new Error('Invalid token');
+    }
+
+    const updatedUser = await prisma.mutation.updateUser({
+      where: {
+        id: user.id,
+      },
+      data: {
+        password,
+        resetPasswordToken: null,
+        resetPasswordExpire: null,
+      },
+    });
+
+    if (!updatedUser) {
+      throw new Error('Server error');
+    }
+
+    return {
+      token: generateToken(user.id),
+      user: updatedUser,
+    };
+  },
 };
 
 export { Mutation as default };

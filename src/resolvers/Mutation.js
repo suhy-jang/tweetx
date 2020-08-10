@@ -122,6 +122,9 @@ const Mutation = {
         {
           where: {
             id: args.id,
+            author: {
+              id: userId,
+            },
           },
         },
         info,
@@ -130,10 +133,6 @@ const Mutation = {
 
     if (!post) {
       throw new Error('Post not found');
-    }
-
-    if (post.author.id !== userId) {
-      throw new Error('Forbidden to delete post');
     }
 
     return prisma.mutation.deletePost(
@@ -155,6 +154,9 @@ const Mutation = {
         {
           where: {
             id: args.id,
+            author: {
+              id: userId,
+            },
           },
         },
         info,
@@ -163,10 +165,6 @@ const Mutation = {
 
     if (!post) {
       throw new Error('Post not found');
-    }
-
-    if (post.author.id !== userId) {
-      throw new Error('Forbidden to update post');
     }
 
     return prisma.mutation.updatePost(

@@ -5,6 +5,8 @@ type User {
   email: String! @unique
   photoUrl: String
   password: String!
+  resetPasswordToken: String
+  resetPasswordExpire: DateTime
   posts: [Post!]! @relation(name: "PostToUser", onDelete: CASCADE)
   followings: [Follow]! @relation(name: "FollowerUser", onDelete: CASCADE)
   followers: [Follow]! @relation(name: "FollowingUser", onDelete: CASCADE)

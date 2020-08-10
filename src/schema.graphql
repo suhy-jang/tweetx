@@ -38,11 +38,16 @@ type Mutation {
   updatePost(id: ID!, data: PostUpdateInput!): Post!
   follow(id: ID!): Follow!
   unfollow(id: ID!): Follow!
+  forgotPassword(data: ForgotPasswordInput!): String!
 }
 
 type AuthPayload {
   token: String!
   user: User!
+}
+
+input ForgotPasswordInput {
+  email: String!
 }
 
 input UserLoginInput {
@@ -81,6 +86,8 @@ type User {
   email: String
   photoUrl: String
   password: String!
+  resetPasswordToken: String
+  resetPasswordExpire: DateTime
   posts: [Post!]!
   followers: [Follow!]!
   followings: [Follow!]!

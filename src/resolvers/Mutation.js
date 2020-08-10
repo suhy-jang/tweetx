@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import getUserId from '../utils/getUserId';
 import { generateToken } from '../utils/jwtToken';
 import { hashPassword, verifyPassword } from '../utils/hashPassword';
@@ -232,6 +233,46 @@ const Mutation = {
       },
       info,
     );
+  },
+  async forgotPassword(parent, args, { prisma }, info) {
+    const user = (
+      await prisma.query.users({
+        where: {
+          OR: [{ email: args.data.email }, { username: args.data.email }],
+        },
+      })
+    )[0];
+
+    if (!user) {
+      throw new Error('Not registered');
+    }
+
+    const resetToken = crypto.randomBytes(20).toString('hex');
+
+    const resetPasswordToken = crypto
+      .createHash('sha256')
+      .update(resetToken)
+      .digest('hex');
+
+    const resetPasswordExpire = new Date(
+      new Date().getTime() + process.env.RESET_EXPIRE * 1000 * 60 * 60 * 24,
+    ).toISOString();
+
+    const updatedUser = await prisma.mutation.updateUser({
+      where: {
+        id: user.id,
+      },
+      data: {
+        resetPasswordToken,
+        resetPasswordExpire,
+      },
+    });
+
+    if (!updatedUser) {
+      throw new Error('Server error');
+    }
+
+    return resetToken;
   },
 };
 

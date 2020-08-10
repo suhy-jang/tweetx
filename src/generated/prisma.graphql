@@ -1,5 +1,5 @@
 # source: http://localhost:4466/tweetx/dev
-# timestamp: Sun Aug 09 2020 14:34:45 GMT+0900 (Korean Standard Time)
+# timestamp: Mon Aug 10 2020 14:11:34 GMT+0900 (Korean Standard Time)
 
 type AggregateFollow {
   count: Int!
@@ -888,6 +888,8 @@ type User implements Node {
   email: String!
   photoUrl: String
   password: String!
+  resetPasswordToken: String
+  resetPasswordExpire: DateTime
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
   followings(where: FollowWhereInput, orderBy: FollowOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Follow!]
   followers(where: FollowWhereInput, orderBy: FollowOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Follow!]
@@ -912,6 +914,8 @@ input UserCreateInput {
   email: String!
   photoUrl: String
   password: String!
+  resetPasswordToken: String
+  resetPasswordExpire: DateTime
   posts: PostCreateManyWithoutAuthorInput
   followings: FollowCreateManyWithoutFollowerInput
   followers: FollowCreateManyWithoutFollowingInput
@@ -939,6 +943,8 @@ input UserCreateWithoutFollowersInput {
   email: String!
   photoUrl: String
   password: String!
+  resetPasswordToken: String
+  resetPasswordExpire: DateTime
   posts: PostCreateManyWithoutAuthorInput
   followings: FollowCreateManyWithoutFollowerInput
 }
@@ -950,6 +956,8 @@ input UserCreateWithoutFollowingsInput {
   email: String!
   photoUrl: String
   password: String!
+  resetPasswordToken: String
+  resetPasswordExpire: DateTime
   posts: PostCreateManyWithoutAuthorInput
   followers: FollowCreateManyWithoutFollowingInput
 }
@@ -961,6 +969,8 @@ input UserCreateWithoutPostsInput {
   email: String!
   photoUrl: String
   password: String!
+  resetPasswordToken: String
+  resetPasswordExpire: DateTime
   followings: FollowCreateManyWithoutFollowerInput
   followers: FollowCreateManyWithoutFollowingInput
 }
@@ -987,6 +997,10 @@ enum UserOrderByInput {
   photoUrl_DESC
   password_ASC
   password_DESC
+  resetPasswordToken_ASC
+  resetPasswordToken_DESC
+  resetPasswordExpire_ASC
+  resetPasswordExpire_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -1000,6 +1014,8 @@ type UserPreviousValues {
   email: String!
   photoUrl: String
   password: String!
+  resetPasswordToken: String
+  resetPasswordExpire: DateTime
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -1047,6 +1063,8 @@ input UserUpdateInput {
   email: String
   photoUrl: String
   password: String
+  resetPasswordToken: String
+  resetPasswordExpire: DateTime
   posts: PostUpdateManyWithoutAuthorInput
   followings: FollowUpdateManyWithoutFollowerInput
   followers: FollowUpdateManyWithoutFollowingInput
@@ -1058,6 +1076,8 @@ input UserUpdateManyMutationInput {
   email: String
   photoUrl: String
   password: String
+  resetPasswordToken: String
+  resetPasswordExpire: DateTime
 }
 
 input UserUpdateOneRequiredWithoutFollowersInput {
@@ -1087,6 +1107,8 @@ input UserUpdateWithoutFollowersDataInput {
   email: String
   photoUrl: String
   password: String
+  resetPasswordToken: String
+  resetPasswordExpire: DateTime
   posts: PostUpdateManyWithoutAuthorInput
   followings: FollowUpdateManyWithoutFollowerInput
 }
@@ -1097,6 +1119,8 @@ input UserUpdateWithoutFollowingsDataInput {
   email: String
   photoUrl: String
   password: String
+  resetPasswordToken: String
+  resetPasswordExpire: DateTime
   posts: PostUpdateManyWithoutAuthorInput
   followers: FollowUpdateManyWithoutFollowingInput
 }
@@ -1107,6 +1131,8 @@ input UserUpdateWithoutPostsDataInput {
   email: String
   photoUrl: String
   password: String
+  resetPasswordToken: String
+  resetPasswordExpire: DateTime
   followings: FollowUpdateManyWithoutFollowerInput
   followers: FollowUpdateManyWithoutFollowingInput
 }
@@ -1375,6 +1401,68 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   password_not_ends_with: String
+  resetPasswordToken: String
+
+  """All values that are not equal to given value."""
+  resetPasswordToken_not: String
+
+  """All values that are contained in given list."""
+  resetPasswordToken_in: [String!]
+
+  """All values that are not contained in given list."""
+  resetPasswordToken_not_in: [String!]
+
+  """All values less than the given value."""
+  resetPasswordToken_lt: String
+
+  """All values less than or equal the given value."""
+  resetPasswordToken_lte: String
+
+  """All values greater than the given value."""
+  resetPasswordToken_gt: String
+
+  """All values greater than or equal the given value."""
+  resetPasswordToken_gte: String
+
+  """All values containing the given string."""
+  resetPasswordToken_contains: String
+
+  """All values not containing the given string."""
+  resetPasswordToken_not_contains: String
+
+  """All values starting with the given string."""
+  resetPasswordToken_starts_with: String
+
+  """All values not starting with the given string."""
+  resetPasswordToken_not_starts_with: String
+
+  """All values ending with the given string."""
+  resetPasswordToken_ends_with: String
+
+  """All values not ending with the given string."""
+  resetPasswordToken_not_ends_with: String
+  resetPasswordExpire: DateTime
+
+  """All values that are not equal to given value."""
+  resetPasswordExpire_not: DateTime
+
+  """All values that are contained in given list."""
+  resetPasswordExpire_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  resetPasswordExpire_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  resetPasswordExpire_lt: DateTime
+
+  """All values less than or equal the given value."""
+  resetPasswordExpire_lte: DateTime
+
+  """All values greater than the given value."""
+  resetPasswordExpire_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  resetPasswordExpire_gte: DateTime
   createdAt: DateTime
 
   """All values that are not equal to given value."""

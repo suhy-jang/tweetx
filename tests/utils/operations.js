@@ -58,6 +58,7 @@ export const updatePost = gql(`
     updatePost(id: $id, data: $data) {
       id
       content
+      createdAt
       updatedAt
     }
   }

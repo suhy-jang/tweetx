@@ -33,12 +33,30 @@ const seedDatabase = async () => {
   userOne.user = await prisma.mutation.createUser({
     data: userOne.input,
   });
+
+  if (!userOne.user) {
+    console.error('User not exists');
+    process.exit(1);
+  }
+
   userOne.jwt = jwt.sign({ userId: userOne.user.id }, process.env.JWT_SECRET);
 
   // Create Post one
   postOne.post = await prisma.mutation.createPost({
-    data: postOne.input,
+    data: {
+      ...postOne.input,
+      author: {
+        connect: {
+          id: userOne.user.id,
+        },
+      },
+    },
   });
+
+  if (!postOne.post) {
+    console.error('Post not exists');
+    process.exit(1);
+  }
 };
 
 export { seedDatabase as default };

@@ -12,15 +12,15 @@ import {
   deleteUser,
   updateUser,
 } from './utils/operations';
+import { setAuthToken, setBaseUrl } from './utils/axiosDefaults';
 import seedDatabase, { userOne } from './utils/seedDatabase';
 // import { extractFragmentReplacements } from 'prisma-binding';
 
 beforeAll(seedDatabase);
+setBaseUrl();
 
-const serverUrl = 'http://localhost:4000';
-
-test('Should get users', async () => {
-  const res = await axios.post(serverUrl, {
+test('Should get all users', async () => {
+  const res = await axios.post('/', {
     query: getUsers,
   });
 
@@ -36,7 +36,7 @@ test('Should get single user', async () => {
     id: userOne.user.id,
   };
 
-  const res = await axios.post(serverUrl, {
+  const res = await axios.post('/', {
     query: getUser,
     variables,
   });
@@ -58,7 +58,7 @@ test('Should create a new user', async () => {
     },
   };
 
-  const res = await axios.post(serverUrl, { query: createUser, variables });
+  const res = await axios.post('/', { query: createUser, variables });
 
   const {
     data: { data, errors },
@@ -71,22 +71,21 @@ test('Should create a new user', async () => {
   expect(exists).toBe(true);
 });
 
-test('Should not register with invalid password', async () => {
+test('Should not register with invalid email', async () => {
   const variables = {
     data: {
       fullname: 'New Person 2',
       username: 'person2',
-      email: 'person2@example.org',
-      password: 'foo',
+      email: 'xxx',
+      password: 'foobar',
     },
   };
 
-  const res = await axios.post(serverUrl, { query: createUser, variables });
+  const res = await axios.post('/', { query: createUser, variables });
 
   const {
     data: { data, errors },
   } = res;
-  console.log(errors[0]);
 
   expect(data).toBe(null);
   expect(errors[0]).toHaveProperty('message');
@@ -100,9 +99,7 @@ test('Should not login with bad credentials', async () => {
     },
   };
 
-  await expect(
-    axios.post(serverUrl, { query: login, variables }),
-  ).rejects.toThrow();
+  await expect(axios.post('/', { query: login, variables })).rejects.toThrow();
 });
 
 test('Should fetch current user profile', async () => {
@@ -114,7 +111,7 @@ test('Should fetch current user profile', async () => {
     },
   };
 
-  const res = await axios.post(serverUrl, { query: getMe }, config);
+  const res = await axios.post('/', { query: getMe }, config);
 
   const {
     data: { data, errors },
@@ -140,11 +137,7 @@ test('Should update current user', async () => {
     },
   };
 
-  const res = await axios.post(
-    serverUrl,
-    { query: updateUser, variables },
-    config,
-  );
+  const res = await axios.post('/', { query: updateUser, variables }, config);
 
   const {
     data: { data, errors },
@@ -162,7 +155,7 @@ test('Should delete current user', async () => {
     },
   };
 
-  const res = await axios.post(serverUrl, { query: deleteUser }, config);
+  const res = await axios.post('/', { query: deleteUser }, config);
 
   const {
     data: { data, errors },

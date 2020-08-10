@@ -10,15 +10,15 @@ import {
   deletePost,
   updatePost,
 } from './utils/operations';
-import seedDatabase, { postOne } from './utils/seedDatabase';
+import { setAuthToken, setBaseUrl } from './utils/axiosDefaults';
+import seedDatabase, { userOne, postOne } from './utils/seedDatabase';
 // import { extractFragmentReplacements } from 'prisma-binding';
 
 beforeAll(seedDatabase);
+setBaseUrl();
 
-const serverUrl = 'http://localhost:4000';
-
-test('Should get posts', async () => {
-  const res = await axios.post(serverUrl, {
+test('Should get all posts', async () => {
+  const res = await axios.post('/', {
     query: getPosts,
   });
 
@@ -34,7 +34,7 @@ test('Should get single post', async () => {
     id: postOne.post.id,
   };
 
-  const res = await axios.post(serverUrl, { query: getPost, variables });
+  const res = await axios.post('/', { query: getPost, variables });
 
   const {
     data: { data, errors },
@@ -44,13 +44,15 @@ test('Should get single post', async () => {
 });
 
 test('Should create a new post', async () => {
+  setAuthToken(userOne.jwt);
+
   const variables = {
     data: {
       content: 'yoga center',
     },
   };
 
-  const res = await axios.post(serverUrl, { query: createPost, variables });
+  const res = await axios.post('/', { query: createPost, variables });
 
   const {
     data: { data, errors },
@@ -64,6 +66,8 @@ test('Should create a new post', async () => {
 });
 
 test('Should update post', async () => {
+  setAuthToken(userOne.jwt);
+
   const lemonJuice = 'lemon juice';
 
   const variables = {
@@ -73,7 +77,7 @@ test('Should update post', async () => {
     },
   };
 
-  const res = await axios.post(serverUrl, { query: updatePost, variables });
+  const res = await axios.post('/', { query: updatePost, variables });
 
   const {
     data: { data, errors },
@@ -84,11 +88,13 @@ test('Should update post', async () => {
 });
 
 test('Should delete post', async () => {
+  setAuthToken(userOne.jwt);
+
   const variables = {
     id: postOne.post.id,
   };
 
-  const res = await axios.post(serverUrl, { query: deletePost, variables });
+  const res = await axios.post('/', { query: deletePost, variables });
 
   const {
     data: { data, errors },

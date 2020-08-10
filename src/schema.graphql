@@ -1,0 +1,130 @@
+# import UserOrderByInput from './generated/prisma.graphql'
+# import PostOrderByInput from './generated/prisma.graphql'
+# import FollowOrderByInput from './generated/prisma.graphql'
+
+type Query {
+  users(
+    query: String
+    first: Int
+    after: String
+    skip: Int
+    orderBy: UserOrderByInput
+  ): [User!]!
+  me: User!
+  posts(
+    query: String
+    first: Int
+    after: String
+    skip: Int
+    orderBy: PostOrderByInput
+  ): [Post!]!
+  user(id: ID!): User!
+  post(id: ID!): Post!
+  followers(
+    first: Int
+    after: String
+    skip: Int
+    orderBy: FollowOrderByInput
+  ): [Follow!]!
+  followings(
+    first: Int
+    after: String
+    skip: Int
+    orderBy: FollowOrderByInput
+  ): [Follow!]!
+  myFeed(
+    first: Int
+    after: String
+    skip: Int
+    orderBy: PostOrderByInput
+  ): [Post!]!
+}
+
+type Mutation {
+  createUser(data: UserCreateInput!): AuthPayload!
+  login(data: UserLoginInput!): AuthPayload!
+  deleteUser: User!
+  updateUser(data: UserUpdateInput!): User!
+  createPost(data: PostCreateInput!): Post!
+  deletePost(id: ID!): Post!
+  updatePost(id: ID!, data: PostUpdateInput!): Post!
+  follow(id: ID!): Follow!
+  unfollow(id: ID!): Follow!
+  forgotPassword(data: ForgotPasswordInput!): String!
+  resetPassword(data: ResetPasswordInput!): AuthPayload!
+}
+
+type AuthPayload {
+  token: String!
+  user: User!
+}
+
+input ResetPasswordInput {
+  resetToken: String!
+  password: String!
+}
+
+input ForgotPasswordInput {
+  email: String!
+}
+
+input UserLoginInput {
+  email: String!
+  password: String!
+}
+
+input UserCreateInput {
+  username: String!
+  fullname: String!
+  email: String!
+  photoUrl: String
+  password: String!
+}
+
+input UserUpdateInput {
+  username: String
+  fullname: String
+  email: String
+  photoUrl: String
+  password: String
+}
+
+input PostCreateInput {
+  content: String!
+}
+
+input PostUpdateInput {
+  content: String
+}
+
+type User {
+  id: ID!
+  username: String!
+  fullname: String!
+  email: String
+  photoUrl: String
+  password: String!
+  resetPasswordToken: String
+  resetPasswordExpire: DateTime
+  posts: [Post!]!
+  followers: [Follow!]!
+  followings: [Follow!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Post {
+  id: ID!
+  content: String!
+  author: User!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Follow {
+  id: ID!
+  follower: User!
+  following: User!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}

@@ -26,18 +26,14 @@ const seedDatabase = async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL *= 10;
 
   // Delete test data
-  await prisma.mutation.deleteManyUsers();
+  await prisma.mutation.deleteManyFollows();
   await prisma.mutation.deleteManyPosts();
+  await prisma.mutation.deleteManyUsers();
 
   // Create User one
   userOne.user = await prisma.mutation.createUser({
     data: userOne.input,
   });
-
-  if (!userOne.user) {
-    console.error('User not exists');
-    process.exit(1);
-  }
 
   userOne.jwt = jwt.sign({ userId: userOne.user.id }, process.env.JWT_SECRET);
 
@@ -52,11 +48,6 @@ const seedDatabase = async () => {
       },
     },
   });
-
-  if (!postOne.post) {
-    console.error('Post not exists');
-    process.exit(1);
-  }
 };
 
 export { seedDatabase as default };

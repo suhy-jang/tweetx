@@ -9,7 +9,7 @@ const setAuthToken = (token) => {
 };
 
 const setBaseUrl = () => {
-  axios.defaults.baseURL = 'http://localhost:4000';
+  axios.defaults.baseURL = 'http://localhost:4000'; // test on dev
 };
 
 export { setAuthToken, setBaseUrl };

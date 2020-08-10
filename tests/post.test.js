@@ -12,7 +12,6 @@ import {
 } from './utils/operations';
 import { setAuthToken, setBaseUrl } from './utils/axiosDefaults';
 import seedDatabase, { userOne, postOne } from './utils/seedDatabase';
-// import { extractFragmentReplacements } from 'prisma-binding';
 
 beforeAll(seedDatabase);
 setBaseUrl();

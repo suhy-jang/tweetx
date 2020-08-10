@@ -14,7 +14,6 @@ import {
 } from './utils/operations';
 import { setAuthToken, setBaseUrl } from './utils/axiosDefaults';
 import seedDatabase, { userOne } from './utils/seedDatabase';
-// import { extractFragmentReplacements } from 'prisma-binding';
 
 beforeAll(seedDatabase);
 setBaseUrl();
@@ -103,15 +102,9 @@ test('Should not login with bad credentials', async () => {
 });
 
 test('Should fetch current user profile', async () => {
-  const token = userOne.jwt;
+  setAuthToken(userOne.jwt);
 
-  const config = {
-    headers: {
-      authorization: `Bearer ${token}`,
-    },
-  };
-
-  const res = await axios.post('/', { query: getMe }, config);
+  const res = await axios.post('/', { query: getMe });
 
   const {
     data: { data, errors },
@@ -123,13 +116,7 @@ test('Should fetch current user profile', async () => {
 });
 
 test('Should update current user', async () => {
-  const token = userOne.jwt;
-
-  const config = {
-    headers: {
-      authorization: `Bearer ${token}`,
-    },
-  };
+  setAuthToken(userOne.jwt);
 
   const variables = {
     data: {
@@ -137,7 +124,7 @@ test('Should update current user', async () => {
     },
   };
 
-  const res = await axios.post('/', { query: updateUser, variables }, config);
+  const res = await axios.post('/', { query: updateUser, variables });
 
   const {
     data: { data, errors },
@@ -147,15 +134,9 @@ test('Should update current user', async () => {
 });
 
 test('Should delete current user', async () => {
-  const token = userOne.jwt;
+  setAuthToken(userOne.jwt);
 
-  const config = {
-    headers: {
-      authorization: `Bearer ${token}`,
-    },
-  };
-
-  const res = await axios.post('/', { query: deleteUser }, config);
+  const res = await axios.post('/', { query: deleteUser });
 
   const {
     data: { data, errors },

@@ -25,3 +25,17 @@ export const emailValidation = async (prisma, email) => {
 export const nameValidation = (prisma, name) => {
   if (!name) throw new Error('Name is not valid');
 };
+
+export const authCheck = async (prisma, userId) => {
+  const user = (
+    await prisma.query.users({
+      where: {
+        id: userId,
+      },
+    })
+  )[0];
+
+  if (!user) {
+    throw new Error('Unable to authenticate');
+  }
+};

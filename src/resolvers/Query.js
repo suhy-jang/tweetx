@@ -1,4 +1,5 @@
 import getUserId from '../utils/getUserId';
+import { authCheck } from '../utils/userValidation';
 
 const Query = {
   users(parent, args, { prisma }, info) {
@@ -17,8 +18,10 @@ const Query = {
 
     return prisma.query.users(opArgs, info);
   },
-  me(parent, args, { prisma, request }, info) {
+  async me(parent, args, { prisma, request }, info) {
     const userId = getUserId(request);
+
+    await authCheck(prisma, userId);
 
     return prisma.query.user(
       {
@@ -63,6 +66,8 @@ const Query = {
   },
   async myFeed(parent, args, { prisma, request }, info) {
     const userId = getUserId(request);
+
+    await authCheck(prisma, userId);
 
     const opArgs = {
       first: args.first,
@@ -121,8 +126,10 @@ const Query = {
 
     return post;
   },
-  followers(parent, args, { prisma, request }, info) {
+  async followers(parent, args, { prisma, request }, info) {
     const userId = getUserId(request);
+
+    await authCheck(prisma, userId);
 
     return prisma.query.follows(
       {
@@ -135,8 +142,10 @@ const Query = {
       info,
     );
   },
-  followings(parent, args, { prisma, request }, info) {
+  async followings(parent, args, { prisma, request }, info) {
     const userId = getUserId(request);
+
+    await authCheck(prisma, userId);
 
     return prisma.query.follows(
       {

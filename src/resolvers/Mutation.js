@@ -6,6 +6,7 @@ import {
   usernameValidation,
   emailValidation,
   nameValidation,
+  authCheck,
 } from '../utils/userValidation';
 import sendEmail from '../utils/sendEmail';
 
@@ -52,8 +53,10 @@ const Mutation = {
       token: generateToken(user.id),
     };
   },
-  deleteUser(parent, args, { prisma, request }, info) {
+  async deleteUser(parent, args, { prisma, request }, info) {
     const userId = getUserId(request);
+
+    await authCheck(prisma, userId);
 
     return prisma.mutation.deleteUser({
       where: {
@@ -64,6 +67,8 @@ const Mutation = {
   },
   async updateUser(parent, args, { prisma, request }, info) {
     const userId = getUserId(request);
+
+    await authCheck(prisma, userId);
 
     if (typeof args.data.password === 'string') {
       args.data.password = await hashPassword(args.data.password);
@@ -88,8 +93,10 @@ const Mutation = {
       info,
     );
   },
-  createPost(parent, args, { prisma, request }, info) {
+  async createPost(parent, args, { prisma, request }, info) {
     const userId = getUserId(request);
+
+    await authCheck(prisma, userId);
 
     return prisma.mutation.createPost(
       {
@@ -107,6 +114,8 @@ const Mutation = {
   },
   async deletePost(parent, args, { prisma, request }, info) {
     const userId = getUserId(request);
+
+    await authCheck(prisma, userId);
 
     const post = (
       await prisma.query.posts(
@@ -139,6 +148,8 @@ const Mutation = {
   async updatePost(parent, args, { prisma, request }, info) {
     const userId = getUserId(request);
 
+    await authCheck(prisma, userId);
+
     const post = (
       await prisma.query.posts(
         {
@@ -170,6 +181,8 @@ const Mutation = {
   },
   async follow(parent, args, { prisma, request }, info) {
     const userId = getUserId(request);
+
+    await authCheck(prisma, userId);
 
     const follow = (
       await prisma.query.follows({
@@ -208,6 +221,8 @@ const Mutation = {
   },
   async unfollow(parent, args, { prisma, request }, info) {
     const userId = getUserId(request);
+
+    await authCheck(prisma, userId);
 
     const follow = (
       await prisma.query.follows({

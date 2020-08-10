@@ -7,6 +7,7 @@ import {
   emailValidation,
   nameValidation,
 } from '../utils/userValidation';
+import sendEmail from '../utils/sendEmail';
 
 const Mutation = {
   async createUser(parent, args, { prisma }, info) {
@@ -234,7 +235,7 @@ const Mutation = {
       info,
     );
   },
-  async forgotPassword(parent, args, { prisma }, info) {
+  async forgotPassword(parent, args, { prisma, request }, info) {
     const user = (
       await prisma.query.users({
         where: {
@@ -258,21 +259,44 @@ const Mutation = {
       new Date().getTime() + process.env.RESET_EXPIRE * 1000 * 60 * 60 * 24,
     ).toISOString();
 
-    const updatedUser = await prisma.mutation.updateUser({
-      where: {
-        id: user.id,
-      },
-      data: {
-        resetPasswordToken,
-        resetPasswordExpire,
-      },
-    });
+    const rootUrl = `${request.request.protocol}://${request.request.get(
+      'host',
+    )}/`;
 
-    if (!updatedUser) {
-      throw new Error('Server error');
+    const html = `
+      <div>You are receiving this email because you (or someone else) has requested the reset of a password.</div>
+      <div>Please visit our website. If not you, please ignore this email.</div>
+      <br />
+      <div>${rootUrl}</div>
+      <h3>TOKEN: ${resetToken}</h3>
+    `;
+
+    try {
+      await sendEmail({
+        to: user.email,
+        subject: 'Password reset token (test project)',
+        html,
+      });
+
+      const updatedUser = await prisma.mutation.updateUser({
+        where: {
+          id: user.id,
+        },
+        data: {
+          resetPasswordToken,
+          resetPasswordExpire,
+        },
+      });
+
+      if (!updatedUser) {
+        throw new Error('Server error, please try again');
+      }
+
+      return 'Email sent.';
+    } catch (err) {
+      console.log(err);
+      throw new Error('Email could not be sent');
     }
-
-    return resetToken;
   },
   async resetPassword(parent, args, { prisma, request }, info) {
     const password = await hashPassword(args.data.password);

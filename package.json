@@ -29,6 +29,7 @@
   "homepage": "https://github.com/suhy-jang/tweetx#readme",
   "dependencies": {
     "@babel/polyfill": "^7.10.4",
+    "@sendgrid/mail": "^7.2.3",
     "bcryptjs": "^2.4.3",
     "core-js": "^3.6.5",
     "cross-fetch": "^3.0.5",

@@ -61,6 +61,50 @@ const Query = {
 
     return prisma.query.posts(opArgs, info);
   },
+  async myFeed(parent, args, { prisma, request }, info) {
+    const userId = getUserId(request);
+
+    const opArgs = {
+      first: args.first,
+      skip: args.skip,
+      after: args.after,
+      orderBy: args.orderBy || 'createdAt_DESC',
+    };
+
+    const follows = await prisma.query.follows(
+      {
+        where: {
+          follower: {
+            id: userId,
+          },
+        },
+      },
+      `{
+        id
+        following {
+          id
+        }
+      }`,
+    );
+
+    const authors = [];
+    authors.push({ id: userId });
+    follows.forEach((follow) => {
+      authors.push({ id: follow.following.id });
+    });
+
+    return prisma.query.posts(
+      {
+        ...opArgs,
+        where: {
+          author: {
+            OR: authors,
+          },
+        },
+      },
+      info,
+    );
+  },
   async post(parent, args, { prisma }, info) {
     const post = await prisma.query.post(
       {

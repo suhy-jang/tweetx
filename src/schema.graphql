@@ -9,11 +9,23 @@ type Query {
     orderBy: UserOrderByInput
   ): [User!]!
   me: User!
-  posts: [Post!]!
+  posts(
+    query: String
+    first: Int
+    after: String
+    skip: Int
+    orderBy: UserOrderByInput
+  ): [Post!]!
   user(id: ID!): User!
   post(id: ID!): Post!
   followers: [Follow!]!
   followings: [Follow!]!
+  myFeed(
+    first: Int
+    after: String
+    skip: Int
+    orderBy: UserOrderByInput
+  ): [Post!]!
 }
 
 type Mutation {

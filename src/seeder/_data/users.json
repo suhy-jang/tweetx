@@ -1,0 +1,30 @@
+[
+  {
+    "id": "5d713995b721c3bb38c1f5d0",
+    "username": "minj_kim",
+    "fullname": "Minj Kim",
+    "email": "minj@example.org",
+    "password": "foobar"
+  },
+  {
+    "id": "5d713a66ec8f2b88b8f830b8",
+    "username": "suji_kim",
+    "fullname": "Suji Kim",
+    "email": "suji@example.org",
+    "password": "foobar"
+  },
+  {
+    "id": "5d725a037b292f5f8ceff787",
+    "username": "hyori_kim",
+    "fullname": "Hyori Kim",
+    "email": "hyori@example.org",
+    "password": "foobar"
+  },
+  {
+    "id": "5d725a1b7b292f5f8eefa789",
+    "username": "jay_kim",
+    "fullname": "Jay Kim",
+    "email": "jay@example.org",
+    "password": "foobar"
+  }
+]

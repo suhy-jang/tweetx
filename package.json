@@ -7,6 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
+    "seed": "env-cmd -f ./config/dev.env babel-node src --ext js, graphql",
     "dev": "env-cmd -f ./config/dev.env nodemon src --ext js, graphql --exec babel-node",
     "test": "env-cmd -f ./config/test.env jest --watch --runInBand --notify",
     "get-schema": "graphql get-schema -p prisma --dotenv config/dev.env"

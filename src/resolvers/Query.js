@@ -6,7 +6,7 @@ const Query = {
       first: args.first,
       skip: args.skip,
       after: args.after,
-      orderBy: args.orderBy,
+      orderBy: args.orderBy || 'createdAt_DESC',
     };
 
     if (args.query) {
@@ -50,7 +50,7 @@ const Query = {
       first: args.first,
       skip: args.skip,
       after: args.after,
-      orderBy: args.orderBy,
+      orderBy: args.orderBy || 'createdAt_DESC',
     };
 
     if (args.query) {
@@ -93,6 +93,7 @@ const Query = {
   },
   followings(parent, args, { prisma, request }, info) {
     const userId = getUserId(request);
+
     return prisma.query.follows(
       {
         where: {

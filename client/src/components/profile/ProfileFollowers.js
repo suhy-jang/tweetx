@@ -14,14 +14,14 @@ const ProfileFollowers = (props) => {
       <UserInfoBar />
       <TabBar />
       <div className="users border-top">
-        <User user={() => console.log('followers')} />
+        <User user={{ name: 'follower' }} />
       </div>
     </div>
   );
 };
 
 ProfileFollowers.propTypes = {
-  user: PropTypes.object,
+  auth: PropTypes.object,
   followers: PropTypes.array,
 };
 

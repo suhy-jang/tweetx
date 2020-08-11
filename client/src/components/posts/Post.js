@@ -6,7 +6,7 @@ const Post = (props) => {
   return (
     <div className="post d-flex border">
       <div>
-        <Link to="./profile.html">
+        <Link to="./profile">
           <img
             src="https://source.unsplash.com/featured?painting"
             alt=""
@@ -16,12 +16,9 @@ const Post = (props) => {
       </div>
       <div className="post-content d-flex flex-column">
         <div>
-          <a
-            href="./profile.html"
-            className="underline font-weight-bold d-inline"
-          >
+          <Link to="./profile" className="underline font-weight-bold d-inline">
             Melissa Berry
-          </a>
+          </Link>
         </div>
         <div className="text-secondary font-sm mb-3">
           @melissa_berry - 10 mins ago

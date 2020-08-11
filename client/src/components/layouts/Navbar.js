@@ -3,15 +3,19 @@ import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 
 const Navbar = (props) => {
-  const pathname = useLocation().pathname;
-  const selected = (path) => (pathname.includes(path) ? 'selected' : 'desktop');
+  const location = useLocation();
+  const pathname = location.pathname.split('/')[1];
+  const title =
+    location.state && location.state.title ? location.state.title : pathname;
+  const selected = (path) => (pathname.includes(path) ? 'selected' : '');
 
   return (
     <>
-      <div className="header sticky-top font-lg bg-white">
+      <div className="header sticky-top font-lg bg-white py-1">
         <div className="container">
-          <div className="d-md-flex justify-content-between align-items-baseline">
-            <div className="desktop">
+          <div className="mobile text-center">{title}</div>
+          <div className="desktop d-md-flex justify-content-between align-items-baseline">
+            <div>
               <Link to="./" className="font-main-logo text-primary">
                 TweetX
               </Link>
@@ -33,7 +37,7 @@ const Navbar = (props) => {
                 </Link>
               </li>
               <li>
-                <Link to="./logout.html" className={`${selected('/logout')}`}>
+                <Link to="./logout" className={`${selected('/logout')}`}>
                   Logout
                 </Link>
               </li>
@@ -45,6 +49,8 @@ const Navbar = (props) => {
   );
 };
 
-Navbar.propTypes = {};
+Navbar.propTypes = {
+  auth: PropTypes.object,
+};
 
 export default Navbar;

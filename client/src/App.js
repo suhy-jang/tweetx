@@ -10,6 +10,7 @@ import ProfileFollowers from './components/profile/ProfileFollowers';
 import Users from './components/users/Users';
 import Post from './components/post/Post';
 import CreatePost from './components/posts/CreatePost';
+import Logout from './components/auth/Logout';
 
 const App = () => {
   return (
@@ -36,6 +37,7 @@ const App = () => {
             <Route exact path="/users" component={Users} />
             <Route exact path="/post" component={Post} />
             <Route exact path="/new-post" component={CreatePost} />
+            <Route exact path="/logout" component={Logout} />
           </Switch>
         </div>
       </Fragment>

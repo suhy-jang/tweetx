@@ -15,6 +15,8 @@ const Users = (props) => {
   );
 };
 
-Users.propTypes = {};
+Users.propTypes = {
+  users: PropTypes.object,
+};
 
 export default Users;

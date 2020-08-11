@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 const BackBtn = (props) => {
   const onClick = () => {
@@ -15,7 +14,5 @@ const BackBtn = (props) => {
     </div>
   );
 };
-
-BackBtn.propTypes = {};
 
 export default BackBtn;

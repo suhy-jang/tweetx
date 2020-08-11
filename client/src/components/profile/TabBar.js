@@ -7,6 +7,12 @@ const TabBar = (props) => {
   const selected = (path) => (pathname === path ? ' selected' : '');
   const basicClass = 'tap btn btn-lighter font-sm py-2';
 
+  const pathState = {
+    state: {
+      title: 'William Franklin',
+    },
+  };
+
   return (
     <div className="tapbar d-flex font-weight-bold text-center">
       <Link to="./profile" className={`${basicClass}${selected('/profile')}`}>
@@ -14,14 +20,14 @@ const TabBar = (props) => {
         <div>POSTS</div>
       </Link>
       <Link
-        to="./profile-followers"
+        to={{ pathname: '/profile-followers', ...pathState }}
         className={`${basicClass}${selected('/profile-followers')}`}
       >
         <div>16</div>
         <div>FOLLOWERS</div>
       </Link>
       <Link
-        to="./profile-followings"
+        to={{ pathname: './profile-followings', ...pathState }}
         className={`${basicClass}${selected('/profile-followings')}`}
       >
         <div>34</div>

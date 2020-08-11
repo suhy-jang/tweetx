@@ -12,6 +12,8 @@ const Hamburger = (props) => {
   );
 };
 
-Hamburger.propTypes = {};
+Hamburger.propTypes = {
+  auth: PropTypes.object,
+};
 
 export default Hamburger;

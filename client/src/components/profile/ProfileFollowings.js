@@ -14,7 +14,7 @@ const ProfileFollowings = (props) => {
       <UserInfoBar />
       <TabBar />
       <div className="users border-top">
-        <User user={() => console.log('followings')} />
+        <User user={{ name: 'following' }} />
       </div>
     </div>
   );

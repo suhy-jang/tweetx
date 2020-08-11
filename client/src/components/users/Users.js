@@ -1,21 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import User from './User';
+import Head from '../head/Head';
 
 const Users = (props) => {
   return (
-    <div class="users border-top">
-      <User user={() => console.log('passing user')} />
-      <User user={() => console.log('passing user')} />
-      <User user={() => console.log('passing user')} />
-      <User user={() => console.log('passing user')} />
-      <User user={() => console.log('passing user')} />
+    <div className="users desktop-mt-3">
+      <Head title="Connect" />
+      <User />
+      <User />
+      <User />
+      <User />
     </div>
   );
 };
 
-Users.propTypes = {
-  users: PropTypes.object,
-};
+Users.propTypes = {};
 
 export default Users;

@@ -9,7 +9,6 @@ import UserInfoBar from './UserInfoBar';
 const Profile = (props) => {
   return (
     <div>
-      <BackBtn />
       <UserInfoBar />
       <TabBar />
       <div className="posts border-top">

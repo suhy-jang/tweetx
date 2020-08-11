@@ -4,7 +4,7 @@ import Head from '../head/Head';
 import TabBar from './TabBar';
 import BackBtn from '../layouts/BackBtn';
 import UserInfoBar from './UserInfoBar';
-import Users from '../users/Users';
+import User from '../users/User';
 
 const ProfileFollowings = (props) => {
   return (
@@ -13,7 +13,9 @@ const ProfileFollowings = (props) => {
       <BackBtn />
       <UserInfoBar />
       <TabBar />
-      <Users users={() => console.log('followings')} />
+      <div className="users border-top">
+        <User user={() => console.log('followings')} />
+      </div>
     </div>
   );
 };

@@ -6,11 +6,14 @@ import Feed from './components/feed/Feed';
 import Profile from './components/profile/Profile';
 import ProfileFollowings from './components/profile/ProfileFollowings';
 import ProfileFollowers from './components/profile/ProfileFollowers';
+import Users from './components/users/Users';
+import Head from './components/head/Head';
 
 const App = () => {
   return (
     <Router>
       <Fragment>
+        <Head title="" />
         <Navbar />
         <Hamburger />
         <div id="main" className="container">
@@ -28,6 +31,7 @@ const App = () => {
               path="/profile-followers"
               component={ProfileFollowers}
             />
+            <Route exact path="/users" component={Users} />
           </Switch>
         </div>
       </Fragment>

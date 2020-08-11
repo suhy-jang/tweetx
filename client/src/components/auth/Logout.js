@@ -13,6 +13,7 @@ const Logout = (props) => {
 
   const logoutClick = () => {
     console.log('logout');
+    localStorage.removeItem(`(current token) new-post`);
     history.push('/');
   };
 

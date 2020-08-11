@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 const Navbar = (props) => {
   const pathname = useLocation().pathname;
-  const selected = (path) => (pathname === path ? 'selected' : 'desktop');
+  const selected = (path) => (pathname.includes(path) ? 'selected' : 'desktop');
 
   return (
     <>

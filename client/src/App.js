@@ -4,6 +4,7 @@ import Navbar from './components/layouts/Navbar';
 import Hamburger from './components/layouts/Hamburger';
 import Feed from './components/feed/Feed';
 import Profile from './components/profile/Profile';
+import ProfileFollowings from './components/profile/ProfileFollowings';
 import ProfileFollowers from './components/profile/ProfileFollowers';
 
 const App = () => {
@@ -17,6 +18,11 @@ const App = () => {
             <Route exact path="/" component={Feed} />
             <Route exact path="/feed" component={Feed} />
             <Route exact path="/profile" component={Profile} />
+            <Route
+              exact
+              path="/profile-followings"
+              component={ProfileFollowings}
+            />
             <Route
               exact
               path="/profile-followers"

@@ -6,21 +6,21 @@ import BackBtn from '../layouts/BackBtn';
 import UserInfoBar from './UserInfoBar';
 import Users from '../users/Users';
 
-const ProfileFollowers = (props) => {
+const ProfileFollowings = (props) => {
   return (
     <div>
-      <Head title={`People following William Franklin / `} />
+      <Head title={`People followed by William Franklin / `} />
       <BackBtn />
       <UserInfoBar />
       <TabBar />
-      <Users users={() => console.log('followers')} />
+      <Users users={() => console.log('followings')} />
     </div>
   );
 };
 
-ProfileFollowers.propTypes = {
+ProfileFollowings.propTypes = {
   user: PropTypes.object,
-  followers: PropTypes.array,
+  followings: PropTypes.array,
 };
 
-export default ProfileFollowers;
+export default ProfileFollowings;

@@ -14,6 +14,7 @@ import Logout from './components/auth/Logout';
 import Landing from './components/layouts/Landing';
 import LoginOrRegister from './components/auth/LoginOrRegister';
 import Login from './components/auth/Login';
+import Register from './components/auth/Register';
 
 const App = () => {
   return (
@@ -47,6 +48,7 @@ const App = () => {
               component={LoginOrRegister}
             />
             <Route exact path="/login" component={Login} />
+            <Route exact path="/Register" component={Register} />
           </Switch>
         </div>
       </Fragment>

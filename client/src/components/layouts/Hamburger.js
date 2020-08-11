@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const Hamburger = (props) => {
   return (
     <div>
-      <Link to="./hamburger-menu.html" className="position-fixed lt mobile">
+      <Link to="/hamburger-menu.html" className="position-fixed lt mobile">
         ☰
       </Link>
     </div>

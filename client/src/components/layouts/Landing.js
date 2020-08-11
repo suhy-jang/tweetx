@@ -1,18 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 
-const Landing = props => {
-  return (
-    <div>
-      loading ? background
-      login ? feed
-      logout ? splash
-    </div>
-  )
-};
-
-Landing.propTypes = {
-
+const Landing = (props) => {
+  return <Redirect to="/login-or-register" />;
+  // return <div>background</div>
+  // return <div>feed for login user</div>
 };
 
 export default Landing;

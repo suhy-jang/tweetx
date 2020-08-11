@@ -11,6 +11,9 @@ import Users from './components/users/Users';
 import Post from './components/post/Post';
 import CreatePost from './components/posts/CreatePost';
 import Logout from './components/auth/Logout';
+import Landing from './components/layouts/Landing';
+import LoginOrRegister from './components/auth/LoginOrRegister';
+import Login from './components/auth/Login';
 
 const App = () => {
   return (
@@ -21,7 +24,7 @@ const App = () => {
         <Hamburger />
         <div id="main" className="container">
           <Switch>
-            <Route exact path="/" component={Feed} />
+            <Route exact path="/" component={Landing} />
             <Route exact path="/feed" component={Feed} />
             <Route exact path="/profile" component={Profile} />
             <Route
@@ -38,6 +41,12 @@ const App = () => {
             <Route exact path="/post" component={Post} />
             <Route exact path="/new-post" component={CreatePost} />
             <Route exact path="/logout" component={Logout} />
+            <Route
+              exact
+              path="/login-or-register"
+              component={LoginOrRegister}
+            />
+            <Route exact path="/login" component={Login} />
           </Switch>
         </div>
       </Fragment>

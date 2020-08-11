@@ -15,7 +15,7 @@ const TabBar = (props) => {
 
   return (
     <div className="tapbar d-flex font-weight-bold text-center">
-      <Link to="./profile" className={`${basicClass}${selected('/profile')}`}>
+      <Link to="/profile" className={`${basicClass}${selected('/profile')}`}>
         <div>8</div>
         <div>POSTS</div>
       </Link>
@@ -41,6 +41,7 @@ TabBar.propTypes = {
   posts: PropTypes.number,
   followers: PropTypes.number,
   followings: PropTypes.number,
+  fullname: PropTypes.string,
 };
 
 export default TabBar;

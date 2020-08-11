@@ -16,28 +16,28 @@ const Navbar = (props) => {
           <div className="mobile text-center">{title}</div>
           <div className="desktop d-md-flex justify-content-between align-items-baseline">
             <div>
-              <Link to="./" className="font-main-logo text-primary">
+              <Link to="/" className="font-main-logo text-primary">
                 TweetX
               </Link>
             </div>
             <ul className="header-menubar mb-0">
               <li>
-                <Link to="./feed" className={`${selected('/feed')}`}>
+                <Link to="/feed" className={`${selected('/feed')}`}>
                   Feed
                 </Link>
               </li>
               <li>
-                <Link to="./users" className={`${selected('/users')}`}>
+                <Link to="/users" className={`${selected('/users')}`}>
                   Users
                 </Link>
               </li>
               <li>
-                <Link to="./profile" className={`${selected('/profile')}`}>
+                <Link to="/profile" className={`${selected('/profile')}`}>
                   Profile
                 </Link>
               </li>
               <li>
-                <Link to="./logout" className={`${selected('/logout')}`}>
+                <Link to="/logout" className={`${selected('/logout')}`}>
                   Logout
                 </Link>
               </li>

@@ -6,15 +6,13 @@ import { Link } from 'react-router-dom';
 
 const Post = (props) => {
   return (
-    <>
-      <div className="header sticky-top font-lg text-center mt-3 py-1">
-        <span className="">Post</span>
-      </div>
-      <div className="splash single-post p-4 h-100 mx-auto d-flex border position-relative">
-        <Head title="(Alice Russell) on TweetX: (Content)" />
-        <BackBtn />
+    <div className="splash mx-auto post single-post p-4 h-100">
+      <Head title="(Alice Russell) on TweetX: (Content)" />
+      <BackBtn />
+      <div className="desktop header text-center my-2">Post</div>
+      <div className="d-flex">
         <div className="pt-3">
-          <Link to="./profile.html">
+          <Link to="/profile">
             <img
               src="https://source.unsplash.com/featured?painting"
               alt=""
@@ -24,12 +22,9 @@ const Post = (props) => {
         </div>
         <div className="post-content d-flex flex-column">
           <div>
-            <a
-              href="./profile-follower.html"
-              className="underline font-weight-bold d-inline"
-            >
+            <Link to="/profile" className="underline font-weight-bold d-inline">
               Melissa Berry
-            </a>
+            </Link>
           </div>
           <span className="text-secondary font-sm mb-3">
             @melissa_berry - 10 mins ago
@@ -41,7 +36,7 @@ const Post = (props) => {
           </p>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

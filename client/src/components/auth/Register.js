@@ -14,12 +14,35 @@ const Register = (props) => {
     password2: '',
   });
 
+  const emailRegex = /^(([^<>()[].,;:s@"]+(.[^<>()[].,;:s@"]+)*)|(".+"))@(([^<>()[].,;:s@"]+.)+[^<>()[].,;:s@"]{2,})$/i;
+
+  const { fullname, username, email, password, password2 } = formData;
+
   const onSubmit = (e) => {
     e.preventDefault();
-    // to add validation
-    delete formData.password2;
-    console.log(formData);
-    // setFormData(null);
+    if (Object.values(formData).some((el) => el === '')) {
+      // set alert 'All required fields must be filled out'
+      console.log('All required fields must be filled out');
+    }
+    if (password !== password2) {
+      // set alert 'New and confirm password must be equal'
+      console.log('New and confirm password must be equal');
+    }
+    if (password.length < 6) {
+      // set alert 'Password should be minimum 6 characters
+      console.log('Password should be minimum 6 characters');
+    }
+    if (!emailRegex.test(email)) {
+      // set alert 'Email format is not valid'
+      console.log('Email format is not valid');
+    }
+    // send data to action
+    console.log({
+      fullname,
+      username,
+      email,
+      password,
+    });
     history.push('/');
   };
 
@@ -53,7 +76,7 @@ const Register = (props) => {
               name="fullname"
               onChange={onChange}
               placeholder="Name"
-              value={formData.fullname}
+              value={fullname}
               className="form-control"
             />
           </div>
@@ -64,7 +87,7 @@ const Register = (props) => {
               name="email"
               onChange={onChange}
               placeholder="Email ID"
-              value={formData.email}
+              value={email}
               className="form-control"
             />
           </div>
@@ -74,7 +97,7 @@ const Register = (props) => {
               name="username"
               onChange={onChange}
               placeholder="Username"
-              value={formData.username}
+              value={username}
               className="form-control"
             />
           </div>
@@ -84,7 +107,7 @@ const Register = (props) => {
               name="password"
               onChange={onChange}
               placeholder="Password"
-              value={formData.password}
+              value={password}
               className="form-control"
             />
           </div>
@@ -94,7 +117,7 @@ const Register = (props) => {
               name="password2"
               onChange={onChange}
               placeholder="Confirm Password"
-              value={formData.password2}
+              value={password2}
               className="form-control"
             />
           </div>

@@ -1,12 +1,33 @@
 import React, { useState } from 'react';
 import SplashBg from './SplashBg';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import BackBtn from '../layouts/BackBtn';
 
 const Login = () => {
+  const history = useHistory();
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
+
+  const { email, password } = formData;
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (Object.values(formData).some((el) => el === '')) {
+      // set alert 'All required fields must be filled out'
+      console.log('All required fields must be filled out');
+    }
+    if (password.length < 6) {
+      // set alert 'Password should be minimum 6 characters'
+      console.log('Password should be minimum 6 characters');
+    }
+    // no checking email validation in case of username
+    // send form data to action
+    console.log(formData);
+    history.push('/');
+  };
 
   const onChange = (e) => {
     setFormData({
@@ -15,18 +36,10 @@ const Login = () => {
     });
   };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    // send form data to action
-    console.log(formData);
-  };
-
   return (
     <>
-      <div className="splash position-relative">
-        <Link to="/" className="position-absolute">
-          <i className="fas fa-chevron-left"></i>
-        </Link>
+      <div className="splash">
+        <BackBtn />
         <Link
           to="/register"
           className="desktop btn btn-outline-secondary rounded-pill px-3 py-2 font-lg font-weight-bold"
@@ -49,7 +62,7 @@ const Login = () => {
                 name="email"
                 onChange={onChange}
                 placeholder="Email ID or Username"
-                value={formData.email}
+                value={email}
                 className="form-control"
               />
             </div>
@@ -59,7 +72,7 @@ const Login = () => {
                 name="password"
                 onChange={onChange}
                 placeholder="Password"
-                value={formData.password}
+                value={password}
                 className="form-control"
               />
             </div>

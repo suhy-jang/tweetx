@@ -1,17 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 const Post = (props) => {
   return (
     <div className="post d-flex border">
       <div>
-        <a href="./profile-follower.html">
+        <Link to="./profile-follower.html">
           <img
             src="https://source.unsplash.com/featured?painting"
             alt=""
             className="profile-img"
           />
-        </a>
+        </Link>
       </div>
       <div className="post-content d-flex flex-column">
         <div>
@@ -31,15 +32,17 @@ const Post = (props) => {
           nobis sed quibusdam earum?
         </p>
         <div>
-          <a href="./post.html" className="w-100 h-100 post-indicator font-sm">
+          <Link to="./post.html" className="w-100 h-100 post-indicator font-sm">
             Read more
-          </a>
+          </Link>
         </div>
       </div>
     </div>
   );
 };
 
-Post.propTypes = {};
+Post.propTypes = {
+  post: PropTypes.object,
+};
 
 export default Post;

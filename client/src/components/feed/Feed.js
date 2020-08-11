@@ -16,6 +16,8 @@ const Feed = (props) => {
   );
 };
 
-Feed.propTypes = {};
+Feed.propTypes = {
+  myFeed: PropTypes.object,
+};
 
 export default Feed;

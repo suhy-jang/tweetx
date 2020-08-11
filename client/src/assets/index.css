@@ -215,6 +215,12 @@ textarea {
   box-shadow: none;
 }
 
+.header-menubar a.selected {
+  display: initial;
+  display: block;
+  text-align: center;
+}
+
 .user {
   padding: 8px;
 }
@@ -249,16 +255,6 @@ textarea {
 
 .font-main-logo {
   font-size: 2rem;
-}
-
-.header-menubar {
-  width: 270px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.header-menubar a.selected {
-  color: var(--primary-color) !important;
 }
 
 .submit-btn {
@@ -395,6 +391,18 @@ textarea {
 
   .desktop {
     display: initial;
+  }
+
+  .header-menubar {
+    width: 270px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .header-menubar a.selected {
+    color: var(--primary-color) !important;
+    display: initial;
+    text-align: initial;
   }
 
   .post {

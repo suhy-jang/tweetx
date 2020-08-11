@@ -9,7 +9,7 @@ import User from '../users/User';
 const ProfileFollowings = (props) => {
   return (
     <div>
-      <Head title={`People followed by William Franklin / `} />
+      <Head title={`People followed by William Franklin`} />
       <BackBtn />
       <UserInfoBar />
       <TabBar />

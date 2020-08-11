@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const User = (props) => {
   return (
     <div className="user d-flex border-bottom clearfix">
-      <Link to="./profile-followers" className="user-element float-left">
+      <Link to="./profile" className="user-element float-left">
         <img
           src="https://source.unsplash.com/featured?painting"
           alt=""
@@ -13,12 +13,9 @@ const User = (props) => {
         />
       </Link>
       <div className="user-element ml-2">
-        <Link
-          to="./profile-followers"
-          className="underline font-weight-bold d-inline"
-        >
+        <Link to="./profile" className="underline font-weight-bold d-inline">
           Alice Russell
-        </Link>
+        </Link>{' '}
         <span className="text-secondary font-sm">@alice_russell</span>
         <div className="text-secondary font-sm">Following : 200</div>
       </div>

@@ -8,7 +8,7 @@ const Navbar = (props) => {
 
   return (
     <>
-      <div className="header sticky-top font-lg bg-white py-1">
+      <div className="header sticky-top font-lg bg-white">
         <div className="container">
           <div className="d-md-flex justify-content-between align-items-baseline">
             <div className="desktop">
@@ -16,20 +16,28 @@ const Navbar = (props) => {
                 TweetX
               </Link>
             </div>
-            <div className="header-menubar">
-              <Link to="./feed" className={`${selected('/feed')}`}>
-                Feed
-              </Link>
-              <Link to="./users.html" className={`${selected('/users')}`}>
-                Users
-              </Link>
-              <Link to="./profile" className={`${selected('/profile')}`}>
-                Profile
-              </Link>
-              <Link to="./logout.html" className={`${selected('/logout')}`}>
-                Logout
-              </Link>
-            </div>
+            <ul className="header-menubar mb-0">
+              <li>
+                <Link to="./feed" className={`${selected('/feed')}`}>
+                  Feed
+                </Link>
+              </li>
+              <li>
+                <Link to="./users" className={`${selected('/users')}`}>
+                  Users
+                </Link>
+              </li>
+              <li>
+                <Link to="./profile" className={`${selected('/profile')}`}>
+                  Profile
+                </Link>
+              </li>
+              <li>
+                <Link to="./logout.html" className={`${selected('/logout')}`}>
+                  Logout
+                </Link>
+              </li>
+            </ul>
           </div>
         </div>
       </div>

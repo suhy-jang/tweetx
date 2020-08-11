@@ -7,7 +7,10 @@ const BackBtn = (props) => {
   };
 
   return (
-    <div onClick={onClick} className="position-fixed lt mobile">
+    <div
+      onClick={onClick}
+      className="bg-white position-fixed lt px-1 cursor-pointer mobile"
+    >
       <i className="fas fa-chevron-left"></i>
     </div>
   );

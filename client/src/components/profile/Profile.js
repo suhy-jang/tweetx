@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Post from '../posts/Post';
 import NewPostBtn from '../posts/NewPostBtn';
 import TabBar from './TabBar';
-import BackBtn from '../layouts/BackBtn';
 import UserInfoBar from './UserInfoBar';
 
 const Profile = (props) => {

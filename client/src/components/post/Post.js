@@ -1,48 +1,45 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Head from '../head/Head';
+import BackBtn from '../layouts/BackBtn';
 import { Link } from 'react-router-dom';
 
 const Post = (props) => {
   return (
-    <div className="post d-flex border">
+    <div class="splash single-post p-4 h-100 mx-auto d-flex border position-relative">
+      <Head title="(Alice Russell) on TweetX: (Content)" />
+      <BackBtn />
       <div>
         <Link to="./profile.html">
           <img
             src="https://source.unsplash.com/featured?painting"
             alt=""
-            className="profile-img"
+            class="profile-img"
           />
         </Link>
       </div>
-      <div className="post-content d-flex flex-column">
+      <div class="post-content d-flex flex-column">
         <div>
           <a
-            href="./profile.html"
-            className="underline font-weight-bold d-inline"
+            href="./profile-follower.html"
+            class="underline font-weight-bold d-inline"
           >
             Melissa Berry
           </a>
         </div>
-        <div className="text-secondary font-sm mb-3">
+        <span class="text-secondary font-sm mb-3">
           @melissa_berry - 10 mins ago
-        </div>
+        </span>
         <p>
           Lorem, ipsum dolor sit amet consectetur adipisicing elit.
           Reprehenderit iure distinctio dolorum iste esse dolorem similique
           nobis sed quibusdam earum?
         </p>
-        <div>
-          <Link to="./post" className="w-100 h-100 post-indicator font-sm">
-            Read more
-          </Link>
-        </div>
       </div>
     </div>
   );
 };
 
-Post.propTypes = {
-  post: PropTypes.object,
-};
+Post.propTypes = {};
 
 export default Post;

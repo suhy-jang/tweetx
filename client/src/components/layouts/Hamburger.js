@@ -1,15 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 const Hamburger = (props) => {
   return (
     <div>
-      <a
-        href="./hamburger-menu.html"
-        className="nav-open-btn position-fixed lt mobile"
-      >
+      <Link to="./hamburger-menu.html" className="position-fixed lt mobile">
         ☰
-      </a>
+      </Link>
     </div>
   );
 };

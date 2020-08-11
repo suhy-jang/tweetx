@@ -2,7 +2,19 @@ import '@babel/polyfill/noConflict';
 import server from './server';
 import seeder from './seeder';
 
-server.start({ port: process.env.PORT || 4000 }, () => {
+const host = 'http://localhost';
+
+const opts = {
+  endpoint: '/graphql',
+  port: process.env.PORT || 4000,
+  tracing: true,
+  playground: '/graphql/playground',
+  cors: {
+    origin: [host + ':3000'],
+  },
+};
+
+server.start(opts, () => {
   console.log('The server is up');
   seeder();
 });

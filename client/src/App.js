@@ -1,9 +1,16 @@
 import React, { Fragment } from 'react';
+import Feed from './components/feed/Feed';
+import Navbar from './components/layouts/Navbar';
+import Hamburger from './components/layouts/Hamburger';
 
 const App = () => {
   return (
     <Fragment>
-      <div className="App"></div>
+      <Navbar />
+      <Hamburger />
+      <div id="main" className="container">
+        <Feed />
+      </div>
     </Fragment>
   );
 };

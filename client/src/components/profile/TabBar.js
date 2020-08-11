@@ -14,7 +14,7 @@ const TabBar = (props) => {
         <div>POSTS</div>
       </Link>
       <Link
-        to="./profile-followers.html"
+        to="./profile-followers"
         className={`${basicClass}${selected('/profile-followers')}`}
       >
         <div>16</div>

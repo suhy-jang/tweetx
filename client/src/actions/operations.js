@@ -43,12 +43,20 @@ export const gqlLogin = gql(`
   ${fragments.user}
 `);
 
-export const gqlGetMe = gql(`
+export const gqlMe = gql(`
   query {
     me {
       ...userData
       email
-      ...userRelations
+    }
+  }
+  ${fragments.user}
+`);
+
+export const gqlUser = gql(`
+  query($id: ID!) {
+    user(id: $id) {
+      ...userData
       posts(orderBy: createdAt_DESC) {
         ...postData
         author {
@@ -71,4 +79,20 @@ export const gqlGetMe = gql(`
   }
   ${fragments.user}
   ${fragments.post}
+`);
+
+export const gqlMyFeed = gql(`
+  query {
+    myFeed(orderBy: createdAt_DESC) {
+      id
+      content
+      createdAt
+      author {
+        id
+        fullname
+        username
+        photoUrl
+      }
+    }
+  }
 `);

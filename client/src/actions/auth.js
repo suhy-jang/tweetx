@@ -6,16 +6,17 @@ import {
   LOGIN_SUCCESS,
   AUTH_ERROR,
 } from './types';
-import { gqlCreateUser, gqlLogin, gqlGetMe } from './operations';
-import { setAuthToken } from '../utils/axiosDefaults';
+import { gqlCreateUser, gqlLogin, gqlMe } from './operations';
+import { setAuthToken, setBaseUrl } from '../utils/axiosDefaults';
 
 export const loadUser = () => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
+  setBaseUrl();
 
   try {
-    const res = await axios.post('/graphql', { query: gqlGetMe });
+    const res = await axios.post('/graphql', { query: gqlMe });
 
     const {
       data: { data, errors },
@@ -31,13 +32,16 @@ export const loadUser = () => async (dispatch) => {
       payload: data.me,
     });
   } catch (err) {
-    dispatch({ type: AUTH_ERROR });
+    console.log('auth error'); // for temp: too often logout
+    // dispatch({ type: AUTH_ERROR });
   }
 };
+
 // Register User
 export const register = ({ username, fullname, email, password }) => async (
   dispatch,
 ) => {
+  setBaseUrl();
   const variables = {
     data: {
       username,
@@ -75,6 +79,7 @@ export const register = ({ username, fullname, email, password }) => async (
 
 // Login User
 export const login = ({ email, password }) => async (dispatch) => {
+  setBaseUrl();
   const variables = {
     data: {
       email,

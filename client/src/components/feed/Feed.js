@@ -1,23 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Post from '../posts/Post';
 import NewPostBtn from '../posts/NewPostBtn';
+import { connect } from 'react-redux';
+import { getMyFeed } from '../../actions/post';
 
-const Feed = (props) => {
+const Feed = ({ auth: { isAuthenticated }, post: { myFeed }, getMyFeed }) => {
+  useEffect(() => {
+    getMyFeed();
+  }, [isAuthenticated]);
+
   return (
     <div className="posts">
       <NewPostBtn />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
+      {myFeed.map((post) => (
+        <Post key={post.id} post={post} />
+      ))}
     </div>
   );
 };
 
 Feed.propTypes = {
-  myFeed: PropTypes.object,
+  feeds: PropTypes.array,
+  getMyFeed: PropTypes.func,
 };
 
-export default Feed;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  post: state.post,
+});
+
+export default connect(mapStateToProps, { getMyFeed })(Feed);

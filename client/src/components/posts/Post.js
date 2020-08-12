@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-const Post = (props) => {
+const Post = ({ post }) => {
   return (
     <div className="post d-flex border">
       <div>
@@ -17,17 +17,13 @@ const Post = (props) => {
       <div className="post-content d-flex flex-column">
         <div>
           <Link to="/profile" className="underline font-weight-bold d-inline">
-            Melissa Berry
+            {post.author.fullname}
           </Link>
         </div>
         <div className="text-secondary font-sm mb-3">
-          @melissa_berry - 10 mins ago
+          @{post.author.username} - {post.createdAt}
         </div>
-        <p>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-          Reprehenderit iure distinctio dolorum iste esse dolorem similique
-          nobis sed quibusdam earum?
-        </p>
+        <p>{post.content}</p>
         <div>
           <Link to="/post" className="w-100 h-100 post-indicator font-sm">
             Read more
@@ -39,7 +35,7 @@ const Post = (props) => {
 };
 
 Post.propTypes = {
-  post: PropTypes.object,
+  post: PropTypes.object.isRequired,
 };
 
 export default Post;

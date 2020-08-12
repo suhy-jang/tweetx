@@ -17,25 +17,26 @@ import ResetPassword from '../auth/ResetPassword';
 import ResetPasswordConfirm from '../auth/ResetPasswordConfirm';
 import NotFound from '../layouts/NotFound';
 import Alert from '../layouts/Alert';
+import PrivateRoute from './PrivateRoute';
 
-const Routes = (props) => {
+const Routes = () => {
   return (
     <div id="main" className="container">
       <Alert />
       <Switch>
         <Route exact path="/" component={Landing} />
-        <Route exact path="/feed" component={Feed} />
+        <PrivateRoute exact path="/feed" component={Feed} />
+        <PrivateRoute exact path="/new-post" component={CreatePost} />
+        <PrivateRoute exact path="/edit-profile" component={EditProfile} />
         <Route exact path="/profile" component={Profile} />
         <Route exact path="/profile-followings" component={ProfileFollowings} />
         <Route exact path="/profile-followers" component={ProfileFollowers} />
         <Route exact path="/users" component={Users} />
         <Route exact path="/post" component={Post} />
-        <Route exact path="/new-post" component={CreatePost} />
         <Route exact path="/logout" component={Logout} />
         <Route exact path="/login-or-register" component={LoginOrRegister} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
-        <Route exact path="/edit-profile" component={EditProfile} />
         <Route exact path="/reset-password" component={ResetPassword} />
         <Route
           exact
@@ -47,7 +48,5 @@ const Routes = (props) => {
     </div>
   );
 };
-
-Routes.propTypes = {};
 
 export default Routes;

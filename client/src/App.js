@@ -1,10 +1,10 @@
 import React, { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import Head from './components/head/Head';
 import Navbar from './components/layouts/Navbar';
 import HamburgerMenu from './components/layouts/HamburgerMenu';
 import Routes from './components/routing/Routes';
-import { Provider } from 'react-redux';
 import store from './store';
 import { loadUser } from './actions/auth';
 import { setAuthToken } from './utils/axiosDefaults';

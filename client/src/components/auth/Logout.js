@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import SplashBg from './SplashBg';
 import BackBtn from '../layouts/BackBtn';
 import { useHistory } from 'react-router-dom';
+import { logout } from '../../actions/auth';
+import { connect } from 'react-redux';
 
-const Logout = (props) => {
+const Logout = ({ logout }) => {
   const history = useHistory();
 
   const cancelClick = () => {
@@ -12,8 +14,7 @@ const Logout = (props) => {
   };
 
   const logoutClick = () => {
-    console.log('logout');
-    localStorage.removeItem(`(current token) new-post`);
+    logout();
     history.push('/');
   };
 
@@ -47,7 +48,7 @@ const Logout = (props) => {
 };
 
 Logout.propTypes = {
-  auth: PropTypes.object,
+  logout: PropTypes.func.isRequired,
 };
 
-export default Logout;
+export default connect(null, { logout })(Logout);

@@ -2,6 +2,7 @@ import {
   USER_LOADED,
   REGISTER_SUCCESS,
   LOGIN_SUCCESS,
+  LOGOUT,
   AUTH_ERROR,
 } from '../actions/types';
 
@@ -19,9 +20,9 @@ export default (state = initialState, action) => {
     case USER_LOADED:
       return {
         ...state,
+        user: payload,
         isAuthenticated: true,
         loading: false,
-        user: payload,
       };
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
@@ -33,11 +34,13 @@ export default (state = initialState, action) => {
         isAuthenticated: true,
         loading: false,
       };
+    case LOGOUT:
     case AUTH_ERROR:
       localStorage.removeItem('token');
       return {
         ...state,
         token: null,
+        user: null,
         isAuthenticated: false,
         loading: false,
       };

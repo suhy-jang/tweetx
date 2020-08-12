@@ -8,6 +8,7 @@ import { getMyFeed } from '../../actions/post';
 const Feed = ({ auth: { isAuthenticated }, post: { myFeed }, getMyFeed }) => {
   useEffect(() => {
     getMyFeed();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated]);
 
   return (

@@ -5,10 +5,12 @@ import {
   REGISTER_SUCCESS,
   LOGIN_SUCCESS,
   AUTH_ERROR,
+  LOGOUT,
 } from './types';
 import { gqlCreateUser, gqlLogin, gqlMe } from './operations';
 import { setAuthToken, setBaseUrl } from '../utils/axiosDefaults';
 
+// Load User
 export const loadUser = () => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
@@ -109,4 +111,10 @@ export const login = ({ email, password }) => async (dispatch) => {
       type: AUTH_ERROR,
     });
   }
+};
+
+// Logout
+export const logout = () => (dispatch) => {
+  localStorage.removeItem(`(current token) new-post`);
+  dispatch({ type: LOGOUT });
 };

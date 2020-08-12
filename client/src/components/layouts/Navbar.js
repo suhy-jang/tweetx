@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-const Navbar = (props) => {
+const Navbar = ({ auth: { isAuthenticated } }) => {
   const location = useLocation();
   const pathname = location.pathname.split('/')[1];
   const title =
@@ -20,28 +21,30 @@ const Navbar = (props) => {
                 TweetX
               </Link>
             </div>
-            <ul className="header-menubar mb-0">
-              <li>
-                <Link to="/feed" className={`${selected('/feed')}`}>
-                  Feed
-                </Link>
-              </li>
-              <li>
-                <Link to="/users" className={`${selected('/users')}`}>
-                  Users
-                </Link>
-              </li>
-              <li>
-                <Link to="/profile" className={`${selected('/profile')}`}>
-                  Profile
-                </Link>
-              </li>
-              <li>
-                <Link to="/logout" className={`${selected('/logout')}`}>
-                  Logout
-                </Link>
-              </li>
-            </ul>
+            {isAuthenticated && (
+              <ul className="header-menubar mb-0">
+                <li>
+                  <Link to="/feed" className={`${selected('/feed')}`}>
+                    Feed
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/users" className={`${selected('/users')}`}>
+                    Users
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/profile" className={`${selected('/profile')}`}>
+                    Profile
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/logout" className={`${selected('/logout')}`}>
+                    Logout
+                  </Link>
+                </li>
+              </ul>
+            )}
           </div>
         </div>
       </div>
@@ -50,7 +53,11 @@ const Navbar = (props) => {
 };
 
 Navbar.propTypes = {
-  auth: PropTypes.object,
+  auth: PropTypes.object.isRequired,
 };
 
-export default Navbar;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps)(Navbar);

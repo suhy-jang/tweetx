@@ -1,10 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Head from '../head/Head';
 import BackBtn from '../layouts/BackBtn';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
-const Post = ({ post }) => {
+const Post = () => {
+  const location = useLocation();
+
+  const post = location.state.post;
+
   return (
     <div className="splash mx-auto post single-post p-4 h-100">
       <Head title="(Alice Russell) on TweetX: (Content)" />
@@ -45,10 +48,6 @@ const Post = ({ post }) => {
       </div>
     </div>
   );
-};
-
-Post.propTypes = {
-  post: PropTypes.object,
 };
 
 export default Post;

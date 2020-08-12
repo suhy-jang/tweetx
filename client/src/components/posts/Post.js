@@ -36,7 +36,13 @@ const Post = ({ post }) => {
         </div>
         <p>{post.content}</p>
         <div>
-          <Link to="/post" className="w-100 h-100 post-indicator font-sm">
+          <Link
+            to={{
+              pathname: '/post',
+              state: { post },
+            }}
+            className="w-100 h-100 post-indicator font-sm"
+          >
             Read more
           </Link>
         </div>

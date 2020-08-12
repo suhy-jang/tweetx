@@ -4,7 +4,7 @@ import Head from '../head/Head';
 import BackBtn from '../layouts/BackBtn';
 import { Link } from 'react-router-dom';
 
-const Post = (props) => {
+const Post = ({ post }) => {
   return (
     <div className="splash mx-auto post single-post p-4 h-100">
       <Head title="(Alice Russell) on TweetX: (Content)" />
@@ -12,7 +12,12 @@ const Post = (props) => {
       <div className="desktop header text-center my-2">Post</div>
       <div className="d-flex">
         <div className="pt-3">
-          <Link to="/profile">
+          <Link
+            to={{
+              pathname: '/profile',
+              state: { id: post.author.id },
+            }}
+          >
             <img
               src="https://source.unsplash.com/featured?painting"
               alt=""
@@ -22,18 +27,20 @@ const Post = (props) => {
         </div>
         <div className="post-content d-flex flex-column">
           <div>
-            <Link to="/profile" className="underline font-weight-bold d-inline">
-              Melissa Berry
+            <Link
+              to={{
+                pathname: '/profile',
+                state: { id: post.author.id },
+              }}
+              className="underline font-weight-bold d-inline"
+            >
+              {post.author.fullname}
             </Link>
           </div>
           <span className="text-secondary font-sm mb-3">
-            @melissa_berry - 10 mins ago
+            @{post.author.username} - 10 mins ago
           </span>
-          <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-            Reprehenderit iure distinctio dolorum iste esse dolorem similique
-            nobis sed quibusdam earum?
-          </p>
+          <p>{post.content}</p>
         </div>
       </div>
     </div>

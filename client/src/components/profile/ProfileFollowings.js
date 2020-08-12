@@ -1,28 +1,53 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Head from '../head/Head';
 import TabBar from './TabBar';
 import BackBtn from '../layouts/BackBtn';
 import UserInfoBar from './UserInfoBar';
 import User from '../users/User';
+import { getProfile } from '../../actions/profile';
+import { connect } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
-const ProfileFollowings = (props) => {
+const ProfileFollowings = ({
+  auth,
+  profile: { loading, profile },
+  getProfile,
+}) => {
+  const location = useLocation();
+
+  const id = location.state.id;
+
+  useEffect(() => {
+    getProfile(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [, id]);
+
   return (
     <div>
-      <Head title={`People followed by William Franklin`} />
+      <Head title={`People followed by {profile.fullname}`} />
       <BackBtn />
-      <UserInfoBar />
-      <TabBar />
+      <UserInfoBar auth={auth} user={profile} />
+      <TabBar id={id} user={profile} />
       <div className="users border-top">
-        <User user={{ name: 'following' }} />
+        {profile.followings &&
+          profile.followings.map((f) => (
+            <User key={f.following.id} user={f.following} />
+          ))}
       </div>
     </div>
   );
 };
 
 ProfileFollowings.propTypes = {
-  user: PropTypes.object,
-  followings: PropTypes.array,
+  auth: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
+  getProfile: PropTypes.func.isRequired,
 };
 
-export default ProfileFollowings;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  profile: state.profile,
+});
+
+export default connect(mapStateToProps, { getProfile })(ProfileFollowings);

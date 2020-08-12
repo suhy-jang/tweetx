@@ -8,7 +8,13 @@ const User = ({ user }) => {
   };
   return (
     <div className="user d-flex border-bottom clearfix">
-      <Link to="/profile" className="user-element float-left">
+      <Link
+        to={{
+          pathname: '/profile',
+          state: { id: user.id },
+        }}
+        className="user-element float-left"
+      >
         <img
           src="https://source.unsplash.com/featured?painting"
           alt=""
@@ -16,12 +22,18 @@ const User = ({ user }) => {
         />
       </Link>
       <div className="user-element ml-2">
-        <Link to="/profile" className="underline font-weight-bold d-inline">
+        <Link
+          to={{
+            pathname: '/profile',
+            state: { id: user.id },
+          }}
+          className="underline font-weight-bold d-inline"
+        >
           {user.fullname}
         </Link>{' '}
         <span className="text-secondary font-sm">@{user.username}</span>
         <div className="text-secondary font-sm">
-          Following : {user.followings.length}
+          Following : {user.followers.length}
         </div>
       </div>
       <div className="user-element flex-column-center">

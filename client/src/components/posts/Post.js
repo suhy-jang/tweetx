@@ -6,7 +6,12 @@ const Post = ({ post }) => {
   return (
     <div className="post d-flex border">
       <div>
-        <Link to="/profile">
+        <Link
+          to={{
+            pathname: '/profile',
+            state: { id: post.author.id },
+          }}
+        >
           <img
             src="https://source.unsplash.com/featured?painting"
             alt=""
@@ -16,7 +21,13 @@ const Post = ({ post }) => {
       </div>
       <div className="post-content d-flex flex-column">
         <div>
-          <Link to="/profile" className="underline font-weight-bold d-inline">
+          <Link
+            to={{
+              pathname: '/profile',
+              state: { id: post.author.id },
+            }}
+            className="underline font-weight-bold d-inline"
+          >
             {post.author.fullname}
           </Link>
         </div>

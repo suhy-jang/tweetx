@@ -77,12 +77,18 @@ export const gqlUser = gql(`
         id
         follower {
           ...userData
+          followers {
+            id
+          }
         }
       }
       followings(orderBy: createdAt_DESC) {
         id
         following {
           ...userData
+          followers {
+            id
+          }
         }
       }
     }

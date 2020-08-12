@@ -14,7 +14,8 @@ const Users = ({
     if (isAuthenticated) {
       unfollowedUsers(user.id);
     }
-  }, [isAuthenticated]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated, user]);
 
   return (
     <div className="users desktop-mt-3">

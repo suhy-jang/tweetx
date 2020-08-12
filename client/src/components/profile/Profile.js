@@ -6,24 +6,30 @@ import TabBar from './TabBar';
 import UserInfoBar from './UserInfoBar';
 import { getProfile } from '../../actions/profile';
 import { connect } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
 const Profile = ({ auth, profile: { loading, profile }, getProfile }) => {
+  const location = useLocation();
+
+  const id = location.state.id;
+
   useEffect(() => {
-    getProfile('5d713995b721c3bb38c1f5d0');
-  }, []);
+    getProfile(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [, id]);
 
   return (
     <div>
       {profile.id && (
         <>
           <UserInfoBar auth={auth} user={profile} />
-          <TabBar user={profile} />
+          <TabBar id={id} user={profile} />
           <div className="posts border-top">
             {auth.isAuthenticated && auth.user.id === profile.id && (
               <NewPostBtn />
             )}
             {profile.posts &&
-              profile.posts.map((post) => <Post id={post.id} post={post} />)}
+              profile.posts.map((post) => <Post key={post.id} post={post} />)}
           </div>
         </>
       )}
@@ -32,7 +38,8 @@ const Profile = ({ auth, profile: { loading, profile }, getProfile }) => {
 };
 
 Profile.propTypes = {
-  profile: PropTypes.object,
+  auth: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
   getProfile: PropTypes.func.isRequired,
 };
 

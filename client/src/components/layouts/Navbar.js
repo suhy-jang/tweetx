@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-const Navbar = ({ auth: { isAuthenticated } }) => {
+const Navbar = ({ auth: { isAuthenticated, user } }) => {
   const location = useLocation();
   const pathname = location.pathname.split('/')[1];
   const title =
@@ -34,7 +34,13 @@ const Navbar = ({ auth: { isAuthenticated } }) => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/profile" className={`${selected('/profile')}`}>
+                  <Link
+                    to={{
+                      pathname: '/profile',
+                      state: { id: user.id },
+                    }}
+                    className={`${selected('/profile')}`}
+                  >
                     Profile
                   </Link>
                 </li>

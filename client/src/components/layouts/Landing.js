@@ -1,10 +1,25 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-const Landing = (props) => {
-  return <Redirect to="/login-or-register" />;
-  // return <div>background</div>
-  // return <div>feed for login user</div>
+const Landing = ({ auth: { loading, isAuthenticated } }) => {
+  if (!loading) {
+    return isAuthenticated ? (
+      <Redirect to="/feed" />
+    ) : (
+      <Redirect to="/login-or-register" />
+    );
+  }
+  return <div>loading</div>;
 };
 
-export default Landing;
+Landing.propTypes = {
+  auth: PropTypes.object,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps)(Landing);

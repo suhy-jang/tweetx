@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { Link, Redirect } from 'react-router-dom';
 import SplashBg from './SplashBg';
 import BackBtn from '../layouts/BackBtn';
+import { connect } from 'react-redux';
+import { setAlert } from '../../actions/alert';
+import { register } from '../../actions/auth';
 
-const Register = (props) => {
-  const history = useHistory();
-
+const Register = ({ auth, setAlert, register }) => {
   const [formData, setFormData] = useState({
     fullname: '',
     email: '',
@@ -14,36 +16,25 @@ const Register = (props) => {
     password2: '',
   });
 
-  const emailRegex = /^(([^<>()[].,;:s@"]+(.[^<>()[].,;:s@"]+)*)|(".+"))@(([^<>()[].,;:s@"]+.)+[^<>()[].,;:s@"]{2,})$/i;
+  const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   const { fullname, username, email, password, password2 } = formData;
 
   const onSubmit = (e) => {
     e.preventDefault();
     if (Object.values(formData).some((el) => el === '')) {
-      // set alert 'All required fields must be filled out'
-      console.log('All required fields must be filled out');
-    }
-    if (password !== password2) {
-      // set alert 'New and confirm password must be equal'
-      console.log('New and confirm password must be equal');
-    }
-    if (password.length < 6) {
-      // set alert 'Password should be minimum 6 characters
-      console.log('Password should be minimum 6 characters');
+      return setAlert('All required fields must be filled out', 'danger');
     }
     if (!emailRegex.test(email)) {
-      // set alert 'Email format is not valid'
-      console.log('Email format is not valid');
+      return setAlert('Email format is not valid', 'danger');
     }
-    // send data to action
-    console.log({
-      fullname,
-      username,
-      email,
-      password,
-    });
-    history.push('/');
+    if (password.length < 6) {
+      return setAlert('Password should be minimum 6 characters', 'danger');
+    }
+    if (password !== password2) {
+      return setAlert('New and confirm password must be equal', 'danger');
+    }
+    register(formData);
   };
 
   const onChange = (e) => {
@@ -52,6 +43,10 @@ const Register = (props) => {
       [e.target.name]: e.target.value,
     });
   };
+
+  if (auth.isAuthenticated) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div className="splash">
@@ -144,4 +139,14 @@ const Register = (props) => {
   );
 };
 
-export default Register;
+Register.propTypes = {
+  auth: PropTypes.object.isRequired,
+  setAlert: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { setAlert, register })(Register);

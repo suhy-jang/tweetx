@@ -24,8 +24,6 @@ const UserInfoBar = (props) => {
     console.log('unfollow');
   };
 
-  // const
-
   const editProfile = (
     <div className="user-info-floating-btn-cover">
       <Link
@@ -58,6 +56,7 @@ const UserInfoBar = (props) => {
       </button>
     </div>
   );
+
   return (
     <div className="d-flex justify-content-around main-user-info">
       <div className="user-info d-flex">
@@ -76,7 +75,7 @@ const UserInfoBar = (props) => {
         {/* auth === user : editProfile */}
         {/* auth !== user && auth.following.includes : followingBtn */}
         {/* auth !== user && !auth.following.includes : followBtn */}
-        {followBtn}
+        {editProfile}
       </div>
     </div>
   );

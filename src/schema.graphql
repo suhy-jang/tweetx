@@ -1,9 +1,11 @@
 # import UserOrderByInput from './generated/prisma.graphql'
+# import UserWhereInput from './generated/prisma.graphql'
 # import PostOrderByInput from './generated/prisma.graphql'
 # import FollowOrderByInput from './generated/prisma.graphql'
 
 type Query {
   users(
+    where: UserWhereInput
     query: String
     first: Int
     after: String

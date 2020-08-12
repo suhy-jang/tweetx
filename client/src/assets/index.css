@@ -148,6 +148,10 @@ textarea {
   z-index: 1040;
 }
 
+.zindex-top {
+  z-index: 1100;
+}
+
 .zindex-dropdown {
   z-index: 1000;
 }

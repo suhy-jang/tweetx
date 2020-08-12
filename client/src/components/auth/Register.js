@@ -58,7 +58,7 @@ const Register = (props) => {
       <BackBtn />
       <Link
         to="/login"
-        className="desktop btn btn-outline-secondary rounded-pill px-3 py-2 font-lg font-weight-bold"
+        className="desktop btn btn-outline-secondary rounded-pill px-3 py-2 w-50 font-weight-bold"
       >
         Login
       </Link>

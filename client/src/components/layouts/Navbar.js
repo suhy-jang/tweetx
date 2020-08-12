@@ -11,7 +11,7 @@ const Navbar = (props) => {
 
   return (
     <>
-      <div className="header sticky-top font-lg bg-white py-1">
+      <div className="header sticky-top zindex-top font-lg bg-white py-1">
         <div className="container">
           <div className="mobile text-center">{title}</div>
           <div className="desktop d-md-flex justify-content-between align-items-baseline">

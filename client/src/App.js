@@ -16,6 +16,8 @@ import LoginOrRegister from './components/auth/LoginOrRegister';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import EditProfile from './components/auth/EditProfile';
+import ResetPassword from './components/auth/ResetPassword';
+import ResetPasswordConfirm from './components/auth/ResetPasswordConfirm';
 
 const App = () => {
   return (
@@ -51,6 +53,12 @@ const App = () => {
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/edit-profile" component={EditProfile} />
+            <Route exact path="/reset-password" component={ResetPassword} />
+            <Route
+              exact
+              path="/reset-password-confirm"
+              component={ResetPasswordConfirm}
+            />
           </Switch>
         </div>
       </Fragment>

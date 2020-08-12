@@ -31,6 +31,16 @@ export const gqlCreateUser = gql(`
   ${fragments.user}
 `);
 
+export const gqlUpdateUser = gql(`
+  mutation($data: UserUpdateInput!) {
+    updateUser(data: $data) {
+      ...userData
+      email
+    }
+  }
+  ${fragments.user}
+`);
+
 export const gqlLogin = gql(`
   mutation($data: UserLoginInput!) {
     login(data: $data) {

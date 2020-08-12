@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-const UserInfoBar = (props) => {
+const UserInfoBar = ({ auth, user }) => {
   const [float, setFloat] = useState('');
   const [scroll, setScroll] = useState(0);
 
@@ -66,8 +66,8 @@ const UserInfoBar = (props) => {
           className="profile-img"
         />
         <div className="ml-3">
-          <div className="font-weight-bold font-lg">William Franklin</div>
-          <div className="text-secondary">@williamfranklin</div>
+          <div className="font-weight-bold font-lg">{user.fullname}</div>
+          <div className="text-secondary">@{user.username}</div>
           <div className="text-secondary">Joined on 25 Dec 2019</div>
         </div>
       </div>
@@ -82,8 +82,8 @@ const UserInfoBar = (props) => {
 };
 
 UserInfoBar.propTypes = {
-  auth: PropTypes.object,
-  user: PropTypes.object,
+  auth: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
 };
 
 export default UserInfoBar;

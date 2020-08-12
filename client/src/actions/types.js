@@ -10,3 +10,7 @@ export const LOGOUT = 'LOGOUT';
 export const POST_LOADING = 'POST_LOADING';
 export const GET_MY_FEED = 'GET_MY_FEED';
 export const POST_ERROR = 'POST_ERROR';
+
+export const PROFILE_LOADING = 'PROFILE_LOADING';
+export const GET_PROFILE = 'GET_PROFILE';
+export const PROFILE_ERROR = 'PROFILE_ERROR';

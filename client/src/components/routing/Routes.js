@@ -16,11 +16,12 @@ import EditProfile from '../auth/EditProfile';
 import ResetPassword from '../auth/ResetPassword';
 import ResetPasswordConfirm from '../auth/ResetPasswordConfirm';
 import NotFound from '../layouts/NotFound';
+import Alert from '../layouts/Alert';
 
 const Routes = (props) => {
   return (
     <div id="main" className="container">
-      {/* alert component */}
+      <Alert />
       <Switch>
         <Route exact path="/" component={Landing} />
         <Route exact path="/feed" component={Feed} />

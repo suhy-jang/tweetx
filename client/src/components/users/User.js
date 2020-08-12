@@ -2,7 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-const User = (props) => {
+const User = ({ user }) => {
+  const handleFollow = (e) => {
+    // follow actions
+  };
   return (
     <div className="user d-flex border-bottom clearfix">
       <Link to="/profile" className="user-element float-left">
@@ -14,13 +17,18 @@ const User = (props) => {
       </Link>
       <div className="user-element ml-2">
         <Link to="/profile" className="underline font-weight-bold d-inline">
-          Alice Russell
+          {user.fullname}
         </Link>{' '}
-        <span className="text-secondary font-sm">@alice_russell</span>
-        <div className="text-secondary font-sm">Following : 200</div>
+        <span className="text-secondary font-sm">@{user.username}</span>
+        <div className="text-secondary font-sm">
+          Following : {user.followings.length}
+        </div>
       </div>
       <div className="user-element flex-column-center">
-        <button className="btn btn-primary rounded-pill font-sm float-right">
+        <button
+          onClick={handleFollow}
+          className="btn btn-primary rounded-pill font-sm float-right"
+        >
           FOLLOW
         </button>
       </div>
@@ -29,7 +37,7 @@ const User = (props) => {
 };
 
 User.propTypes = {
-  user: PropTypes.object,
+  user: PropTypes.object.isRequired,
 };
 
 export default User;

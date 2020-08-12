@@ -91,6 +91,21 @@ export const gqlUser = gql(`
   ${fragments.post}
 `);
 
+export const gqlUsers = gql(`
+  query($where: UserWhereInput) {
+    users(where: $where) {
+      ...userData
+      followers {
+        id
+      }
+      followings {
+        id
+      }
+    }
+  }
+  ${fragments.user}
+`);
+
 export const gqlMyFeed = gql(`
   query {
     myFeed(orderBy: createdAt_DESC) {

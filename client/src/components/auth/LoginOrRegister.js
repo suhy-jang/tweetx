@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import SplashBg from './SplashBg';
 
 const LoginOrRegister = (props) => {
   return (
@@ -29,6 +30,7 @@ const LoginOrRegister = (props) => {
           Create New Account
         </Link>
       </div>
+      <SplashBg />
     </div>
   );
 };

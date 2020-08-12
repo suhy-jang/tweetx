@@ -14,7 +14,7 @@ const CreatePost = (props) => {
 
   useEffect(() => {
     const prevContent = localStorage.getItem('(current token) new-post');
-    setContent(prevContent);
+    if (prevContent) setContent(prevContent);
   }, []);
 
   const onSubmit = () => {

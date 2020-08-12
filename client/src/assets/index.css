@@ -169,12 +169,12 @@ textarea {
   top: 0.5rem;
 }
 
-.floating-follow-btn-cover {
-  width: 80px;
-  height: 80px;
+.user-info-floating-btn-cover {
+  width: 90px;
+  height: 35px;
 }
 
-.floating-follow-btn {
+.user-info-floating-btn {
   position: fixed;
   z-index: 1040;
   top: 0.1rem;
@@ -433,7 +433,7 @@ textarea {
     margin-top: 3rem;
   }
 
-  .floating-follow-btn {
+  .user-info-floating-btn {
     position: static;
   }
 

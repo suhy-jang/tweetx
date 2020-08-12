@@ -206,6 +206,27 @@ textarea {
   margin: 16px 0;
 }
 
+.hamburger-btn {
+  color: black !important;
+  text-decoration: black !important;
+}
+
+.hamburger-menu {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 38px;
+  left: 0;
+  background-color: white;
+  overflow-x: hidden;
+  transition: 0.5s;
+}
+
+.hamburger-menu-expanded {
+  width: 250px;
+}
+
 .header {
   -webkit-box-shadow: 0px 5px 8px 0px rgba(200, 200, 200, 0.75);
   -moz-box-shadow: 0px 5px 8px 0px rgba(200, 200, 200, 0.75);

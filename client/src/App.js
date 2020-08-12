@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Head from './components/head/Head';
 import Navbar from './components/layouts/Navbar';
-import Hamburger from './components/layouts/Hamburger';
+import HamburgerMenu from './components/layouts/HamburgerMenu';
 import Feed from './components/feed/Feed';
 import Profile from './components/profile/Profile';
 import ProfileFollowings from './components/profile/ProfileFollowings';
@@ -25,7 +25,7 @@ const App = () => {
       <Fragment>
         <Head title="" />
         <Navbar />
-        <Hamburger />
+        <HamburgerMenu />
         <div id="main" className="container">
           <Switch>
             <Route exact path="/" component={Landing} />

@@ -1,5 +1,9 @@
-import { REGISTER_SUCCESS, REGISTER_FAILURE } from '../actions/types';
-import { setAuthToken } from '../utils/axiosDefaults';
+import {
+  USER_LOADED,
+  REGISTER_SUCCESS,
+  LOGIN_SUCCESS,
+  AUTH_ERROR,
+} from '../actions/types';
 
 const initialState = {
   token: localStorage.getItem('token'),
@@ -12,16 +16,24 @@ export default (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
+    case USER_LOADED:
+      return {
+        ...state,
+        isAuthenticated: true,
+        loading: false,
+        user: payload,
+      };
     case REGISTER_SUCCESS:
-      setAuthToken(payload.token);
+    case LOGIN_SUCCESS:
       localStorage.setItem('token', payload.token);
       return {
         ...state,
-        ...payload,
+        token: payload.token,
+        user: payload.user,
         isAuthenticated: true,
         loading: false,
       };
-    case REGISTER_FAILURE:
+    case AUTH_ERROR:
       localStorage.removeItem('token');
       return {
         ...state,

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import SplashBg from './SplashBg';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import BackBtn from '../layouts/BackBtn';
+import { setAlert } from '../../actions/alert';
+import { login } from '../../actions/auth';
+import { connect } from 'react-redux';
 
-const Login = () => {
-  const history = useHistory();
-
+const Login = ({ auth, login }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -16,17 +18,13 @@ const Login = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     if (Object.values(formData).some((el) => el === '')) {
-      // set alert 'All required fields must be filled out'
-      console.log('All required fields must be filled out');
+      return setAlert('All required fields must be filled out', 'danger');
     }
     if (password.length < 6) {
-      // set alert 'Password should be minimum 6 characters'
-      console.log('Password should be minimum 6 characters');
+      return setAlert('Password should be minimum 6 characters', 'danger');
     }
-    // no checking email validation in case of username
-    // send form data to action
-    console.log(formData);
-    history.push('/');
+    /* no checking email validation in case of username */
+    login(formData);
   };
 
   const onChange = (e) => {
@@ -35,6 +33,10 @@ const Login = () => {
       [e.target.name]: e.target.value,
     });
   };
+
+  if (auth.isAuthenticated) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <>
@@ -102,4 +104,13 @@ const Login = () => {
   );
 };
 
-export default Login;
+Login.propTypes = {
+  auth: PropTypes.object.isRequired,
+  login: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { login })(Login);

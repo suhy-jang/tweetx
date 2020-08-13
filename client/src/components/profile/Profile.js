@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import Head from '../head/Head';
 import Post from '../posts/Post';
 import NewPostBtn from '../posts/NewPostBtn';
 import TabBar from './TabBar';
@@ -10,27 +11,33 @@ import { useLocation } from 'react-router-dom';
 
 const Profile = ({ auth, profile: { loading, profile }, getProfile }) => {
   const location = useLocation();
-  const id = location.state.id;
+  const { user } = location.state;
+  const [userinfo, setUserinfo] = useState(user);
+  const [tabHide, setTabHide] = useState(true);
 
   useEffect(() => {
-    if (id !== profile.id) {
-      getProfile(id);
+    if (profile.id === user.id) {
+      setUserinfo(profile);
+      setTabHide(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  }, [profile, user]);
 
-  if (loading) {
-    return <h2 className="text-secondary">loading...</h2>;
-  }
+  useEffect(() => {
+    getProfile(user.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user.id]);
 
   return (
     <div>
-      <UserInfoBar auth={auth} user={profile} />
-      <TabBar user={profile} />
+      <Head title={userinfo.fullname} />
+      <UserInfoBar auth={auth} user={userinfo} />
+      <TabBar user={userinfo} disabled={tabHide} />
       <div className="posts border-top">
-        {auth.isAuthenticated && auth.user.id === profile.id && <NewPostBtn />}
-        {profile.posts &&
-          profile.posts.map((post) => <Post key={post.id} post={post} />)}
+        {auth.isAuthenticated && auth.user.id === userinfo.id && <NewPostBtn />}
+        {userinfo.posts &&
+          userinfo.posts.length > 0 &&
+          userinfo.posts[0].content &&
+          userinfo.posts.map((post) => <Post key={post.id} post={post} />)}
       </div>
     </div>
   );

@@ -17,6 +17,35 @@ const fragments = {
       createdAt
     }
   `,
+  follow: `
+    fragment followData on User {
+      followers {
+        id
+        follower {
+          id
+        }
+      }
+      followings {
+        id
+        following {
+          id
+        }
+      }
+    }
+  `,
+  relations: `
+    fragment relationData on User {
+      posts {
+        id
+      }
+      followers {
+        id
+      }
+      followings {
+        id
+      }
+    }
+  `,
 };
 
 export const gqlCreateUser = gql(`
@@ -58,9 +87,14 @@ export const gqlMe = gql(`
     me {
       ...userData
       email
+      ...followData
+      posts {
+        id
+      }
     }
   }
   ${fragments.user}
+  ${fragments.follow}
 `);
 
 export const gqlUser = gql(`
@@ -71,59 +105,70 @@ export const gqlUser = gql(`
         ...postData
         author {
           ...userData
+          ...relationData
         }
       }
       followers(orderBy: createdAt_DESC) {
         id
         follower {
           ...userData
-          followers {
-            id
-          }
+          ...relationData
         }
       }
       followings(orderBy: createdAt_DESC) {
         id
         following {
           ...userData
-          followers {
-            id
-          }
+          ...relationData
         }
       }
     }
   }
   ${fragments.user}
   ${fragments.post}
+  ${fragments.relations}
 `);
 
 export const gqlUsers = gql(`
   query($where: UserWhereInput) {
     users(where: $where) {
       ...userData
-      followers {
-        id
-      }
-      followings {
+      ...followData
+      posts {
         id
       }
     }
   }
   ${fragments.user}
+  ${fragments.follow}
 `);
 
 export const gqlMyFeed = gql(`
   query {
     myFeed(orderBy: createdAt_DESC) {
-      id
-      content
-      createdAt
+      ...postData
       author {
-        id
-        fullname
-        username
-        photoUrl
+        ...userData
+        ...relationData
       }
     }
   }
+  ${fragments.user}
+  ${fragments.post}
+  ${fragments.relations}
+`);
+
+export const gqlCreatePost = gql(`
+  mutation($data: PostCreateInput!) {
+    createPost(data: $data) {
+      ...postData
+      author {
+        ...userData
+        ...relationData
+      }
+    }
+  }
+  ${fragments.user}
+  ${fragments.post}
+  ${fragments.relations}
 `);

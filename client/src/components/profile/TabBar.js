@@ -2,19 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 
-const TabBar = ({ user }) => {
-  const pathname = useLocation().pathname;
-  const selected = (path) => (pathname === path ? ' selected' : '');
-  const basicClass = 'tap btn btn-lighter font-sm py-2';
+const TabBar = ({ user, disabled }) => {
   const location = useLocation();
-  const id = location.state.id;
+  const pathname = location.pathname;
+  const selected = (path) => (pathname === path ? ' selected' : '');
+  const basicClass = `tab btn btn-lighter font-sm py-2 ${
+    disabled && 'disabled'
+  }`;
 
   return (
-    <div className="tapbar d-flex font-weight-bold text-center">
+    <div className="tabbar d-flex font-weight-bold text-center">
       <Link
         to={{
           pathname: '/profile',
-          state: { id, title: user.fullname },
+          state: { user },
         }}
         className={`${basicClass}${selected('/profile')}`}
       >
@@ -24,7 +25,7 @@ const TabBar = ({ user }) => {
       <Link
         to={{
           pathname: '/profile-followers',
-          state: { id, title: user.fullname },
+          state: { user },
         }}
         className={`${basicClass}${selected('/profile-followers')}`}
       >
@@ -34,7 +35,7 @@ const TabBar = ({ user }) => {
       <Link
         to={{
           pathname: './profile-followings',
-          state: { id, title: user.fullname },
+          state: { user },
         }}
         className={`${basicClass}${selected('/profile-followings')}`}
       >

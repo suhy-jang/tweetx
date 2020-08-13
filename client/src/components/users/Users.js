@@ -20,9 +20,9 @@ const Users = ({
   return (
     <div className="users desktop-mt-3">
       <Head title="Connect" />
-      {!loading &&
-        profiles &&
-        profiles.map((user) => <User key={user.id} user={user} />)}
+      {profiles.map((user) => (
+        <User key={user.id} user={user} />
+      ))}
     </div>
   );
 };

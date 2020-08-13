@@ -18,7 +18,7 @@ const Post = () => {
           <Link
             to={{
               pathname: '/profile',
-              state: { id: post.author.id },
+              state: { user: post.author },
             }}
           >
             <img
@@ -33,7 +33,7 @@ const Post = () => {
             <Link
               to={{
                 pathname: '/profile',
-                state: { id: post.author.id },
+                state: { user: post.author },
               }}
               className="underline font-weight-bold d-inline"
             >

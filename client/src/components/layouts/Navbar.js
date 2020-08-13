@@ -37,7 +37,7 @@ const Navbar = ({ auth: { isAuthenticated, user } }) => {
                   <Link
                     to={{
                       pathname: '/profile',
-                      state: { id: user.id },
+                      state: { user },
                     }}
                     className={`${selected('/profile')}`}
                   >

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Head from '../head/Head';
 import TabBar from './TabBar';
@@ -15,30 +15,35 @@ const ProfileFollowings = ({
   getProfile,
 }) => {
   const location = useLocation();
-  const id = location.state.id;
+  const { user } = location.state;
+  const [userinfo, setUserinfo] = useState(user);
+  const [tabHide, setTabHide] = useState(true);
 
   useEffect(() => {
-    if (id !== profile.id) {
-      getProfile(id);
+    if (profile.id === user.id) {
+      setUserinfo(profile);
+      setTabHide(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  }, [profile, user]);
 
-  if (loading) {
-    return <h2 className="text-secondary">loading...</h2>;
-  }
+  useEffect(() => {
+    getProfile(user.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user.id]);
 
   return (
     <div>
-      <Head title={`People followed by ${profile.fullname}`} />
+      <Head title={`People followed by ${userinfo.fullname}`} />
       <BackBtn />
-      <UserInfoBar auth={auth} user={profile} />
-      <TabBar user={profile} />
+      <UserInfoBar auth={auth} user={userinfo} />
+      <TabBar user={userinfo} disabled={tabHide} />
       <div className="users border-top">
-        {profile.followings &&
-          profile.followings.map((f) => (
-            <User key={f.following.id} user={f.following} />
-          ))}
+        {userinfo.followers &&
+          userinfo.followings.length > 0 &&
+          userinfo.followings[0].following &&
+          userinfo.followings.map(
+            (f) => f.following && <User key={f.id} user={f.following} />,
+          )}
       </div>
     </div>
   );

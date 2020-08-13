@@ -11,7 +11,7 @@ const User = ({ user }) => {
       <Link
         to={{
           pathname: '/profile',
-          state: { id: user.id },
+          state: { user },
         }}
         className="user-element float-left"
       >
@@ -25,7 +25,7 @@ const User = ({ user }) => {
         <Link
           to={{
             pathname: '/profile',
-            state: { id: user.id },
+            state: { user },
           }}
           className="underline font-weight-bold d-inline"
         >

@@ -58,16 +58,14 @@ const UserInfoBar = ({ auth: { user: authUser }, user }) => {
   );
 
   const followingOptions = () => {
-    const following = authUser.followings.some(
-      (f) => f.following.id === user.id,
-    );
-
     if (authUser.id === user.id) {
       return editProfile;
-    } else if (following) {
-      return followingBtn;
-    } else if (!following) {
-      return followBtn;
+    } else if (authUser.followings) {
+      if (authUser.followings.some((f) => f.following.id === user.id)) {
+        return followingBtn;
+      } else {
+        return followBtn;
+      }
     }
   };
 

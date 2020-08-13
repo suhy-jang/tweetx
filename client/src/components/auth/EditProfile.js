@@ -1,21 +1,18 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import SplashBg from './SplashBg';
 import BackBtn from '../layouts/BackBtn';
+import { connect } from 'react-redux';
+import { editUser } from '../../actions/auth';
 
-const EditProfile = (props) => {
+const EditProfile = ({ auth: { loading, user }, editUser }) => {
   const history = useHistory();
 
   const emptyPhoto =
     'http://www.gravatar.com/avatar/6ae192bae52d3d1b8d145a0d19d2ece2?s=200&r=pg&d=mm';
 
-  const tempUser = {
-    fullname: 'Sara',
-    photoUrl:
-      'http://www.gravatar.com/avatar/6ae192bae52d3d1b8d145a0d19d2ece2?s=200&r=pg&d=mm',
-  };
-
-  const [fullname, setFullname] = useState(tempUser.fullname);
+  const [fullname, setFullname] = useState(user.fullname);
   const [file, setFile] = useState({
     file: '',
     imagePreviewUrl: '',
@@ -24,18 +21,7 @@ const EditProfile = (props) => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    const formData = {
-      fullname,
-      files: file.file,
-    };
-
-    Object.keys(formData).forEach(
-      (key) => formData[key] === '' && delete formData[key],
-    );
-
-    // send data to action
-    console.log(formData);
-    history.push('/');
+    editUser({ fullname }, history);
   };
 
   const onChange = (e) => {
@@ -99,7 +85,7 @@ const EditProfile = (props) => {
                 type="text"
                 name="fullname"
                 onChange={onChange}
-                value={tempUser.fullname}
+                value={fullname}
                 className="form-control"
               />
             </label>
@@ -127,4 +113,12 @@ const EditProfile = (props) => {
   );
 };
 
-export default EditProfile;
+EditProfile.propTypes = {
+  auth: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { editUser })(EditProfile);

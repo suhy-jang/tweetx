@@ -4,10 +4,11 @@ import {
   USER_LOADED,
   REGISTER_SUCCESS,
   LOGIN_SUCCESS,
+  EDIT_USER,
   AUTH_ERROR,
   LOGOUT,
 } from './types';
-import { gqlCreateUser, gqlLogin, gqlMe } from './operations';
+import { gqlCreateUser, gqlUpdateUser, gqlLogin, gqlMe } from './operations';
 import { setAuthToken, setBaseUrl } from '../utils/axiosDefaults';
 
 // Load User
@@ -107,9 +108,34 @@ export const login = ({ email, password }) => async (dispatch) => {
     });
     dispatch(setAlert('Successfully log in', 'success'));
   } catch (err) {
-    dispatch({
-      type: AUTH_ERROR,
+    dispatch({ type: AUTH_ERROR });
+  }
+};
+
+export const editUser = ({ fullname }, history) => async (dispatch) => {
+  setBaseUrl();
+  const variables = {
+    data: {
+      fullname,
+    },
+  };
+  try {
+    const res = await axios.post('/graphql', {
+      query: gqlUpdateUser,
+      variables,
     });
+    const {
+      data: { data, errors },
+    } = res;
+
+    if (!data) {
+      errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
+    }
+
+    dispatch({ type: EDIT_USER, payload: data.updateUser });
+    history.goBack();
+  } catch (err) {
+    // dispatch(setAlert(err, 'danger'));
   }
 };
 

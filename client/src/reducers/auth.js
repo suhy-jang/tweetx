@@ -2,6 +2,7 @@ import {
   USER_LOADED,
   REGISTER_SUCCESS,
   LOGIN_SUCCESS,
+  EDIT_USER,
   LOGOUT,
   AUTH_ERROR,
 } from '../actions/types';
@@ -33,6 +34,14 @@ export default (state = initialState, action) => {
         user: payload.user,
         isAuthenticated: true,
         loading: false,
+      };
+    case EDIT_USER:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          ...payload,
+        },
       };
     case LOGOUT:
     case AUTH_ERROR:

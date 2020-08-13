@@ -2,10 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 
-const TabBar = ({ user, id }) => {
+const TabBar = ({ user }) => {
   const pathname = useLocation().pathname;
   const selected = (path) => (pathname === path ? ' selected' : '');
   const basicClass = 'tap btn btn-lighter font-sm py-2';
+  const location = useLocation();
+  const id = location.state.id;
 
   return (
     <div className="tapbar d-flex font-weight-bold text-center">
@@ -45,7 +47,6 @@ const TabBar = ({ user, id }) => {
 
 TabBar.propTypes = {
   user: PropTypes.object.isRequired,
-  id: PropTypes.string.isRequired,
 };
 
 export default TabBar;

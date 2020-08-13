@@ -58,8 +58,8 @@ const UserInfoBar = ({ auth: { user: authUser }, user }) => {
     </div>
   );
 
-  const follower =
-    user.followers && user.followers.some((f) => f.follower.id === authUser.id);
+  const following =
+    authUser && user.followers.some((f) => f.follower.id === authUser.id);
 
   return (
     user && (
@@ -78,8 +78,8 @@ const UserInfoBar = ({ auth: { user: authUser }, user }) => {
         </div>
         <div>
           {authUser && authUser.id === user.id && editProfile}
-          {authUser && authUser.id !== user.id && follower && followingBtn}
-          {authUser && authUser.id !== user.id && !follower && followBtn}
+          {authUser && authUser.id !== user.id && following && followingBtn}
+          {authUser && authUser.id !== user.id && !following && followBtn}
         </div>
       </div>
     )

@@ -15,20 +15,25 @@ const ProfileFollowers = ({
   getProfile,
 }) => {
   const location = useLocation();
-
   const id = location.state.id;
 
   useEffect(() => {
-    getProfile(id);
+    if (id !== profile.id) {
+      getProfile(id);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [, id]);
+  }, [id]);
+
+  if (loading) {
+    return <h2 className="text-secondary">loading...</h2>;
+  }
 
   return (
     <div>
       <Head title={`People following ${profile.fullname}`} />
       <BackBtn />
       <UserInfoBar auth={auth} user={profile} />
-      <TabBar id={id} user={profile} />
+      <TabBar user={profile} />
       <div className="users border-top">
         {profile.followers &&
           profile.followers.map((f) => (

@@ -10,29 +10,28 @@ import { useLocation } from 'react-router-dom';
 
 const Profile = ({ auth, profile: { loading, profile }, getProfile }) => {
   const location = useLocation();
-
   const id = location.state.id;
 
   useEffect(() => {
-    getProfile(id);
+    if (id !== profile.id) {
+      getProfile(id);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [, id]);
+  }, [id]);
+
+  if (loading) {
+    return <h2 className="text-secondary">loading...</h2>;
+  }
 
   return (
     <div>
-      {profile.id && (
-        <>
-          <UserInfoBar auth={auth} user={profile} />
-          <TabBar id={id} user={profile} />
-          <div className="posts border-top">
-            {auth.isAuthenticated && auth.user.id === profile.id && (
-              <NewPostBtn />
-            )}
-            {profile.posts &&
-              profile.posts.map((post) => <Post key={post.id} post={post} />)}
-          </div>
-        </>
-      )}
+      <UserInfoBar auth={auth} user={profile} />
+      <TabBar user={profile} />
+      <div className="posts border-top">
+        {auth.isAuthenticated && auth.user.id === profile.id && <NewPostBtn />}
+        {profile.posts &&
+          profile.posts.map((post) => <Post key={post.id} post={post} />)}
+      </div>
     </div>
   );
 };

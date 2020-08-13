@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet';
 const Head = ({ title }) => {
   return (
     <Helmet>
-      <title>{title ?? `${title} / `}TweetX</title>
+      <title>{title ? `${title} / ` : ''}TweetX</title>
     </Helmet>
   );
 };

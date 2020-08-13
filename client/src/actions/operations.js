@@ -70,6 +70,15 @@ export const gqlUpdateUser = gql(`
   ${fragments.user}
 `);
 
+export const gqlDeleteUser = gql(`
+  mutation {
+    deleteUser {
+      ...userData
+    }
+  }
+  ${fragments.user}
+`);
+
 export const gqlLogin = gql(`
   mutation($data: UserLoginInput!) {
     login(data: $data) {

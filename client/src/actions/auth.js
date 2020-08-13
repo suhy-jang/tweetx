@@ -5,10 +5,17 @@ import {
   REGISTER_SUCCESS,
   LOGIN_SUCCESS,
   EDIT_USER,
+  UNREGISTER,
   AUTH_ERROR,
   LOGOUT,
 } from './types';
-import { gqlCreateUser, gqlUpdateUser, gqlLogin, gqlMe } from './operations';
+import {
+  gqlCreateUser,
+  gqlUpdateUser,
+  gqlDeleteUser,
+  gqlLogin,
+  gqlMe,
+} from './operations';
 import { setAuthToken, setBaseUrl } from '../utils/axiosDefaults';
 
 // Load User
@@ -113,7 +120,11 @@ export const login = ({ email, password }) => async (dispatch) => {
 };
 
 export const editUser = ({ fullname }, history) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
   setBaseUrl();
+
   const variables = {
     data: {
       fullname,
@@ -143,4 +154,35 @@ export const editUser = ({ fullname }, history) => async (dispatch) => {
 export const logout = () => (dispatch) => {
   localStorage.removeItem(`(current token) new-post`);
   dispatch({ type: LOGOUT });
+};
+
+// Unregister User
+export const unregister = () => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  setBaseUrl();
+
+  try {
+    const res = await axios.post('/graphql', {
+      query: gqlDeleteUser,
+    });
+
+    const {
+      data: { data, errors },
+    } = res;
+
+    if (!data) {
+      errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
+      return dispatch({ type: AUTH_ERROR });
+    }
+
+    dispatch({
+      type: UNREGISTER,
+      payload: data.deleteUser,
+    });
+  } catch (err) {
+    dispatch({ type: AUTH_ERROR });
+  }
 };

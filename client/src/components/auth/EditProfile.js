@@ -5,6 +5,7 @@ import SplashBg from './SplashBg';
 import BackBtn from '../layouts/BackBtn';
 import { connect } from 'react-redux';
 import { editUser } from '../../actions/auth';
+import Unregister from './Unregister';
 
 const EditProfile = ({ auth: { loading, user }, editUser }) => {
   const history = useHistory();
@@ -40,14 +41,6 @@ const EditProfile = ({ auth: { loading, user }, editUser }) => {
 
       reader.readAsDataURL(file);
     }
-  };
-
-  const unregisterClick = () => {
-    if (window.confirm('Are you sure you wish to delete your account?')) {
-      console.log('unregisterred');
-      // unregister action
-    }
-    // history.push('/');
   };
 
   return (
@@ -99,13 +92,7 @@ const EditProfile = ({ auth: { loading, user }, editUser }) => {
           </div>
         </form>
         <div className="splash-description font-sm">
-          <div className="text-secondary mb-1">Unhappy?</div>
-          <button
-            onClick={unregisterClick}
-            className="btn btn-link-primary text-primary p-0 font-sm"
-          >
-            Cancel my account
-          </button>
+          <Unregister />
         </div>
       </div>
       <SplashBg />

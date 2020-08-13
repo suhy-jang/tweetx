@@ -1,4 +1,9 @@
-import { POST_LOADING, GET_MY_FEED, POST_ERROR } from '../actions/types';
+import {
+  POST_LOADING,
+  GET_MY_FEED,
+  CREATE_POST,
+  POST_ERROR,
+} from '../actions/types';
 
 const initialState = {
   myFeed: [],
@@ -21,6 +26,13 @@ export default (state = initialState, action) => {
       return {
         ...state,
         myFeed: payload,
+        loading: false,
+      };
+    case CREATE_POST:
+      return {
+        post: payload,
+        myFeed: [payload, ...state.myFeed],
+        ...state,
         loading: false,
       };
     case POST_ERROR:

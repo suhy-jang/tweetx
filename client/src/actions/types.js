@@ -9,6 +9,7 @@ export const LOGOUT = 'LOGOUT';
 
 export const POST_LOADING = 'POST_LOADING';
 export const GET_MY_FEED = 'GET_MY_FEED';
+export const CREATE_POST = 'CREATE_POST';
 export const POST_ERROR = 'POST_ERROR';
 
 export const PROFILE_LOADING = 'PROFILE_LOADING';

@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import BackBtn from '../layouts/BackBtn';
 import { useHistory } from 'react-router-dom';
+import { createPost } from '../../actions/post';
+import { connect } from 'react-redux';
 
-const CreatePost = (props) => {
+const CreatePost = ({ auth, createPost }) => {
   const [content, setContent] = useState('');
 
   const history = useHistory();
@@ -18,9 +20,8 @@ const CreatePost = (props) => {
   }, []);
 
   const onSubmit = () => {
-    console.log('submitted', content);
+    createPost(content, history);
     localStorage.removeItem(`(current token) new-post`);
-    history.push('/');
   };
 
   const onChange = (e) => {
@@ -69,8 +70,12 @@ const CreatePost = (props) => {
 };
 
 CreatePost.propTypes = {
-  auth: PropTypes.object,
-  createPost: PropTypes.func,
+  auth: PropTypes.object.isRequired,
+  createPost: PropTypes.func.isRequired,
 };
 
-export default CreatePost;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { createPost })(CreatePost);

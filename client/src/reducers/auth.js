@@ -10,6 +10,8 @@ import {
   AUTH_ERROR,
   AUTH_LOADING,
   RESET_PASSWORD_CONFIRM,
+  CREATE_POST,
+  DELETE_POST,
 } from '../actions/types';
 
 const initialState = {
@@ -72,6 +74,22 @@ export default (state = initialState, action) => {
           followings: state.user.followings.filter((f) => f.id !== payload.id),
         },
         loading: false,
+      };
+    case CREATE_POST:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          posts: [payload, ...state.user.posts],
+        },
+      };
+    case DELETE_POST:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          posts: state.user.posts.filter((post) => post.id !== payload.id),
+        },
       };
     case UNREGISTER:
     case LOGOUT:

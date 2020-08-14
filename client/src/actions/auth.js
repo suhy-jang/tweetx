@@ -88,6 +88,7 @@ export const register = (
     });
 
     dispatch(setAlert(successMsg, 'success'));
+    dispatch(loadUser());
   } catch (err) {
     dispatch({ type: AUTH_ERROR });
   }
@@ -121,6 +122,7 @@ export const login = ({ email, password }, { successMsg }) => async (
       payload: data.login,
     });
     dispatch(setAlert(successMsg, 'success'));
+    dispatch(loadUser());
   } catch (err) {
     dispatch({ type: AUTH_ERROR });
   }

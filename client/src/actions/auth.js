@@ -24,20 +24,19 @@ import {
   gqlForgotPassword,
   gqlResetPassword,
 } from './operations';
-import { setAuthToken, setBaseUrl } from '../utils/axiosDefaults';
+import { setAuthToken } from '../utils/axiosDefaults';
 
 // Load User
 export const loadUser = () => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
-  setBaseUrl();
 
   try {
     const res = await axios.post('/graphql', { query: gqlMe });
 
     const {
-      data: { data, errors },
+      data: { data },
     } = res;
 
     if (!data) {
@@ -50,8 +49,7 @@ export const loadUser = () => async (dispatch) => {
       payload: data.me,
     });
   } catch (err) {
-    console.log('auth error'); // for temp: too often logout
-    // dispatch({ type: AUTH_ERROR });
+    dispatch({ type: AUTH_ERROR });
   }
 };
 
@@ -60,7 +58,6 @@ export const register = (
   { username, fullname, email, password },
   { successMsg },
 ) => async (dispatch) => {
-  setBaseUrl();
   const variables = {
     data: {
       username,
@@ -100,7 +97,6 @@ export const register = (
 export const login = ({ email, password }, { successMsg }) => async (
   dispatch,
 ) => {
-  setBaseUrl();
   const variables = {
     data: {
       email,
@@ -131,11 +127,6 @@ export const login = ({ email, password }, { successMsg }) => async (
 };
 
 export const editUser = ({ fullname }, history) => async (dispatch) => {
-  if (localStorage.token) {
-    setAuthToken(localStorage.token);
-  }
-  setBaseUrl();
-
   const variables = {
     data: {
       fullname,
@@ -168,12 +159,6 @@ export const logout = () => (dispatch) => {
 
 // Unregister User
 export const unregister = () => async (dispatch) => {
-  if (localStorage.token) {
-    setAuthToken(localStorage.token);
-  }
-
-  setBaseUrl();
-
   try {
     const res = await axios.post('/graphql', {
       query: gqlDeleteUser,
@@ -200,12 +185,6 @@ export const unregister = () => async (dispatch) => {
 export const follow = (id, setFollowStatus) => async (dispatch) => {
   dispatch({ type: AUTH_LOADING });
 
-  if (localStorage.token) {
-    setAuthToken(localStorage.token);
-  }
-
-  setBaseUrl();
-
   const variables = { id: id };
 
   try {
@@ -231,12 +210,6 @@ export const follow = (id, setFollowStatus) => async (dispatch) => {
 
 export const unfollow = (id, setFollowStatus) => async (dispatch) => {
   dispatch({ type: AUTH_LOADING });
-
-  if (localStorage.token) {
-    setAuthToken(localStorage.token);
-  }
-
-  setBaseUrl();
 
   const variables = { id: id };
 
@@ -266,17 +239,18 @@ export const unfollow = (id, setFollowStatus) => async (dispatch) => {
 export const resetPassword = ({ email }, successMsg, history) => async (
   dispatch,
 ) => {
-  setBaseUrl();
   const variables = {
     data: {
       email,
     },
   };
+
   try {
     const res = await axios.post('/graphql', {
       query: gqlForgotPassword,
       variables,
     });
+
     const {
       data: { data, errors },
     } = res;
@@ -298,8 +272,6 @@ export const resetPasswordConfirm = (
   { successMsg },
   history,
 ) => async (dispatch) => {
-  setBaseUrl();
-
   const variables = {
     data: {
       resetToken,

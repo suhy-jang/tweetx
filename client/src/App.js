@@ -7,11 +7,7 @@ import HamburgerMenu from './components/hamburger/HamburgerMenu';
 import Routes from './components/routing/Routes';
 import store from './store';
 import { loadUser } from './actions/auth';
-import { setAuthToken } from './utils/axiosDefaults';
 
-if (localStorage.token) {
-  setAuthToken(localStorage.token);
-}
 const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());

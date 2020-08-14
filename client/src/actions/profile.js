@@ -7,12 +7,9 @@ import {
   PROFILE_ERROR,
 } from './types';
 import { gqlUser, gqlUsers } from './operations';
-import { setBaseUrl } from '../utils/axiosDefaults';
 
 // Get Profile User
 export const getProfile = (id) => async (dispatch) => {
-  setBaseUrl();
-
   dispatch({ type: PROFILE_LOADING });
   const variables = { id };
 
@@ -39,8 +36,6 @@ export const getProfile = (id) => async (dispatch) => {
 
 // Get Unfollowed Users list
 export const unfollowedUsers = (id) => async (dispatch) => {
-  setBaseUrl();
-
   const variables = {
     where: {
       id_not: id,

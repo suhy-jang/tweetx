@@ -11,6 +11,7 @@ import {
   LOGOUT,
   FOLLOW,
   UNFOLLOW,
+  RESET_PASSWORD_CONFIRM,
 } from './types';
 import {
   gqlCreateUser,
@@ -20,6 +21,8 @@ import {
   gqlDeleteUser,
   gqlLogin,
   gqlMe,
+  gqlForgotPassword,
+  gqlResetPassword,
 } from './operations';
 import { setAuthToken, setBaseUrl } from '../utils/axiosDefaults';
 
@@ -53,9 +56,10 @@ export const loadUser = () => async (dispatch) => {
 };
 
 // Register User
-export const register = ({ username, fullname, email, password }) => async (
-  dispatch,
-) => {
+export const register = (
+  { username, fullname, email, password },
+  { successMsg },
+) => async (dispatch) => {
   setBaseUrl();
   const variables = {
     data: {
@@ -86,14 +90,16 @@ export const register = ({ username, fullname, email, password }) => async (
       payload: data.createUser,
     });
 
-    dispatch(setAlert('Successfully sign up', 'success'));
+    dispatch(setAlert(successMsg, 'success'));
   } catch (err) {
     dispatch({ type: AUTH_ERROR });
   }
 };
 
 // Login User
-export const login = ({ email, password }) => async (dispatch) => {
+export const login = ({ email, password }, { successMsg }) => async (
+  dispatch,
+) => {
   setBaseUrl();
   const variables = {
     data: {
@@ -118,7 +124,7 @@ export const login = ({ email, password }) => async (dispatch) => {
       type: LOGIN_SUCCESS,
       payload: data.login,
     });
-    dispatch(setAlert('Successfully log in', 'success'));
+    dispatch(setAlert(successMsg, 'success'));
   } catch (err) {
     dispatch({ type: AUTH_ERROR });
   }
@@ -151,7 +157,7 @@ export const editUser = ({ fullname }, history) => async (dispatch) => {
     dispatch({ type: EDIT_USER, payload: data.updateUser });
     history.goBack();
   } catch (err) {
-    // dispatch(setAlert(err, 'danger'));
+    dispatch(setAlert('Update failed', 'danger'));
   }
 };
 
@@ -218,7 +224,9 @@ export const follow = (id, setFollowStatus) => async (dispatch) => {
       payload: data.follow,
     });
     setFollowStatus(true);
-  } catch (err) {}
+  } catch (err) {
+    dispatch(setAlert('Failed follow', 'danger'));
+  }
 };
 
 export const unfollow = (id, setFollowStatus) => async (dispatch) => {
@@ -249,5 +257,80 @@ export const unfollow = (id, setFollowStatus) => async (dispatch) => {
     });
 
     setFollowStatus(false);
-  } catch (err) {}
+  } catch (err) {
+    dispatch(setAlert('Failed unfollow', 'danger'));
+  }
+};
+
+// Reset password
+export const resetPassword = ({ email }, successMsg, history) => async (
+  dispatch,
+) => {
+  setBaseUrl();
+  const variables = {
+    data: {
+      email,
+    },
+  };
+  try {
+    const res = await axios.post('/graphql', {
+      query: gqlForgotPassword,
+      variables,
+    });
+    const {
+      data: { data, errors },
+    } = res;
+
+    if (!data) {
+      errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
+      return dispatch({ type: AUTH_ERROR });
+    }
+    dispatch(setAlert(successMsg, 'success'));
+    history.push('/');
+  } catch (err) {
+    dispatch({ type: AUTH_ERROR });
+  }
+};
+
+// Reset password confirm
+export const resetPasswordConfirm = (
+  { resetToken, password },
+  { successMsg },
+  history,
+) => async (dispatch) => {
+  setBaseUrl();
+
+  const variables = {
+    data: {
+      resetToken,
+      password,
+    },
+  };
+
+  try {
+    const res = await axios.post('/graphql', {
+      query: gqlResetPassword,
+      variables,
+    });
+
+    const {
+      data: { data, errors },
+    } = res;
+
+    if (!data) {
+      errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
+      return dispatch({ type: AUTH_ERROR });
+    }
+
+    dispatch({
+      type: RESET_PASSWORD_CONFIRM,
+      payload: data.resetPassword,
+    });
+
+    dispatch(setAlert(successMsg, 'success'));
+
+    history.push('/');
+  } catch (err) {
+    dispatch({ type: AUTH_ERROR });
+  }
 };

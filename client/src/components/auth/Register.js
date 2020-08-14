@@ -34,7 +34,7 @@ const Register = ({ auth, setAlert, register }) => {
     if (password !== password2) {
       return setAlert('New and confirm password must be equal', 'danger');
     }
-    register(formData);
+    register(formData, { successMsg: 'Successfully sign up' });
   };
 
   const onChange = (e) => {

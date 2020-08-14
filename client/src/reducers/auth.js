@@ -9,6 +9,7 @@ import {
   LOGOUT,
   AUTH_ERROR,
   AUTH_LOADING,
+  RESET_PASSWORD_CONFIRM,
 } from '../actions/types';
 
 const initialState = {
@@ -34,6 +35,7 @@ export default (state = initialState, action) => {
         isAuthenticated: true,
         loading: false,
       };
+    case RESET_PASSWORD_CONFIRM:
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
       localStorage.setItem('token', payload.token);

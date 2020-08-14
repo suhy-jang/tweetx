@@ -212,3 +212,21 @@ export const gqlDeletePost = gql(`
   }
   ${fragments.post}
 `);
+
+export const gqlForgotPassword = gql(`
+  mutation($data: ForgotPasswordInput!) {
+    forgotPassword(data: $data)
+  }
+`);
+
+export const gqlResetPassword = gql(`
+  mutation($data: ResetPasswordInput!) {
+    resetPassword(data: $data) {
+      token
+      user {
+        ...userData
+      }
+    }
+  }
+  ${fragments.user}
+`);

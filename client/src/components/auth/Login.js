@@ -24,7 +24,7 @@ const Login = ({ auth, login }) => {
       return setAlert('Password should be minimum 6 characters', 'danger');
     }
     /* no checking email validation in case of username */
-    login(formData);
+    login(formData, { successMsg: 'Successfully logged in' });
   };
 
   const onChange = (e) => {

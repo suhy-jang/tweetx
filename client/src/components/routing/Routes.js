@@ -40,7 +40,7 @@ const Routes = () => {
         <Route exact path="/reset-password" component={ResetPassword} />
         <Route
           exact
-          path="/reset-password-confirm"
+          path="/reset-password/:resetToken"
           component={ResetPasswordConfirm}
         />
         <Route component={NotFound} />

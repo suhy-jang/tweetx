@@ -2,37 +2,43 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import BackBtn from '../layouts/BackBtn';
 import SplashBg from './SplashBg';
+import { useParams } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { resetPasswordConfirm } from '../../actions/auth';
+import { setAlert } from '../../actions/alert';
 
-const ResetPasswordConfirm = () => {
+const ResetPasswordConfirm = ({ resetPasswordConfirm }) => {
+  const params = useParams();
   const history = useHistory();
 
+  const { resetToken } = params;
   const [formData, setFormData] = useState({
-    resetToken: '',
     password: '',
     password2: '',
   });
 
-  const { resetToken, password, password2 } = formData;
+  const { password, password2 } = formData;
 
   const onSubmit = (e) => {
     e.preventDefault();
     if (Object.values(formData).some((el) => el === '')) {
-      // set alert 'All required fields must be filled out'
-      console.log('All required fields must be filled out');
+      return setAlert('All required fields must be filled out', 'danger');
     }
     if (password !== password2) {
-      // set alert 'New and confirm password must be equal'
-      console.log('New and confirm password must be equal');
+      return setAlert('New and confirm password must be equal', 'danger');
     }
     if (password.length < 6) {
-      // set alert 'Password should be minimum 6 characters
-      console.log('Password should be minimum 6 characters');
+      return setAlert('Password should be minimum 6 characters', 'danger');
     }
     delete formData.password2;
-    // send, if success
-    window.alert(`Successfully updated.`);
-    console.log(formData);
-    history.push('/login');
+    resetPasswordConfirm(
+      {
+        resetToken,
+        password,
+      },
+      { successMsg: `Successfully updated.` },
+      history,
+    );
   };
 
   const onChange = (e) => {
@@ -51,23 +57,11 @@ const ResetPasswordConfirm = () => {
         </div>
         <div className="p-3 flex-column-between">
           <h4 className="mt-3">Reset your password</h4>
-          <div className="font-sm description my-2">
-            Enter the email received token and new password
-          </div>
+          <div className="font-sm description my-2">Enter new password</div>
           <form onSubmit={onSubmit} className="form my-3">
             <div className="form-group">
               <input
-                type="text"
-                name="resetToken"
-                placeholder="Reset Token"
-                onChange={onChange}
-                value={resetToken}
-                className="form-control"
-              />
-            </div>
-            <div className="form-group">
-              <input
-                type="text"
+                type="password"
                 name="password"
                 placeholder="Password"
                 onChange={onChange}
@@ -78,8 +72,8 @@ const ResetPasswordConfirm = () => {
             <div className="form-group">
               <input
                 type="password"
-                placeholder="Confirm Password"
                 name="password2"
+                placeholder="Confirm Password"
                 onChange={onChange}
                 value={password2}
                 className="form-control"
@@ -100,4 +94,4 @@ const ResetPasswordConfirm = () => {
   );
 };
 
-export default ResetPasswordConfirm;
+export default connect(null, { resetPasswordConfirm })(ResetPasswordConfirm);

@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import BackBtn from '../layouts/BackBtn';
 import SplashBg from './SplashBg';
+import { resetPassword } from '../../actions/auth';
+import { connect } from 'react-redux';
 
-const ResetPassword = () => {
+const ResetPassword = ({ resetPassword }) => {
   const history = useHistory();
+
   const [formData, setFormData] = useState({
     email: '',
   });
@@ -13,10 +16,13 @@ const ResetPassword = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // if success
-    window.alert(`Email sent. Please confirm it within 10 minutes.`);
-    console.log(formData);
-    history.push('/');
+    resetPassword(
+      formData,
+      {
+        successMsg: `Email sent. Please confirm it within 10 minutes.`,
+      },
+      history,
+    );
   };
 
   const onChange = (e) => {
@@ -24,7 +30,6 @@ const ResetPassword = () => {
       ...formData,
       [e.target.name]: e.target.value,
     });
-    console.log('changine', e.target.name, e.target.value);
   };
 
   return (
@@ -65,4 +70,4 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetPassword;
+export default connect(null, { resetPassword })(ResetPassword);

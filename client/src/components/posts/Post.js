@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import Moment from 'react-moment';
 
 const Post = ({ post }) => {
   return (
@@ -32,7 +33,11 @@ const Post = ({ post }) => {
           </Link>
         </div>
         <div className="text-secondary font-sm mb-3">
-          @{post.author.username} - {post.createdAt}
+          @{post.author.username} -{' '}
+          <Moment fromNow ago>
+            {post.createdAt}
+          </Moment>{' '}
+          ago
         </div>
         <p>{post.content}</p>
         <div>

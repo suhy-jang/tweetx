@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Follow from '../follow/Follow';
+import Moment from 'react-moment';
 
 const UserInfoBar = ({ auth: { user: authUser }, user }) => {
   const [float, setFloat] = useState('');
@@ -51,7 +52,12 @@ const UserInfoBar = ({ auth: { user: authUser }, user }) => {
         <div className="ml-3">
           <div className="font-weight-bold font-lg">{user.fullname}</div>
           <div className="text-secondary">@{user.username}</div>
-          <div className="text-secondary">Joined on {user.createdAt}</div>
+          <div className="text-secondary">
+            Joined on{' '}
+            <Moment format="MMM YYYY" withTitle>
+              {user.createdAt}
+            </Moment>
+          </div>
         </div>
       </div>
       <div>{authUser && editProfileOptions()}</div>

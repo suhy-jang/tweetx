@@ -7,29 +7,31 @@ import UserInfoBar from './UserInfoBar';
 import User from '../users/User';
 import { getProfile } from '../../actions/profile';
 import { connect } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Redirect } from 'react-router-dom';
 
-const ProfileFollowers = ({
-  auth,
-  profile: { loading, profile },
-  getProfile,
-}) => {
+const ProfileFollowers = ({ auth, profile: { profile }, getProfile }) => {
   const location = useLocation();
-  const { user } = location.state;
+  const user = location.state ? location.state.user : {};
   const [userinfo, setUserinfo] = useState(user);
   const [tabHide, setTabHide] = useState(true);
 
   useEffect(() => {
-    if (profile.id === user.id) {
+    if (profile.id && profile.id === user.id) {
       setUserinfo(profile);
       setTabHide(false);
     }
   }, [profile, user]);
 
   useEffect(() => {
-    getProfile(user.id);
+    if (user && user.id) {
+      getProfile(user.id);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user.id]);
+  }, [user]);
+
+  if (!userinfo || !userinfo.id) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div>

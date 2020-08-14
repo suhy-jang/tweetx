@@ -1,14 +1,19 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Head from '../head/Head';
 import BackBtn from '../layouts/BackBtn';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import DeletePost from './DeletePost';
 
 const Post = ({ auth: { user } }) => {
   const location = useLocation();
 
-  const post = location.state.post;
+  const post = location.state ? location.state.post : undefined;
+
+  if (!post) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div className="splash mx-auto post single-post p-4 h-100">
@@ -51,6 +56,10 @@ const Post = ({ auth: { user } }) => {
       </div>
     </div>
   );
+};
+
+Post.propTypes = {
+  auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({

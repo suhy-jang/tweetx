@@ -54,9 +54,11 @@ const UserInfoBar = ({ auth: { user: authUser }, user }) => {
           <div className="text-secondary">@{user.username}</div>
           <div className="text-secondary">
             Joined on{' '}
-            <Moment format="MMM YYYY" withTitle>
-              {user.createdAt}
-            </Moment>
+            {user.createdAt && (
+              <Moment format="MMM YYYY" withTitle>
+                {user.createdAt}
+              </Moment>
+            )}
           </div>
         </div>
       </div>

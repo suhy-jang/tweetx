@@ -10,6 +10,10 @@ const HamburgerMenu = ({ auth: { isAuthenticated, user } }) => {
     setExpanded(!expanded);
   };
 
+  if (!user) {
+    return <></>;
+  }
+
   return (
     <div>
       <button

@@ -3,7 +3,10 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-const Landing = ({ auth: { isAuthenticated } }) => {
+const Landing = ({ auth: { loading, isAuthenticated, user } }) => {
+  if (loading) {
+    return <div>loading...</div>;
+  }
   return isAuthenticated ? (
     <Redirect to="/feed" />
   ) : (

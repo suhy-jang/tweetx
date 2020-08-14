@@ -40,7 +40,6 @@ export default (state = initialState, action) => {
     case RESET_PASSWORD_CONFIRM:
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
-      localStorage.setItem('token', payload.token);
       return {
         ...state,
         token: payload.token,
@@ -80,7 +79,7 @@ export default (state = initialState, action) => {
         ...state,
         user: {
           ...state.user,
-          posts: [payload, ...state.user.posts],
+          posts: [{ id: payload.id }, ...state.user.posts],
         },
       };
     case DELETE_POST:
@@ -93,18 +92,12 @@ export default (state = initialState, action) => {
       };
     case UNREGISTER:
     case LOGOUT:
-      localStorage.removeItem(`new-post`);
-      localStorage.removeItem('token');
+    case AUTH_ERROR:
       return {
         ...state,
         token: null,
         user: null,
         isAuthenticated: false,
-        loading: false,
-      };
-    case AUTH_ERROR:
-      return {
-        ...state,
         loading: false,
       };
     default:

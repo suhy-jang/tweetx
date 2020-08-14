@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SplashBg from './SplashBg';
 import BackBtn from '../layouts/BackBtn';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 import { logout } from '../../actions/auth';
 import { connect } from 'react-redux';
 
-const Logout = ({ logout }) => {
+const Logout = ({ auth, logout }) => {
   const history = useHistory();
 
   const cancelClick = () => {
@@ -15,8 +15,11 @@ const Logout = ({ logout }) => {
 
   const logoutClick = () => {
     logout();
-    history.push('/');
   };
+
+  if (!auth.isAuthenticated) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <>
@@ -48,7 +51,12 @@ const Logout = ({ logout }) => {
 };
 
 Logout.propTypes = {
+  auth: PropTypes.object.isRequired,
   logout: PropTypes.func.isRequired,
 };
 
-export default connect(null, { logout })(Logout);
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { logout })(Logout);

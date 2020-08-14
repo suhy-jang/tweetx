@@ -3,15 +3,12 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-const Landing = ({ auth: { loading, isAuthenticated } }) => {
-  if (!loading) {
-    return isAuthenticated ? (
-      <Redirect to="/feed" />
-    ) : (
-      <Redirect to="/login-or-register" />
-    );
-  }
-  return <div>loading</div>;
+const Landing = ({ auth: { isAuthenticated } }) => {
+  return isAuthenticated ? (
+    <Redirect to="/feed" />
+  ) : (
+    <Redirect to="/login-or-register" />
+  );
 };
 
 Landing.propTypes = {

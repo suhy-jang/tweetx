@@ -26,11 +26,20 @@ import {
 } from './operations';
 import { setAuthToken } from '../utils/axiosDefaults';
 
+const authIn = (token, dispatch) => {
+  localStorage.setItem('token', token);
+  setAuthToken(token);
+};
+
+const authOut = () => {
+  localStorage.removeItem(`new-post`);
+  localStorage.removeItem('token');
+  setAuthToken();
+};
+
 // Load User
 export const loadUser = () => async (dispatch) => {
-  if (localStorage.token) {
-    setAuthToken(localStorage.token);
-  }
+  setAuthToken(localStorage.token);
 
   try {
     const res = await axios.post('/graphql', { query: gqlMe });
@@ -82,6 +91,8 @@ export const register = (
       return dispatch({ type: AUTH_ERROR });
     }
 
+    authIn(data.createUser.token, dispatch);
+
     dispatch({
       type: REGISTER_SUCCESS,
       payload: data.createUser,
@@ -116,6 +127,8 @@ export const login = ({ email, password }, { successMsg }) => async (
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
       return dispatch({ type: AUTH_ERROR });
     }
+
+    authIn(data.login.token, dispatch);
 
     dispatch({
       type: LOGIN_SUCCESS,
@@ -156,6 +169,7 @@ export const editUser = ({ fullname }, history) => async (dispatch) => {
 
 // Logout
 export const logout = () => (dispatch) => {
+  authOut();
   dispatch({ type: LOGOUT });
 };
 
@@ -174,6 +188,8 @@ export const unregister = () => async (dispatch) => {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
       return dispatch({ type: AUTH_ERROR });
     }
+
+    authOut();
 
     dispatch({
       type: UNREGISTER,
@@ -296,12 +312,16 @@ export const resetPasswordConfirm = (
       return dispatch({ type: AUTH_ERROR });
     }
 
+    authIn(data.resetPassword.token, dispatch);
+
     dispatch({
       type: RESET_PASSWORD_CONFIRM,
       payload: data.resetPassword,
     });
 
     dispatch(setAlert(successMsg, 'success'));
+
+    dispatch(loadUser());
 
     history.push('/');
   } catch (err) {

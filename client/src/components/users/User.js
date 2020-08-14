@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import Follow from '../follow/Follow';
 
 const User = ({ user }) => {
-  const handleFollow = (e) => {
-    // follow actions
-  };
   return (
     <div className="user d-flex border-bottom clearfix">
       <Link
@@ -37,12 +35,7 @@ const User = ({ user }) => {
         </div>
       </div>
       <div className="user-element flex-column-center">
-        <button
-          onClick={handleFollow}
-          className="btn btn-primary rounded-pill font-sm float-right"
-        >
-          FOLLOW
-        </button>
+        <Follow user={user} className="float-right" />
       </div>
     </div>
   );

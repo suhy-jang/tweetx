@@ -8,6 +8,9 @@ export const UNREGISTER = 'UNREGISTER';
 export const USER_LOADED = 'USER_LOADED';
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const LOGOUT = 'LOGOUT';
+export const FOLLOW = 'FOLLOW';
+export const UNFOLLOW = 'UNFOLLOW';
+export const AUTH_LOADING = 'AUTH_LOADING';
 
 export const POST_LOADING = 'POST_LOADING';
 export const GET_MY_FEED = 'GET_MY_FEED';

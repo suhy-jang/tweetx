@@ -110,7 +110,8 @@ textarea {
 
 .btn-primary:hover,
 .btn-primary:focus,
-.btn-primary:active {
+.btn-primary:active,
+.btn-primary:disabled {
   background-color: var(--primary-selected) !important;
   border-color: transparent !important;
 }
@@ -127,7 +128,8 @@ textarea {
 
 .btn-outline-primary:hover,
 .btn-outline-primary:focus,
-.btn-outline-primary:active {
+.btn-outline-primary:active,
+.btn-outline-primary:disabled {
   border: var(--primary-color);
   background-color: var(--primary-color);
 }

@@ -3,9 +3,12 @@ import {
   REGISTER_SUCCESS,
   LOGIN_SUCCESS,
   EDIT_USER,
+  FOLLOW,
+  UNFOLLOW,
   UNREGISTER,
   LOGOUT,
   AUTH_ERROR,
+  AUTH_LOADING,
 } from '../actions/types';
 
 const initialState = {
@@ -19,6 +22,11 @@ export default (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
+    case AUTH_LOADING:
+      return {
+        ...state,
+        loading: true,
+      };
     case USER_LOADED:
       return {
         ...state,
@@ -43,6 +51,25 @@ export default (state = initialState, action) => {
           ...state.user,
           ...payload,
         },
+        loading: false,
+      };
+    case FOLLOW:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          followings: [payload, ...state.user.followings],
+        },
+        loading: false,
+      };
+    case UNFOLLOW:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          followings: state.user.followings.filter((f) => f.id !== payload.id),
+        },
+        loading: false,
       };
     case UNREGISTER:
     case LOGOUT:

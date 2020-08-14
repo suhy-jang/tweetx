@@ -70,6 +70,28 @@ export const gqlUpdateUser = gql(`
   ${fragments.user}
 `);
 
+export const gqlFollow = gql(`
+  mutation($id: ID!) {
+    follow(id: $id) {
+      id
+      following {
+        id
+      }
+    }
+  }
+`);
+
+export const gqlUnfollow = gql(`
+  mutation($id: ID!) {
+    unfollow(id: $id) {
+      id
+      following {
+        id
+      }
+    }
+  }
+`);
+
 export const gqlDeleteUser = gql(`
   mutation {
     deleteUser {

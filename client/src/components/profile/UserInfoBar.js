@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import Follow from '../follow/Follow';
 
 const UserInfoBar = ({ auth: { user: authUser }, user }) => {
   const [float, setFloat] = useState('');
@@ -14,16 +16,6 @@ const UserInfoBar = ({ auth: { user: authUser }, user }) => {
     return () => window.removeEventListener('scroll', onScroll);
   }, [scroll]);
 
-  const follow = () => {
-    // send data to action to follow
-    console.log('follow');
-  };
-
-  const unfollow = () => {
-    // send data to action to unfollow
-    console.log('unfollow');
-  };
-
   const editProfile = (
     <div className="user-info-floating-btn-cover">
       <Link
@@ -35,37 +27,16 @@ const UserInfoBar = ({ auth: { user: authUser }, user }) => {
     </div>
   );
 
-  const followBtn = (
-    <div className="user-info-floating-btn-cover">
-      <button
-        onClick={follow}
-        className={`btn btn-primary rounded-pill font-sm ${float}`}
-      >
-        FOLLOW
-      </button>
-    </div>
-  );
-
-  const followingBtn = (
-    <div className="user-info-floating-btn-cover">
-      <button
-        onClick={unfollow}
-        className={`btn btn-following rounded-pill font-sm ${float}`}
-      >
-        FOLLOWING
-      </button>
-    </div>
-  );
-
-  const followingOptions = () => {
+  const editProfileOptions = () => {
     if (authUser.id === user.id) {
       return editProfile;
-    } else if (authUser.followings) {
-      if (authUser.followings.some((f) => f.following.id === user.id)) {
-        return followingBtn;
-      } else {
-        return followBtn;
-      }
+    } else {
+      // Follow component: authUser || authUser.followings exception controlled
+      return (
+        <div className="user-info-floating-btn-cover">
+          <Follow user={user} className={float} />
+        </div>
+      );
     }
   };
 
@@ -83,7 +54,7 @@ const UserInfoBar = ({ auth: { user: authUser }, user }) => {
           <div className="text-secondary">Joined on {user.createdAt}</div>
         </div>
       </div>
-      <div>{authUser && followingOptions()}</div>
+      <div>{authUser && editProfileOptions()}</div>
     </div>
   );
 };
@@ -93,4 +64,8 @@ UserInfoBar.propTypes = {
   user: PropTypes.object.isRequired,
 };
 
-export default UserInfoBar;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps)(UserInfoBar);

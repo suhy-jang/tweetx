@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { setAlert } from './alert';
 import {
+  AUTH_LOADING,
   USER_LOADED,
   REGISTER_SUCCESS,
   LOGIN_SUCCESS,
@@ -8,10 +9,14 @@ import {
   UNREGISTER,
   AUTH_ERROR,
   LOGOUT,
+  FOLLOW,
+  UNFOLLOW,
 } from './types';
 import {
   gqlCreateUser,
   gqlUpdateUser,
+  gqlFollow,
+  gqlUnfollow,
   gqlDeleteUser,
   gqlLogin,
   gqlMe,
@@ -184,4 +189,65 @@ export const unregister = () => async (dispatch) => {
   } catch (err) {
     dispatch({ type: AUTH_ERROR });
   }
+};
+
+export const follow = (id, setFollowStatus) => async (dispatch) => {
+  dispatch({ type: AUTH_LOADING });
+
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  setBaseUrl();
+
+  const variables = { id: id };
+
+  try {
+    const res = await axios.post('/graphql', { query: gqlFollow, variables });
+
+    const {
+      data: { data, errors },
+    } = res;
+
+    if (!data) {
+      errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
+    }
+
+    dispatch({
+      type: FOLLOW,
+      payload: data.follow,
+    });
+    setFollowStatus(true);
+  } catch (err) {}
+};
+
+export const unfollow = (id, setFollowStatus) => async (dispatch) => {
+  dispatch({ type: AUTH_LOADING });
+
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  setBaseUrl();
+
+  const variables = { id: id };
+
+  try {
+    const res = await axios.post('/graphql', { query: gqlUnfollow, variables });
+
+    const {
+      data: { data, errors },
+    } = res;
+
+    if (!data) {
+      errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
+    }
+
+    dispatch({
+      type: UNFOLLOW,
+      payload: data.unfollow,
+    });
+
+    setFollowStatus(false);
+  } catch (err) {}
 };

@@ -19,7 +19,7 @@ const TabBar = ({ user, disabled }) => {
         }}
         className={`${basicClass}${selected('/profile')}`}
       >
-        <div>{user.posts && user.posts.length}</div>
+        <div>{user.posts.length}</div>
         <div>POSTS</div>
       </Link>
       <Link
@@ -29,7 +29,7 @@ const TabBar = ({ user, disabled }) => {
         }}
         className={`${basicClass}${selected('/profile-followers')}`}
       >
-        <div>{user.followers && user.followers.length}</div>
+        <div>{user.followers.length}</div>
         <div>FOLLOWERS</div>
       </Link>
       <Link
@@ -39,7 +39,7 @@ const TabBar = ({ user, disabled }) => {
         }}
         className={`${basicClass}${selected('/profile-followings')}`}
       >
-        <div>{user.followings && user.followings.length}</div>
+        <div>{user.followings.length}</div>
         <div>FOLLOWINGS</div>
       </Link>
     </div>

@@ -8,8 +8,6 @@ import {
 
 const initialState = {
   myFeed: [],
-  posts: [],
-  post: {},
   loading: false,
   error: {},
 };
@@ -32,14 +30,12 @@ export default (state = initialState, action) => {
     case CREATE_POST:
       return {
         ...state,
-        post: payload,
         myFeed: [payload, ...state.myFeed],
         loading: false,
       };
     case DELETE_POST:
       return {
         ...state,
-        post: null,
         myFeed: state.myFeed.filter((f) => f.id !== payload.id),
         loading: false,
       };

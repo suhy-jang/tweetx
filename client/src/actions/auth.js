@@ -152,7 +152,6 @@ export const editUser = ({ fullname }, history) => async (dispatch) => {
 
 // Logout
 export const logout = () => (dispatch) => {
-  localStorage.removeItem(`(current token) new-post`);
   dispatch({ type: LOGOUT });
 };
 

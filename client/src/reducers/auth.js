@@ -46,6 +46,7 @@ export default (state = initialState, action) => {
       };
     case UNREGISTER:
     case LOGOUT:
+      localStorage.removeItem(`new-post`);
       localStorage.removeItem('token');
       return {
         ...state,

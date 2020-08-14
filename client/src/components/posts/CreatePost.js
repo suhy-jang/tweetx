@@ -21,12 +21,12 @@ const CreatePost = ({ auth, createPost }) => {
 
   const onSubmit = () => {
     createPost(content, history);
-    localStorage.removeItem(`(current token) new-post`);
+    localStorage.removeItem(`new-post`);
   };
 
   const onChange = (e) => {
     setContent(e.target.value);
-    localStorage.setItem('(current token) new-post', e.target.value);
+    localStorage.setItem('new-post', e.target.value);
   };
 
   return (

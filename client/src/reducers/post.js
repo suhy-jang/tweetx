@@ -2,6 +2,7 @@ import {
   POST_LOADING,
   GET_MY_FEED,
   CREATE_POST,
+  DELETE_POST,
   POST_ERROR,
 } from '../actions/types';
 
@@ -30,9 +31,16 @@ export default (state = initialState, action) => {
       };
     case CREATE_POST:
       return {
+        ...state,
         post: payload,
         myFeed: [payload, ...state.myFeed],
+        loading: false,
+      };
+    case DELETE_POST:
+      return {
         ...state,
+        post: null,
+        myFeed: state.myFeed.filter((f) => f.id !== payload.id),
         loading: false,
       };
     case POST_ERROR:

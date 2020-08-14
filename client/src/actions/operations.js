@@ -181,3 +181,12 @@ export const gqlCreatePost = gql(`
   ${fragments.post}
   ${fragments.relations}
 `);
+
+export const gqlDeletePost = gql(`
+  mutation($id: ID!) {
+    deletePost(id: $id) {
+      ...postData
+    }
+  }
+  ${fragments.post}
+`);

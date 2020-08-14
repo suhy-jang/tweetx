@@ -47,7 +47,7 @@ const Follow = ({
     }
   };
 
-  if (!authUser) return <></>;
+  if (!authUser || authUser.id === user.id) return <></>;
 
   return (
     <button

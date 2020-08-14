@@ -31,7 +31,7 @@ const User = ({ user }) => {
         </Link>{' '}
         <span className="text-secondary font-sm">@{user.username}</span>
         <div className="text-secondary font-sm">
-          Following : {user.followers.length}
+          Followers : {user.followers.length}
         </div>
       </div>
       <div className="user-element flex-column-center">

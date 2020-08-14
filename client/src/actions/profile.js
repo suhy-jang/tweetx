@@ -34,6 +34,31 @@ export const getProfile = (id) => async (dispatch) => {
   }
 };
 
+// Get All Users list
+export const getUsers = () => async (dispatch) => {
+  dispatch({ type: PROFILE_LOADING });
+
+  try {
+    const res = await axios.post('/graphql', { query: gqlUsers });
+
+    const {
+      data: { data, errors },
+    } = res;
+
+    if (!data) {
+      errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
+      return dispatch({ type: PROFILE_ERROR });
+    }
+
+    dispatch({
+      type: GET_PROFILES,
+      payload: data.users,
+    });
+  } catch (err) {
+    dispatch({ type: PROFILE_ERROR });
+  }
+};
+
 // Get Unfollowed Users list
 export const unfollowedUsers = (id) => async (dispatch) => {
   const variables = {

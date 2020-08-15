@@ -4,6 +4,7 @@ import { authCheck } from '../utils/userValidation';
 const Query = {
   users(parent, args, { prisma }, info) {
     const opArgs = {
+      where: args.where,
       first: args.first,
       skip: args.skip,
       after: args.after,
@@ -12,6 +13,7 @@ const Query = {
 
     if (args.query) {
       opArgs.where = {
+        ...opArgs.where,
         username_contains: args.query,
       };
     }

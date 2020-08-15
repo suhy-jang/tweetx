@@ -1,9 +1,11 @@
 # import UserOrderByInput from './generated/prisma.graphql'
+# import UserWhereInput from './generated/prisma.graphql'
 # import PostOrderByInput from './generated/prisma.graphql'
 # import FollowOrderByInput from './generated/prisma.graphql'
 
 type Query {
   users(
+    where: UserWhereInput
     query: String
     first: Int
     after: String
@@ -106,9 +108,27 @@ type User {
   password: String!
   resetPasswordToken: String
   resetPasswordExpire: DateTime
-  posts: [Post!]!
-  followers: [Follow!]!
-  followings: [Follow!]!
+  posts(
+    query: String
+    first: Int
+    after: String
+    skip: Int
+    orderBy: PostOrderByInput
+  ): [Post!]!
+  followers(
+    query: String
+    first: Int
+    after: String
+    skip: Int
+    orderBy: FollowOrderByInput
+  ): [Follow!]!
+  followings(
+    query: String
+    first: Int
+    after: String
+    skip: Int
+    orderBy: FollowOrderByInput
+  ): [Follow!]!
   createdAt: DateTime!
   updatedAt: DateTime!
 }

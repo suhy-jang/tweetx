@@ -274,20 +274,19 @@ const Mutation = {
 
     const rootUrl = `${request.request.protocol}://${request.request.get(
       'host',
-    )}/`;
+    )}/reset-password/${resetToken}`;
 
     const html = `
       <div>You are receiving this email because you (or someone else) has requested the reset of a password.</div>
       <div>Please visit our website. If not you, please ignore this email.</div>
       <br />
       <div>${rootUrl}</div>
-      <h3>TOKEN: ${resetToken}</h3>
     `;
 
     try {
       await sendEmail({
         to: user.email,
-        subject: 'Password reset token (test project)',
+        subject: 'Password reset token for a test project',
         html,
       });
 

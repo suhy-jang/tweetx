@@ -1,14 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import UserInfo from './UserInfo';
 import MenuBar from './MenuBar';
 
-const HamburgerMenu = ({ auth: { isAuthenticated, user } }) => {
-  const [expanded, setExpanded] = useState(false);
-  const onClick = () => {
-    setExpanded(!expanded);
+const HamburgerMenu = ({ auth: { user } }) => {
+  const [open, setOpen] = useState(false);
+
+  const itemClick = () => {
+    setOpen(!open);
   };
+
+  useEffect(() => {
+    if (open) {
+      const screenClick = (e) => e.screenX > 405 && setOpen(false);
+      const root = document.getElementById('root');
+      root.addEventListener('click', screenClick);
+      return () => root.removeEventListener('click', screenClick);
+    }
+  }, [open]);
 
   if (!user) {
     return <></>;
@@ -18,18 +28,14 @@ const HamburgerMenu = ({ auth: { isAuthenticated, user } }) => {
     <>
       <button
         type="button"
-        onClick={onClick}
+        onClick={itemClick}
         className="btn btn-link hamburger-btn p-0 position-fixed zindex-top lt mobile"
       >
-        {expanded ? 'X' : '☰'}
+        {open ? 'X' : '☰'}
       </button>
-      <div
-        className={`mobile hamburger-menu ${
-          expanded && 'hamburger-menu-expanded'
-        }`}
-      >
-        <UserInfo onClick={onClick} user={user} />
-        <MenuBar onClick={onClick} user={user} />
+      <div className={`mobile hamburger-menu ${open && 'hamburger-menu-open'}`}>
+        <UserInfo onClick={itemClick} user={user} />
+        <MenuBar onClick={itemClick} user={user} />
       </div>
     </>
   );

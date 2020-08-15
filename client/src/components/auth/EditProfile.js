@@ -20,7 +20,7 @@ const EditProfile = ({
   const [fullname, setFullname] = useState(user.fullname);
   const [file, setFile] = useState({
     file: '',
-    imagePreviewUrl: '',
+    imagePreviewUrl: user.photoUrl,
   });
 
   const onSubmit = async (e) => {

@@ -29,7 +29,6 @@ const CreatePost = ({ auth, createPost }) => {
     setContent(e.target.value);
     localStorage.setItem('new-post', e.target.value);
   };
-  // <div className="desktop header text-center my-2">Create New Post</div>
 
   return (
     <div className="splash single-post new-post mx-auto">

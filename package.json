@@ -7,6 +7,8 @@
     "doc": "docs"
   },
   "scripts": {
+    "start": "node dist",
+    "heroku-postbuild": "babel src --out-dir dist --copy-files && NPM_CONFIG_PRODUCTION=false && npm install --prefix client && npm run build --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "client": "npm start --prefix client",
     "server": "env-cmd -f ./config/dev.env nodemon src --ext js, graphql --exec babel-node --ignore client",
@@ -34,7 +36,6 @@
     "@sendgrid/mail": "^7.2.3",
     "bcryptjs": "^2.4.3",
     "core-js": "^3.6.5",
-    "cors": "^2.8.5",
     "cross-fetch": "^3.0.5",
     "express": "^4.17.1",
     "express-rate-limit": "^5.1.3",

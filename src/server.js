@@ -5,7 +5,6 @@ import helmet from 'helmet';
 import xss from 'xss-clean';
 import rateLimit from 'express-rate-limit';
 import hpp from 'hpp';
-import cors from 'cors';
 
 const server = new GraphQLServer({
   typeDefs: './src/schema.graphql',
@@ -35,8 +34,5 @@ server.express.use(limiter);
 
 // Prevent http param pollution
 server.express.use(hpp());
-
-// Enable CORS
-server.express.use(cors());
 
 export { server as default };

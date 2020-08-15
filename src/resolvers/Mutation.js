@@ -9,6 +9,7 @@ import {
   authCheck,
 } from '../utils/userValidation';
 import sendEmail from '../utils/sendEmail';
+import signS3 from '../utils/fileUpload';
 
 const Mutation = {
   async createUser(parent, args, { prisma }, info) {
@@ -64,6 +65,29 @@ const Mutation = {
       },
       info,
     });
+  },
+  async fileUploadSign(parent, args, { prisma, request }, info) {
+    const userId = getUserId(request);
+    await authCheck(prisma, userId);
+
+    const { name, size, type } = args.data;
+    if (!name || !type) {
+      throw new Error('Please upload a file');
+    }
+
+    if (!type.startsWith('image')) {
+      throw new Error('Please upload an image file');
+    }
+
+    if (size > process.env.MAX_FILE_UPLOAD) {
+      throw new Error(
+        `Please upload an image less than ${process.env.MAX_FILE_UPLOAD}`,
+      );
+    }
+
+    const updatedName = `photo_${userId}${name}`;
+
+    return signS3(updatedName, type);
   },
   async updateUser(parent, args, { prisma, request }, info) {
     const userId = getUserId(request);

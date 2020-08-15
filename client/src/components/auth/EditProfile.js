@@ -3,11 +3,15 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import SplashBg from './SplashBg';
 import { connect } from 'react-redux';
-import { editUser } from '../../actions/auth';
+import { uploadUserPhoto, editUser } from '../../actions/auth';
 import Unregister from './Unregister';
 import MobileHeader from '../layouts/MobileHeader';
 
-const EditProfile = ({ auth: { loading, user }, editUser }) => {
+const EditProfile = ({
+  auth: { loading, user },
+  editUser,
+  uploadUserPhoto,
+}) => {
   const history = useHistory();
 
   const emptyPhoto =
@@ -19,10 +23,16 @@ const EditProfile = ({ auth: { loading, user }, editUser }) => {
     imagePreviewUrl: '',
   });
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
 
-    editUser({ fullname }, history);
+    const url = await uploadUserPhoto({ file: file.file });
+
+    editUser(
+      { fullname, photoUrl: url },
+      { successMsg: 'Successfully updated' },
+      history,
+    );
   };
 
   const onChange = (e) => {
@@ -100,10 +110,13 @@ const EditProfile = ({ auth: { loading, user }, editUser }) => {
 EditProfile.propTypes = {
   auth: PropTypes.object.isRequired,
   editUser: PropTypes.func.isRequired,
+  uploadUserPhoto: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { editUser })(EditProfile);
+export default connect(mapStateToProps, { editUser, uploadUserPhoto })(
+  EditProfile,
+);

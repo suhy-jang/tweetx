@@ -230,3 +230,12 @@ export const gqlResetPassword = gql(`
   }
   ${fragments.user}
 `);
+
+export const gqlFileUploadSign = gql(`
+  mutation($data: FileUploadInput!) {
+    fileUploadSign(data: $data) {
+      signedRequest
+      url
+    }
+  }
+`);

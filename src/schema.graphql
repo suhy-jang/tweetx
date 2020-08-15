@@ -54,6 +54,18 @@ type Mutation {
   unfollow(id: ID!): Follow!
   forgotPassword(data: ForgotPasswordInput!): String!
   resetPassword(data: ResetPasswordInput!): AuthPayload!
+  fileUploadSign(data: FileUploadInput!): FileSigned!
+}
+
+type FileSigned {
+  signedRequest: String!
+  url: String!
+}
+
+input FileUploadInput {
+  name: String!
+  size: Int!
+  type: String!
 }
 
 type AuthPayload {

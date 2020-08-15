@@ -38,7 +38,7 @@ const Profile = ({ auth, profile: { profile }, getProfile }) => {
   return (
     <>
       <Head title={userinfo.fullname} />
-      <MobileHeader title={userinfo.fullname} optionTwo={true} back={false} />
+      <MobileHeader title={userinfo.fullname} optionTwo={true} />
       <UserInfoBar auth={auth} user={userinfo} />
       <TabBar user={userinfo} disabled={tabHide} />
       <div className="posts border-top">

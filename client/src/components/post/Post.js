@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Head from '../head/Head';
-import { Link, useLocation, Redirect } from 'react-router-dom';
+import { Link, useLocation, useHistory, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import DeletePost from './DeletePost';
 import MobileHeader from '../layouts/MobileHeader';
 
 const Post = ({ auth: { user } }) => {
+  const history = useHistory();
+
   const location = useLocation();
 
   const post = location.state ? location.state.post : undefined;
@@ -18,7 +20,11 @@ const Post = ({ auth: { user } }) => {
   return (
     <div className="splash mx-auto post single-post border-0 p-4 h-100">
       <Head title={`${post.author.fullname} on TweetX: ${post.content}`} />
-      <MobileHeader title="Post" back={true} optionTwo={true} />
+      <MobileHeader
+        title="Post"
+        redirect={() => history.goBack()}
+        optionTwo={true}
+      />
       <div className="desktop header text-center my-2">Post</div>
       <div className="d-flex">
         <div className="pt-3">

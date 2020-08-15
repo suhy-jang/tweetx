@@ -45,7 +45,7 @@ const EditProfile = ({ auth: { loading, user }, editUser }) => {
 
   return (
     <div className="splash">
-      <MobileHeader title="Edit Profile" back={true} />
+      <MobileHeader title="Edit Profile" redirect={() => history.goBack()} />
       <div className="edit-user d-flex justify-content-center my-3">
         <img
           src={file.imagePreviewUrl || emptyPhoto}

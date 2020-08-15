@@ -1,19 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
 
-const MobileHeader = ({ title, optionTwo, back, desktop }) => {
-  const history = useHistory();
-
+const MobileHeader = ({ title, optionTwo, desktop, redirect }) => {
   const onClick = () => {
-    history.goBack();
+    if (redirect) {
+      redirect();
+    }
   };
 
   const option2 = optionTwo && 'fixed-top bg-white';
 
-  const backBtn = back ? '' : 'd-none';
+  const backBtn = redirect ? '' : 'd-none';
 
-  const zindexTop = back ? 'zindex-top' : '';
+  const zindexTop = redirect ? 'zindex-top' : '';
 
   const mobile = desktop ? '' : 'mobile';
 
@@ -37,8 +36,8 @@ const MobileHeader = ({ title, optionTwo, back, desktop }) => {
 MobileHeader.propTypes = {
   title: PropTypes.string.isRequired,
   optionTwo: PropTypes.bool,
-  back: PropTypes.bool,
   desktop: PropTypes.bool,
+  redirect: PropTypes.func,
 };
 
 export default MobileHeader;

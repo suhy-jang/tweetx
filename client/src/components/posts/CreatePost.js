@@ -34,7 +34,11 @@ const CreatePost = ({ auth, createPost }) => {
   return (
     <div className="splash single-post new-post mx-auto">
       <Head title="Create Post" />
-      <MobileHeader title="Create New Post" back={true} desktop={true} />
+      <MobileHeader
+        title="Create New Post"
+        redirect={() => history.goBack()}
+        desktop={true}
+      />
       <div className="p-2">
         <div className="d-flex m-2">
           <img

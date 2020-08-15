@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import SplashBg from './SplashBg';
-import { resetPassword } from '../../actions/auth';
 import { connect } from 'react-redux';
 import Head from '../head/Head';
 import MobileHeader from '../layouts/MobileHeader';
+import { setAlert } from '../../actions/alert';
+import { resetPassword } from '../../actions/auth';
 
-const ResetPassword = ({ resetPassword }) => {
+const ResetPassword = ({ resetPassword, setAlert }) => {
   const history = useHistory();
 
   const [formData, setFormData] = useState({
@@ -17,6 +18,9 @@ const ResetPassword = ({ resetPassword }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    if (!formData.email) {
+      return setAlert('All required fields must be filled out', 'danger');
+    }
     resetPassword(
       formData,
       {
@@ -37,7 +41,10 @@ const ResetPassword = ({ resetPassword }) => {
     <>
       <Head title="Reset Password" />
       <div className="splash position-relative">
-        <MobileHeader title="Password Reset" />
+        <MobileHeader
+          title="Password Reset"
+          redirect={() => history.goBack()}
+        />
         <div className="p-3 flex-column-between">
           <h4 className="mt-3">Find your TweetX account</h4>
           <div className="font-sm description my-2">
@@ -69,4 +76,4 @@ const ResetPassword = ({ resetPassword }) => {
   );
 };
 
-export default connect(null, { resetPassword })(ResetPassword);
+export default connect(null, { resetPassword, setAlert })(ResetPassword);

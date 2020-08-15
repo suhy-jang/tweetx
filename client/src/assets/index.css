@@ -221,7 +221,7 @@ textarea {
   height: 100%;
   width: 0;
   position: fixed;
-  z-index: 1040;
+  z-index: 1050;
   top: 0;
   left: 0;
   background-color: white;
@@ -231,6 +231,7 @@ textarea {
 
 .hamburger-menu-open {
   width: 250px;
+  border-right: 1px turquoise dotted;
 }
 
 .header {

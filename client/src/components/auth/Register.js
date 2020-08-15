@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, useHistory, Redirect } from 'react-router-dom';
 import SplashBg from './SplashBg';
 import { connect } from 'react-redux';
 import { setAlert } from '../../actions/alert';
@@ -9,6 +9,8 @@ import Head from '../head/Head';
 import MobileHeader from '../layouts/MobileHeader';
 
 const Register = ({ auth, setAlert, register }) => {
+  const history = useHistory();
+
   const [formData, setFormData] = useState({
     fullname: '',
     email: '',
@@ -53,7 +55,12 @@ const Register = ({ auth, setAlert, register }) => {
   return (
     <div className="splash">
       <Head title="Sign up for TweetX" />
-      <MobileHeader title="Create Account" back={true} />
+      <MobileHeader
+        title="Create Account"
+        redirect={() => {
+          history.push('login-or-register');
+        }}
+      />
       <Link
         to="/login"
         className="desktop btn btn-outline-secondary rounded-pill px-3 py-2 w-50 font-weight-bold"

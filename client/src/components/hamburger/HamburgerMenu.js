@@ -13,7 +13,7 @@ const HamburgerMenu = ({ auth: { user } }) => {
 
   useEffect(() => {
     if (open) {
-      const screenClick = (e) => e.screenX > 405 && setOpen(false);
+      const screenClick = (e) => e.screenX > 435 && setOpen(false);
       const root = document.getElementById('root');
       root.addEventListener('click', screenClick);
       return () => root.removeEventListener('click', screenClick);

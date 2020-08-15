@@ -6,11 +6,12 @@ import UserInfoBar from './UserInfoBar';
 import User from '../users/User';
 import { getProfile } from '../../actions/profile';
 import { connect } from 'react-redux';
-import { useLocation, Redirect } from 'react-router-dom';
+import { useLocation, useHistory, Redirect } from 'react-router-dom';
 import MobileHeader from '../layouts/MobileHeader';
 
 const ProfileFollowings = ({ auth, profile: { profile }, getProfile }) => {
   const location = useLocation();
+  const history = useHistory();
   const user = location.state ? location.state.user : {};
   const [userinfo, setUserinfo] = useState(user);
   const [tabHide, setTabHide] = useState(true);
@@ -36,7 +37,16 @@ const ProfileFollowings = ({ auth, profile: { profile }, getProfile }) => {
   return (
     <>
       <Head title={`People followed by ${userinfo.fullname}`} />
-      <MobileHeader title={userinfo.fullname} optionTwo={true} back={true} />
+      <MobileHeader
+        title={userinfo.fullname}
+        optionTwo={true}
+        redirect={() => {
+          history.push({
+            pathname: '/profile',
+            state: { user: userinfo },
+          });
+        }}
+      />
       <UserInfoBar auth={auth} user={userinfo} />
       <TabBar user={userinfo} disabled={tabHide} />
       <div className="users border-top">

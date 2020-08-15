@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import BackBtn from '../layouts/BackBtn';
 import SplashBg from './SplashBg';
 import { useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { resetPasswordConfirm } from '../../actions/auth';
 import { setAlert } from '../../actions/alert';
+import MobileHeader from '../layouts/MobileHeader';
+import Head from '../head/Head';
 
 const ResetPasswordConfirm = ({ resetPasswordConfirm }) => {
   const params = useParams();
@@ -50,11 +51,9 @@ const ResetPasswordConfirm = ({ resetPasswordConfirm }) => {
 
   return (
     <>
+      <Head title="Reset Password Confirm" />
       <div className="splash position-relative">
-        <BackBtn />
-        <div className="mobile header sticky-top font-lg text-center py-1">
-          Password Reset
-        </div>
+        <MobileHeader title="Password Reset" />
         <div className="p-3 flex-column-between">
           <h4 className="mt-3">Reset your password</h4>
           <div className="font-sm description my-2">Enter new password</div>

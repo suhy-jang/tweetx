@@ -6,16 +6,13 @@ import { connect } from 'react-redux';
 const Navbar = ({ auth: { isAuthenticated, user } }) => {
   const location = useLocation();
   const pathname = location.pathname.split('/')[1];
-  const title =
-    location.state && location.state.title ? location.state.title : pathname;
   const selected = (path) => (pathname.includes(path) ? 'selected' : '');
 
   return (
     <>
-      <div className="header sticky-top zindex-top font-lg bg-white py-1">
+      <div className="desktop header sticky-top zindex-top font-lg bg-white py-1">
         <div className="container">
-          <div className="mobile text-center">{title}</div>
-          <div className="desktop d-md-flex justify-content-between align-items-baseline">
+          <div className="d-md-flex justify-content-between align-items-baseline">
             <div>
               <Link to="/" className="font-main-logo text-primary">
                 TweetX
@@ -60,10 +57,12 @@ const Navbar = ({ auth: { isAuthenticated, user } }) => {
 
 Navbar.propTypes = {
   auth: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  profile: state.profile,
 });
 
 export default connect(mapStateToProps)(Navbar);

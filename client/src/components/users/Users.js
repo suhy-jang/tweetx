@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import User from './User';
 import Head from '../head/Head';
 import { getUsers } from '../../actions/profile';
+import MobileHeader from '../layouts/MobileHeader';
 
 const Users = ({ profile: { profiles }, getUsers }) => {
   useEffect(() => {
@@ -12,8 +13,9 @@ const Users = ({ profile: { profiles }, getUsers }) => {
   }, []);
 
   return (
-    <div className="users desktop-mt-3">
+    <div className="users mt-3">
       <Head title="Connect" />
+      <MobileHeader title="users" optionTwo={true} />
       {profiles.map((user) => (
         <User key={user.id} user={user} />
       ))}

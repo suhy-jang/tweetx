@@ -12,7 +12,7 @@ const UserInfoBar = ({ auth: { user: authUser }, user }) => {
   const onScroll = () => setScroll(window.pageYOffset);
 
   useEffect(() => {
-    setFloat(scroll >= '70' ? 'user-info-floating-btn' : '');
+    setFloat(scroll >= '50' ? 'user-info-floating-btn' : '');
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, [scroll]);

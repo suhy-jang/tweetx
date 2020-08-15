@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import SplashBg from './SplashBg';
 import { Link, Redirect } from 'react-router-dom';
-import BackBtn from '../layouts/BackBtn';
 import { setAlert } from '../../actions/alert';
 import { login } from '../../actions/auth';
 import { connect } from 'react-redux';
+import Head from '../head/Head';
+import MobileHeader from '../layouts/MobileHeader';
 
 const Login = ({ auth, login }) => {
   const [formData, setFormData] = useState({
@@ -40,17 +41,15 @@ const Login = ({ auth, login }) => {
 
   return (
     <>
+      <Head title="Login" />
       <div className="splash">
-        <BackBtn />
         <Link
           to="/register"
           className="desktop btn btn-outline-secondary rounded-pill px-3 py-2 w-50 font-weight-bold"
         >
           Register
         </Link>
-        <div className="header sticky-top font-lg text-center py-1">
-          Sign In
-        </div>
+        <MobileHeader title="Sign In" />
         <div className="p-3 flex-column-between">
           <div className="font-sm description my-5">
             Type in your Email ID or Username and Password you chose for Momento

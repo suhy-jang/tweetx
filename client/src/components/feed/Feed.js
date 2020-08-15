@@ -4,6 +4,8 @@ import Post from '../posts/Post';
 import NewPostBtn from '../posts/NewPostBtn';
 import { connect } from 'react-redux';
 import { getMyFeed } from '../../actions/post';
+import Head from '../head/Head';
+import MobileHeader from '../layouts/MobileHeader';
 
 const Feed = ({ auth: { isAuthenticated }, post: { myFeed }, getMyFeed }) => {
   useEffect(() => {
@@ -13,6 +15,8 @@ const Feed = ({ auth: { isAuthenticated }, post: { myFeed }, getMyFeed }) => {
 
   return (
     <div className="posts">
+      <Head title="Feed" />
+      <MobileHeader title="feed" optionTwo={true} />
       <NewPostBtn />
       {myFeed.map((post) => (
         <Post key={post.id} post={post} />
@@ -22,8 +26,9 @@ const Feed = ({ auth: { isAuthenticated }, post: { myFeed }, getMyFeed }) => {
 };
 
 Feed.propTypes = {
-  feeds: PropTypes.array,
-  getMyFeed: PropTypes.func,
+  auth: PropTypes.object.isRequired,
+  post: PropTypes.object.isRequired,
+  getMyFeed: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

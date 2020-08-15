@@ -8,6 +8,7 @@ import UserInfoBar from './UserInfoBar';
 import { getProfile } from '../../actions/profile';
 import { connect } from 'react-redux';
 import { useLocation, Redirect } from 'react-router-dom';
+import MobileHeader from '../layouts/MobileHeader';
 
 const Profile = ({ auth, profile: { profile }, getProfile }) => {
   const location = useLocation();
@@ -35,8 +36,9 @@ const Profile = ({ auth, profile: { profile }, getProfile }) => {
   }
 
   return (
-    <div>
+    <>
       <Head title={userinfo.fullname} />
+      <MobileHeader title={userinfo.fullname} optionTwo={true} back={false} />
       <UserInfoBar auth={auth} user={userinfo} />
       <TabBar user={userinfo} disabled={tabHide} />
       <div className="posts border-top">
@@ -46,7 +48,7 @@ const Profile = ({ auth, profile: { profile }, getProfile }) => {
           userinfo.posts[0].content &&
           userinfo.posts.map((post) => <Post key={post.id} post={post} />)}
       </div>
-    </div>
+    </>
   );
 };
 

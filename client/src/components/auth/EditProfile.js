@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import SplashBg from './SplashBg';
-import BackBtn from '../layouts/BackBtn';
 import { connect } from 'react-redux';
 import { editUser } from '../../actions/auth';
 import Unregister from './Unregister';
+import MobileHeader from '../layouts/MobileHeader';
 
 const EditProfile = ({ auth: { loading, user }, editUser }) => {
   const history = useHistory();
@@ -45,10 +45,7 @@ const EditProfile = ({ auth: { loading, user }, editUser }) => {
 
   return (
     <div className="splash">
-      <BackBtn />
-      <div className="header font-lg text-center py-1">
-        <span className="">Edit Profile</span>
-      </div>
+      <MobileHeader title="Edit Profile" back={true} />
       <div className="edit-user d-flex justify-content-center my-3">
         <img
           src={file.imagePreviewUrl || emptyPhoto}
@@ -102,6 +99,7 @@ const EditProfile = ({ auth: { loading, user }, editUser }) => {
 
 EditProfile.propTypes = {
   auth: PropTypes.object.isRequired,
+  editUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SplashBg from './SplashBg';
-import BackBtn from '../layouts/BackBtn';
 import { useHistory, Redirect } from 'react-router-dom';
 import { logout } from '../../actions/auth';
 import { connect } from 'react-redux';
@@ -24,7 +23,6 @@ const Logout = ({ auth, logout }) => {
   return (
     <>
       <div className="logout splash flex-column-evenly">
-        <BackBtn />
         <i className="fas fa-dove font-main-logo"></i>
         <div className="font-weight-bold font-lg">Log out of TweetX?</div>
         <div className="text-secondary font-sm">

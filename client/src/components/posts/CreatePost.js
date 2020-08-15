@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import BackBtn from '../layouts/BackBtn';
 import { useHistory } from 'react-router-dom';
 import { createPost } from '../../actions/post';
 import { connect } from 'react-redux';
+import MobileHeader from '../layouts/MobileHeader';
+import Head from '../head/Head';
 
 const CreatePost = ({ auth, createPost }) => {
   const [content, setContent] = useState('');
@@ -28,11 +29,12 @@ const CreatePost = ({ auth, createPost }) => {
     setContent(e.target.value);
     localStorage.setItem('new-post', e.target.value);
   };
+  // <div className="desktop header text-center my-2">Create New Post</div>
 
   return (
-    <div className="splash single-post mx-auto">
-      <BackBtn />
-      <div className="desktop header text-center my-2">Create New Post</div>
+    <div className="splash single-post new-post mx-auto">
+      <Head title="Create Post" />
+      <MobileHeader title="Create New Post" back={true} desktop={true} />
       <div className="p-2">
         <div className="d-flex m-2">
           <img

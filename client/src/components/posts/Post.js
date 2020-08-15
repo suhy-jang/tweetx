@@ -39,7 +39,7 @@ const Post = ({ post }) => {
           </Moment>{' '}
           ago
         </div>
-        <p>{post.content}</p>
+        <p className="white-space-pre">{post.content}</p>
         <div>
           <Link
             to={{

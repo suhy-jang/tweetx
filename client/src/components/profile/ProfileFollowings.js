@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Head from '../head/Head';
 import TabBar from './TabBar';
-import BackBtn from '../layouts/BackBtn';
 import UserInfoBar from './UserInfoBar';
 import User from '../users/User';
 import { getProfile } from '../../actions/profile';
 import { connect } from 'react-redux';
 import { useLocation, Redirect } from 'react-router-dom';
+import MobileHeader from '../layouts/MobileHeader';
 
 const ProfileFollowings = ({ auth, profile: { profile }, getProfile }) => {
   const location = useLocation();
@@ -34,9 +34,9 @@ const ProfileFollowings = ({ auth, profile: { profile }, getProfile }) => {
   }
 
   return (
-    <div>
+    <>
       <Head title={`People followed by ${userinfo.fullname}`} />
-      <BackBtn />
+      <MobileHeader title={userinfo.fullname} optionTwo={true} back={true} />
       <UserInfoBar auth={auth} user={userinfo} />
       <TabBar user={userinfo} disabled={tabHide} />
       <div className="users border-top">
@@ -47,7 +47,7 @@ const ProfileFollowings = ({ auth, profile: { profile }, getProfile }) => {
             (f) => f.following && <User key={f.id} user={f.following} />,
           )}
       </div>
-    </div>
+    </>
   );
 };
 

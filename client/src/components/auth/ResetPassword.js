@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import BackBtn from '../layouts/BackBtn';
 import SplashBg from './SplashBg';
 import { resetPassword } from '../../actions/auth';
 import { connect } from 'react-redux';
+import Head from '../head/Head';
+import MobileHeader from '../layouts/MobileHeader';
 
 const ResetPassword = ({ resetPassword }) => {
   const history = useHistory();
@@ -34,11 +35,9 @@ const ResetPassword = ({ resetPassword }) => {
 
   return (
     <>
+      <Head title="Reset Password" />
       <div className="splash position-relative">
-        <BackBtn />
-        <div className="mobile header sticky-top font-lg text-center py-1">
-          Password Reset
-        </div>
+        <MobileHeader title="Password Reset" />
         <div className="p-3 flex-column-between">
           <h4 className="mt-3">Find your TweetX account</h4>
           <div className="font-sm description my-2">

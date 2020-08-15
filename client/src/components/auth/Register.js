@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
 import SplashBg from './SplashBg';
-import BackBtn from '../layouts/BackBtn';
 import { connect } from 'react-redux';
 import { setAlert } from '../../actions/alert';
 import { register } from '../../actions/auth';
+import Head from '../head/Head';
+import MobileHeader from '../layouts/MobileHeader';
 
 const Register = ({ auth, setAlert, register }) => {
   const [formData, setFormData] = useState({
@@ -51,18 +52,16 @@ const Register = ({ auth, setAlert, register }) => {
 
   return (
     <div className="splash">
-      <BackBtn />
+      <Head title="Sign up for TweetX" />
+      <MobileHeader title="Create Account" back={true} />
       <Link
         to="/login"
         className="desktop btn btn-outline-secondary rounded-pill px-3 py-2 w-50 font-weight-bold"
       >
         Login
       </Link>
-      <div className="header font-lg text-center py-1">
-        <span className="">Create Account</span>
-      </div>
       <div className="p-3 flex-column-between">
-        <div className="font-sm description mt-5 mb-3">
+        <div className="font-sm description mt-3 mb-3">
           Fill in the required details and click Proceed.
         </div>
         <form onSubmit={onSubmit} className="form">

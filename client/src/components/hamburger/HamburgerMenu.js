@@ -15,7 +15,7 @@ const HamburgerMenu = ({ auth: { isAuthenticated, user } }) => {
   }
 
   return (
-    <div>
+    <>
       <button
         type="button"
         onClick={onClick}
@@ -28,14 +28,10 @@ const HamburgerMenu = ({ auth: { isAuthenticated, user } }) => {
           expanded && 'hamburger-menu-expanded'
         }`}
       >
-        {isAuthenticated && (
-          <>
-            <UserInfo onClick={onClick} user={user} />
-            <MenuBar onClick={onClick} user={user} />
-          </>
-        )}
+        <UserInfo onClick={onClick} user={user} />
+        <MenuBar onClick={onClick} user={user} />
       </div>
-    </div>
+    </>
   );
 };
 

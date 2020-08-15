@@ -158,7 +158,7 @@ const getUploadSign = async ({ name, size, type }) => {
       variables,
     });
     const {
-      data: { data, errors },
+      data: { data },
     } = res;
 
     if (!data) {
@@ -189,12 +189,12 @@ export const uploadUserPhoto = ({ file }) => async (dispatch) => {
   try {
     const sign = await getUploadSign({ name, size, type });
     if (!sign) {
-      dispatch(setAlert('Failed file upload', res));
+      dispatch(setAlert('Failed file upload', 'danger'));
     }
     const { signedRequest, url } = sign;
     const res = await uploadToS3(file, signedRequest);
     if (res !== 200) {
-      dispatch(setAlert('Failed file upload', res));
+      dispatch(setAlert('Failed file upload', 'danger'));
     }
     return url;
   } catch (err) {

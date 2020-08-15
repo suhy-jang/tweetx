@@ -41,7 +41,7 @@ const CreatePost = ({ auth, createPost }) => {
       <div className="p-2">
         <div className="d-flex m-2">
           <img
-            src="https://source.unsplash.com/featured?painting"
+            src={auth.user && auth.user.photoUrl}
             alt=""
             className="profile-img"
           />

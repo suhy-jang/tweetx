@@ -143,7 +143,6 @@ export const login = ({ email, password }, { successMsg }) => async (
 };
 
 const getUploadSign = async ({ name, size, type }) => {
-  setAuthToken(localStorage.token);
   const variables = {
     data: {
       name,

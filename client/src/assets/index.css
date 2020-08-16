@@ -328,6 +328,7 @@ textarea {
 .white-space-pre {
   white-space: pre;
 }
+
 .sample-account {
   border: 1px solid #ccc;
   padding: 0.3rem 1.25rem 0.3rem 0;
@@ -336,6 +337,10 @@ textarea {
   display: inline-block;
   margin: 0.3rem 0;
   font-size: 0.8rem;
+}
+
+.drag-n-drop {
+  height: 100px;
 }
 
 .buttons .btn {

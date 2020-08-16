@@ -103,7 +103,7 @@ const Login = ({ auth, login, setAlert }) => {
             </Link>
           </div>
         </div>
-        <div class="white-space-pre sample-account">
+        <div className="white-space-pre sample-account">
           {`
       Sample Account(ID / PW) :
       mary / foobar

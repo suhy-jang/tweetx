@@ -142,34 +142,6 @@ export const login = ({ email, password }, { successMsg }) => async (
   }
 };
 
-const getUploadSign = async ({ name, size, type }) => {
-  const variables = {
-    data: {
-      name,
-      size,
-      type,
-    },
-  };
-
-  try {
-    const res = await axios.post('/graphql', {
-      query: gqlFileUploadSign,
-      variables,
-    });
-    const {
-      data: { data },
-    } = res;
-
-    if (!data) {
-      return;
-    }
-
-    return data.fileUploadSign;
-  } catch (err) {
-    return;
-  }
-};
-
 function uploadToS3(file, signedRequest) {
   return new Promise(function (resolve, reject) {
     const xhr = new XMLHttpRequest();
@@ -183,18 +155,37 @@ function uploadToS3(file, signedRequest) {
   });
 }
 
-export const uploadUserPhoto = ({ file }) => async (dispatch) => {
+export const uploadUserPhoto = (file) => async (dispatch) => {
   const { name, size, type } = file;
+  const variables = {
+    data: {
+      name,
+      size,
+      type,
+    },
+  };
   try {
-    const sign = await getUploadSign({ name, size, type });
-    if (!sign) {
-      dispatch(setAlert('Failed file upload', 'danger'));
+    const res1 = await axios.post('/graphql', {
+      query: gqlFileUploadSign,
+      variables,
+    });
+
+    const {
+      data: { data, errors },
+    } = res1;
+
+    if (!data) {
+      return dispatch(setAlert(errors, 'danger'));
     }
-    const { signedRequest, url } = sign;
-    const res = await uploadToS3(file, signedRequest);
-    if (res !== 200) {
-      dispatch(setAlert('Failed file upload', 'danger'));
+
+    const { signedRequest, url } = data.fileUploadSign;
+
+    const res2 = await uploadToS3(file, signedRequest);
+
+    if (res2 !== 200) {
+      return dispatch(setAlert('Failed file upload', 'danger'));
     }
+
     return url;
   } catch (err) {
     dispatch(setAlert('Failed file upload', 'danger'));

@@ -14,6 +14,8 @@ import signS3 from '../utils/fileUpload';
 const Mutation = {
   async createUser(parent, args, { prisma }, info) {
     const password = await hashPassword(args.data.password);
+    const photoUrl =
+      'https://suhy.s3.ap-northeast-2.amazonaws.com/tweetx/Download/no-image-icon-389x389.jpg';
     await usernameValidation(prisma, args.data.username);
     await emailValidation(prisma, args.data.email);
     await nameValidation(prisma, args.data.fullname);
@@ -21,6 +23,7 @@ const Mutation = {
     const user = await prisma.mutation.createUser({
       data: {
         ...args.data,
+        photoUrl,
         password,
       },
     });
@@ -333,8 +336,12 @@ const Mutation = {
       throw new Error('Email could not be sent');
     }
   },
-  async resetPassword(parent, args, { prisma, request }, info) {
+  async resetPassword(parent, args, { prisma }, info) {
     const password = await hashPassword(args.data.password);
+
+    if (!args.data.resetToken) {
+      throw new Error('Invalid token');
+    }
 
     const resetPasswordToken = crypto
       .createHash('sha256')

@@ -4,9 +4,8 @@ Create the app for a simple style twitter clone website. All of the functionalit
 
 ## Posts
 
-- List all posts in the database
-  - Pagination according to scroll
-  - Limit number of results
+- My feed
+  - Following users posts along with current user posts
 - Get a single post
   - Author email should be hidden for the other users
 - Create a new post
@@ -18,8 +17,6 @@ Create the app for a simple style twitter clone website. All of the functionalit
 ## Users & Authentication
 
 - List all users in the database
-  - Pagination according to scroll
-  - Limit number of results
 - Authentication will be done using JWT
   - JWT should expire in 24 hours
 - User registration
@@ -51,8 +48,6 @@ Create the app for a simple style twitter clone website. All of the functionalit
   - Profile user info (via user id)
 - List all posts for each user
   - The profile user posts
-- List my feed
-  - Following users posts along with current user posts
 - Followers / followings
   - Current user can see followers, followings list
 
@@ -65,9 +60,8 @@ Create the app for a simple style twitter clone website. All of the functionalit
 - Encrypt passwords and reset tokens
 - Prevent cross site scripting - XSS
 - Add a rate limit for requests of 100 requests per 10 minutes
-- Protect against http param polution
 - Add headers for security (helmet)
-- Use cors to make API public (for test backend)
+- Use cors to access from client url
 
 ## API Documentation
 
@@ -82,7 +76,7 @@ Create the app for a simple style twitter clone website. All of the functionalit
 
 - NPM scripts for dev and production env
 - Config file for important constants
-- Use query, mutation, subscription methods with documented descriptions
+- Use query, mutation methods with documented descriptions
 - Authentication method to give permission
 - DB Validation using Prisma and no external libraries
 - Use async/await for prisma CRUD

@@ -43,11 +43,10 @@
     "graphql": "^14.0.2",
     "graphql-yoga": "^1.18.3",
     "helmet": "^4.0.0",
-    "hpp": "^0.2.3",
     "jsonwebtoken": "^8.5.1",
     "prisma-binding": "^2.3.16",
     "subscriptions-transport-ws": "^0.9.17",
-    "xss-clean": "^0.1.1"
+    "xss": "^1.0.8"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.5",

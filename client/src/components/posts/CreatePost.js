@@ -29,7 +29,6 @@ const CreatePost = ({ auth, createPost }) => {
     setContent(e.target.value);
     localStorage.setItem('new-post', e.target.value);
   };
-  // <div className="desktop header text-center my-2">Create New Post</div>
 
   return (
     <div className="splash single-post new-post mx-auto">
@@ -42,7 +41,7 @@ const CreatePost = ({ auth, createPost }) => {
       <div className="p-2">
         <div className="d-flex m-2">
           <img
-            src="https://source.unsplash.com/featured?painting"
+            src={auth.user && auth.user.photoUrl}
             alt=""
             className="profile-img"
           />

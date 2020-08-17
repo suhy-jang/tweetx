@@ -12,11 +12,7 @@ const UserInfo = ({ user, onClick }) => {
         }}
         onClick={onClick}
       >
-        <img
-          src="https://source.unsplash.com/featured?painting"
-          alt=""
-          className="profile-img"
-        />
+        <img src={user.photoUrl} alt="" className="profile-img" />
       </Link>
       <div className="ml-3">
         <Link

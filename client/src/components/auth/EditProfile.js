@@ -1,84 +1,84 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import SplashBg from './SplashBg';
 import { connect } from 'react-redux';
-import { editUser } from '../../actions/auth';
+import { uploadUserPhoto, editUser } from '../../actions/auth';
 import Unregister from './Unregister';
 import MobileHeader from '../layouts/MobileHeader';
+import { useDropzone } from 'react-dropzone';
 
-const EditProfile = ({ auth: { loading, user }, editUser }) => {
+const EditProfile = ({ auth: { user }, editUser, uploadUserPhoto }) => {
   const history = useHistory();
-
-  const emptyPhoto =
-    'http://www.gravatar.com/avatar/6ae192bae52d3d1b8d145a0d19d2ece2?s=200&r=pg&d=mm';
 
   const [fullname, setFullname] = useState(user.fullname);
   const [file, setFile] = useState({
     file: '',
-    imagePreviewUrl: '',
+    imagePreviewUrl: user.photoUrl,
   });
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
 
-    editUser({ fullname }, history);
+    const url = await uploadUserPhoto(file.file);
+
+    if (!url) return;
+
+    editUser(
+      { fullname, photoUrl: url },
+      { successMsg: 'Successfully updated' },
+      history,
+    );
   };
 
-  const onChange = (e) => {
-    if (e.target.name === 'fullname') {
-      setFullname(e.target.value);
-    } else if (e.target.name === 'file') {
-      const reader = new FileReader();
-      const file = e.target.files[0];
-
-      reader.onloadend = () => {
-        setFile({
-          file,
-          imagePreviewUrl: reader.result,
-        });
-      };
-
-      reader.readAsDataURL(file);
-    }
+  const fullnameChange = (e) => {
+    setFullname(e.target.value);
   };
 
+  const onDrop = useCallback((files) => {
+    const reader = new FileReader();
+    const file = files[0];
+
+    reader.onloadend = () => {
+      setFile({
+        file,
+        imagePreviewUrl: reader.result,
+      });
+    };
+
+    reader.readAsDataURL(file);
+  }, []);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
   return (
     <div className="splash">
       <MobileHeader title="Edit Profile" redirect={() => history.goBack()} />
       <div className="edit-user d-flex justify-content-center my-3">
-        <img
-          src={file.imagePreviewUrl || emptyPhoto}
-          alt=""
-          className="profile-img"
-        />
+        <img src={file.imagePreviewUrl} alt="" className="profile-img" />
       </div>
       <div className="p-3 flex-column-between">
         <form onSubmit={onSubmit} className="form">
           <div className="form-group">
-            <label className="text-secondary font-sm">
-              Photo
-              <input
-                id="profilephoto"
-                name="file"
-                onChange={onChange}
-                type="file"
-                className="form-control"
-              />
-            </label>
+            <label className="text-secondary font-sm">Photo</label>
+            <div className="drag-n-drop form-control" {...getRootProps()}>
+              <input {...getInputProps()} />
+              {isDragActive ? (
+                <p>Drop the files here ...</p>
+              ) : (
+                <p>Drag 'n' drop some files here, or click to select files</p>
+              )}
+            </div>
           </div>
           <div className="form-group">
-            <label className="text-secondary font-sm">
-              Name
-              <input
-                id="fullname"
-                type="text"
-                name="fullname"
-                onChange={onChange}
-                value={fullname}
-                className="form-control"
-              />
-            </label>
+            <label className="text-secondary font-sm">Name</label>
+            <input
+              id="fullname"
+              type="text"
+              name="fullname"
+              onChange={fullnameChange}
+              value={fullname}
+              className="form-control"
+            />
           </div>
           <div className="form-group">
             <input
@@ -100,10 +100,13 @@ const EditProfile = ({ auth: { loading, user }, editUser }) => {
 EditProfile.propTypes = {
   auth: PropTypes.object.isRequired,
   editUser: PropTypes.func.isRequired,
+  uploadUserPhoto: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { editUser })(EditProfile);
+export default connect(mapStateToProps, { editUser, uploadUserPhoto })(
+  EditProfile,
+);

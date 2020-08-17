@@ -9,10 +9,13 @@ import {
   authCheck,
 } from '../utils/userValidation';
 import sendEmail from '../utils/sendEmail';
+import signS3 from '../utils/fileUpload';
 
 const Mutation = {
   async createUser(parent, args, { prisma }, info) {
     const password = await hashPassword(args.data.password);
+    const photoUrl =
+      'https://suhy.s3.ap-northeast-2.amazonaws.com/tweetx/Download/no-image-icon-389x389.jpg';
     await usernameValidation(prisma, args.data.username);
     await emailValidation(prisma, args.data.email);
     await nameValidation(prisma, args.data.fullname);
@@ -20,6 +23,7 @@ const Mutation = {
     const user = await prisma.mutation.createUser({
       data: {
         ...args.data,
+        photoUrl,
         password,
       },
     });
@@ -64,6 +68,29 @@ const Mutation = {
       },
       info,
     });
+  },
+  async fileUploadSign(parent, args, { prisma, request }, info) {
+    const userId = getUserId(request);
+    await authCheck(prisma, userId);
+
+    const { name, size, type } = args.data;
+    if (!name || !type) {
+      throw new Error('Please upload a file');
+    }
+
+    if (!type.startsWith('image')) {
+      throw new Error('Please upload an image file');
+    }
+
+    if (size > process.env.MAX_FILE_UPLOAD) {
+      throw new Error(
+        `Please upload an image less than ${process.env.MAX_FILE_UPLOAD}`,
+      );
+    }
+
+    const updatedName = `photo_${userId}${name}`;
+
+    return signS3(updatedName, type);
   },
   async updateUser(parent, args, { prisma, request }, info) {
     const userId = getUserId(request);
@@ -309,8 +336,12 @@ const Mutation = {
       throw new Error('Email could not be sent');
     }
   },
-  async resetPassword(parent, args, { prisma, request }, info) {
+  async resetPassword(parent, args, { prisma }, info) {
     const password = await hashPassword(args.data.password);
+
+    if (!args.data.resetToken) {
+      throw new Error('Invalid token');
+    }
 
     const resetPasswordToken = crypto
       .createHash('sha256')

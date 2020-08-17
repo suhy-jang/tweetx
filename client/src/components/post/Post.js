@@ -34,11 +34,7 @@ const Post = ({ auth: { user } }) => {
               state: { user: post.author },
             }}
           >
-            <img
-              src="https://source.unsplash.com/featured?painting"
-              alt=""
-              className="profile-img"
-            />
+            <img src={post.author.photoUrl} alt="" className="profile-img" />
           </Link>
         </div>
         <div className="post-content d-flex flex-column w-100">

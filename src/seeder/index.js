@@ -68,6 +68,9 @@ const importData = async () => {
     await createFollows(users[2], users[0]);
     await createFollows(users[2], users[3]);
     await createFollows(users[3], users[0]);
+    await createFollows(users[3], users[4]);
+    await createFollows(users[4], users[3]);
+    await createFollows(users[4], users[0]);
 
     console.log('Data Imported...');
     process.exit(0);
@@ -92,7 +95,7 @@ const deleteData = async () => {
 };
 
 module.exports = async () => {
-  const command = process.argv[5];
+  const command = process.argv[process.argv.length - 1];
   switch (command) {
     case 'i':
     case 'import':

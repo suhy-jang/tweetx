@@ -44,11 +44,7 @@ const UserInfoBar = ({ auth: { user: authUser }, user }) => {
   return (
     <div className="d-flex justify-content-around main-user-info">
       <div className="user-info d-flex">
-        <img
-          src="https://source.unsplash.com/featured?painting"
-          alt=""
-          className="profile-img"
-        />
+        <img src={user.photoUrl} alt="" className="profile-img" />
         <div className="ml-3">
           <div className="font-weight-bold font-lg">{user.fullname}</div>
           <div className="text-secondary">@{user.username}</div>

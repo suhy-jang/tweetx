@@ -7,10 +7,12 @@
     "doc": "docs"
   },
   "scripts": {
+    "start": "node dist",
+    "heroku-postbuild": "babel src --out-dir dist --copy-files && NPM_CONFIG_PRODUCTION=false && npm install --prefix client && npm run build --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "client": "npm start --prefix client",
     "server": "env-cmd -f ./config/dev.env nodemon src --ext js, graphql --exec babel-node --ignore client",
-    "seed": "env-cmd -f ./config/dev.env babel-node src --ext js, graphql",
+    "seed": "NODE_ENV=development env-cmd -f ./config/dev.env babel-node src --ext js, graphql",
     "test": "env-cmd -f ./config/test.env jest --watch --runInBand --notify",
     "get-schema": "graphql get-schema -p prisma --dotenv config/dev.env"
   },
@@ -32,20 +34,19 @@
   "dependencies": {
     "@babel/polyfill": "^7.10.4",
     "@sendgrid/mail": "^7.2.3",
+    "aws-sdk": "^2.734.0",
     "bcryptjs": "^2.4.3",
     "core-js": "^3.6.5",
-    "cors": "^2.8.5",
     "cross-fetch": "^3.0.5",
     "express": "^4.17.1",
     "express-rate-limit": "^5.1.3",
     "graphql": "^14.0.2",
     "graphql-yoga": "^1.18.3",
     "helmet": "^4.0.0",
-    "hpp": "^0.2.3",
     "jsonwebtoken": "^8.5.1",
     "prisma-binding": "^2.3.16",
     "subscriptions-transport-ws": "^0.9.17",
-    "xss-clean": "^0.1.1"
+    "xss": "^1.0.8"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.5",

@@ -23,6 +23,7 @@ import {
   gqlMe,
   gqlForgotPassword,
   gqlResetPassword,
+  gqlFileUploadSign,
 } from './operations';
 import { setAuthToken } from '../utils/axiosDefaults';
 
@@ -141,27 +142,88 @@ export const login = ({ email, password }, { successMsg }) => async (
   }
 };
 
-export const editUser = ({ fullname }, history) => async (dispatch) => {
+function uploadToS3(file, signedRequest) {
+  return new Promise(function (resolve, reject) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('PUT', signedRequest);
+    xhr.setRequestHeader('x-amz-acl', 'public-read');
+    xhr.onload = () => {
+      return resolve(xhr.status);
+    };
+
+    xhr.send(file);
+  });
+}
+
+export const uploadUserPhoto = (file) => async (dispatch) => {
+  const { name, size, type } = file;
+  const variables = {
+    data: {
+      name,
+      size,
+      type,
+    },
+  };
+  try {
+    const res1 = await axios.post('/graphql', {
+      query: gqlFileUploadSign,
+      variables,
+    });
+
+    const {
+      data: { data, errors },
+    } = res1;
+
+    if (!data) {
+      return dispatch(setAlert(errors, 'danger'));
+    }
+
+    const { signedRequest, url } = data.fileUploadSign;
+
+    const res2 = await uploadToS3(file, signedRequest);
+
+    if (res2 !== 200) {
+      return dispatch(setAlert('Failed file upload', 'danger'));
+    }
+
+    return url;
+  } catch (err) {
+    dispatch(setAlert('Failed file upload', 'danger'));
+  }
+};
+
+export const editUser = (
+  { fullname, photoUrl },
+  { successMsg },
+  history,
+) => async (dispatch) => {
   const variables = {
     data: {
       fullname,
+      photoUrl,
     },
   };
+
   try {
     const res = await axios.post('/graphql', {
       query: gqlUpdateUser,
       variables,
     });
+
     const {
       data: { data, errors },
     } = res;
 
     if (!data) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
+      return;
     }
 
     dispatch({ type: EDIT_USER, payload: data.updateUser });
     history.goBack();
+
+    dispatch(setAlert(successMsg, 'success'));
+    loadUser();
   } catch (err) {
     dispatch(setAlert('Update failed', 'danger'));
   }

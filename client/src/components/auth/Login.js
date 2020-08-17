@@ -103,6 +103,14 @@ const Login = ({ auth, login, setAlert }) => {
             </Link>
           </div>
         </div>
+        <div className="white-space-pre sample-account">
+          {`
+      Sample Account(ID / PW) :
+      mary / foobar
+      or
+      liam / foobar
+        `}
+        </div>
       </div>
       <SplashBg />
     </>

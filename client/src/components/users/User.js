@@ -13,11 +13,7 @@ const User = ({ user }) => {
         }}
         className="user-element float-left"
       >
-        <img
-          src="https://source.unsplash.com/featured?painting"
-          alt=""
-          className="profile-img"
-        />
+        <img src={user.photoUrl} alt="" className="profile-img" />
       </Link>
       <div className="user-element ml-2">
         <Link

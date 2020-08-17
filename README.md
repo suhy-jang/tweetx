@@ -25,6 +25,7 @@
 - Xss prevention
 - Express rate limit prevention
 - Get signed url of Amazon S3 file upload
+- Sendgrid email to reset password
 
 ### Client
 

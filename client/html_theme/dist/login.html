@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+  <link rel="stylesheet" href="../resources/style.css" type="text/css" />
+  <title>Sign In / TweetX</title>
+</head>
+
+<body>
+  <div class="header desktop">
+    <div class="container">
+      <a href="./feed.html" class="font-main-logo text-primary">TweetX</a>
+    </div>
+  </div>
+  <div id="main" class="container">
+    <div class="splash position-relative">
+      <a href="./splash.html" class="position-absolute">
+        <i class="fas fa-chevron-left"></i>
+      </a>
+      <a href="./register.html"
+        class="desktop btn btn-outline-secondary rounded-pill px-3 py-2 font-lg font-weight-bold">
+        Register
+      </a>
+      <div class="header sticky-top font-lg text-center py-1">
+        Sign In
+      </div>
+      <div class="p-3 flex-column-between">
+        <div class="font-sm description my-5">
+          Type in your Email ID or Username and Password you chose for Momento and click Go to Feed
+        </div>
+        <form onsubmit="() => {console.log('submit')}" class="form my-3">
+          <div class="form-group">
+            <input type="email" placeholder="Email ID or Username" value="" class="form-control" />
+          </div>
+          <div class="form-group">
+            <input type="password" placeholder="Password" value="" class="form-control" />
+          </div>
+          <div class="form-group">
+            <!-- <input type="submit" value="Login" class="btn btn-primary rounded-pill form-control submit-btn" /> -->
+            <a href="./feed.html" class="btn btn-primary rounded-pill form-control submit-btn">Login</a>
+          </div>
+        </form>
+        <div class="mobile splash-description font-sm mb-3">
+          <a href="./register.html" class="text-primary">
+            Create an account
+          </a>
+          <span class="text-secondary">
+            to use TweetX for free!
+          </span>
+        </div>
+        <div class="splash-description font-sm">
+          <a href="./reset-password.html" class="text-primary">
+            Can't Sign In? Reset Password
+          </a>
+        </div>
+      </div>
+    </div>
+    <img src="../resources/img/back.png" alt="" class="d-none d-md-inline-block position-fixed right-0 bottom-0 w-50" />
+  </div>
+</body>
+
+</html>

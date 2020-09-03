@@ -7,13 +7,13 @@ import {
   DELETE_POST,
   POST_ERROR,
 } from './types';
-import { gqlMyFeed, gqlCreatePost, gqlDeletePost } from './operations';
+import { queryMyFeed, mutateCreatePost, mutateDeletePost } from './operations';
 
 export const getMyFeed = () => async (dispatch) => {
   dispatch({ type: POST_LOADING });
 
   try {
-    const res = await client.query({ query: gqlMyFeed });
+    const res = await client.query({ query: queryMyFeed });
 
     const { data, errors } = res;
 
@@ -41,7 +41,7 @@ export const createPost = (content, history) => async (dispatch) => {
   };
 
   try {
-    const res = await client.mutate({ mutation: gqlCreatePost, variables });
+    const res = await client.mutate({ mutation: mutateCreatePost, variables });
 
     const { data, errors } = res;
 
@@ -67,7 +67,7 @@ export const deletePost = (id, history) => async (dispatch) => {
   };
 
   try {
-    const res = await client.mutate({ mutation: gqlDeletePost, variables });
+    const res = await client.mutate({ mutation: mutateDeletePost, variables });
 
     const { data, errors } = res;
 

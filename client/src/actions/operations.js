@@ -48,7 +48,7 @@ const fragments = {
   `,
 };
 
-export const gqlCreateUser = gql(`
+export const mutateCreateUser = gql(`
   mutation($data: UserCreateInput!) {
     createUser(data: $data) {
       token
@@ -60,7 +60,7 @@ export const gqlCreateUser = gql(`
   ${fragments.user}
 `);
 
-export const gqlUpdateUser = gql(`
+export const mutateUpdateUser = gql(`
   mutation($data: UserUpdateInput!) {
     updateUser(data: $data) {
       ...userData
@@ -70,7 +70,7 @@ export const gqlUpdateUser = gql(`
   ${fragments.user}
 `);
 
-export const gqlFollow = gql(`
+export const mutateFollow = gql(`
   mutation($id: ID!) {
     follow(id: $id) {
       id
@@ -81,7 +81,7 @@ export const gqlFollow = gql(`
   }
 `);
 
-export const gqlUnfollow = gql(`
+export const mutateUnfollow = gql(`
   mutation($id: ID!) {
     unfollow(id: $id) {
       id
@@ -92,7 +92,7 @@ export const gqlUnfollow = gql(`
   }
 `);
 
-export const gqlDeleteUser = gql(`
+export const mutateDeleteUser = gql(`
   mutation {
     deleteUser {
       ...userData
@@ -101,7 +101,7 @@ export const gqlDeleteUser = gql(`
   ${fragments.user}
 `);
 
-export const gqlLogin = gql(`
+export const mutateLogin = gql(`
   mutation($data: UserLoginInput!) {
     login(data: $data) {
       token
@@ -113,7 +113,7 @@ export const gqlLogin = gql(`
   ${fragments.user}
 `);
 
-export const gqlMe = gql(`
+export const queryMe = gql(`
   query {
     me {
       ...userData
@@ -128,7 +128,7 @@ export const gqlMe = gql(`
   ${fragments.follow}
 `);
 
-export const gqlUser = gql(`
+export const queryUser = gql(`
   query($id: ID!) {
     user(id: $id) {
       ...userData
@@ -160,7 +160,7 @@ export const gqlUser = gql(`
   ${fragments.relations}
 `);
 
-export const gqlUsers = gql(`
+export const queryUsers = gql(`
   query($where: UserWhereInput) {
     users(where: $where) {
       ...userData
@@ -174,7 +174,7 @@ export const gqlUsers = gql(`
   ${fragments.follow}
 `);
 
-export const gqlMyFeed = gql(`
+export const queryMyFeed = gql(`
   query {
     myFeed(orderBy: createdAt_DESC) {
       ...postData
@@ -189,7 +189,7 @@ export const gqlMyFeed = gql(`
   ${fragments.relations}
 `);
 
-export const gqlCreatePost = gql(`
+export const mutateCreatePost = gql(`
   mutation($data: PostCreateInput!) {
     createPost(data: $data) {
       ...postData
@@ -204,7 +204,7 @@ export const gqlCreatePost = gql(`
   ${fragments.relations}
 `);
 
-export const gqlDeletePost = gql(`
+export const mutateDeletePost = gql(`
   mutation($id: ID!) {
     deletePost(id: $id) {
       ...postData
@@ -213,13 +213,13 @@ export const gqlDeletePost = gql(`
   ${fragments.post}
 `);
 
-export const gqlForgotPassword = gql(`
+export const mutateForgotPassword = gql(`
   mutation($data: ForgotPasswordInput!) {
     forgotPassword(data: $data)
   }
 `);
 
-export const gqlResetPassword = gql(`
+export const mutateResetPassword = gql(`
   mutation($data: ResetPasswordInput!) {
     resetPassword(data: $data) {
       token
@@ -231,7 +231,7 @@ export const gqlResetPassword = gql(`
   ${fragments.user}
 `);
 
-export const gqlFileUploadSign = gql(`
+export const mutateFileUploadSign = gql(`
   mutation($data: FileUploadInput!) {
     fileUploadSign(data: $data) {
       signedRequest

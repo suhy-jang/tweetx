@@ -1,5 +1,4 @@
 import client from '../utils/apolloClient';
-// import axios from 'axios';
 import { setAlert } from './alert';
 import {
   PROFILE_LOADING,
@@ -7,7 +6,7 @@ import {
   GET_PROFILES,
   PROFILE_ERROR,
 } from './types';
-import { gqlUser, gqlUsers, gqlUnfollow } from './operations';
+import { queryUser, queryUsers, mutateUnfollow } from './operations';
 
 // Get Profile User
 export const getProfile = (id) => async (dispatch) => {
@@ -15,7 +14,7 @@ export const getProfile = (id) => async (dispatch) => {
   const variables = { id };
 
   try {
-    const res = await client.query({ query: gqlUser, variables });
+    const res = await client.query({ query: queryUser, variables });
 
     const { data, errors } = res;
 
@@ -38,7 +37,7 @@ export const getUsers = () => async (dispatch) => {
   dispatch({ type: PROFILE_LOADING });
 
   try {
-    const res = await client.query({ query: gqlUsers });
+    const res = await client.query({ query: queryUsers });
 
     const { data, errors } = res;
 
@@ -72,7 +71,7 @@ export const unfollowedUsers = (id) => async (dispatch) => {
   dispatch({ type: PROFILE_LOADING });
 
   try {
-    const res = await client.query({ query: gqlUnfollow, variables });
+    const res = await client.query({ query: mutateUnfollow, variables });
 
     const { data, errors } = res;
 

@@ -1,4 +1,5 @@
-import axios from 'axios';
+import client from '../utils/apolloClient';
+// import axios from 'axios';
 import { setAlert } from './alert';
 import {
   AUTH_LOADING,
@@ -43,11 +44,10 @@ export const loadUser = () => async (dispatch) => {
   setAuthToken(localStorage.token);
 
   try {
-    const res = await axios.post('/graphql', { query: gqlMe });
+    // const res = await axios.post('/graphql', { query: gqlMe });
+    const res = await client.query({ query: gqlMe });
 
-    const {
-      data: { data },
-    } = res;
+    const { data } = res;
 
     if (!data) {
       // no alert: unloaded -> login
@@ -78,14 +78,13 @@ export const register = (
   };
 
   try {
-    const res = await axios.post('/graphql', {
-      query: gqlCreateUser,
-      variables,
-    });
+    // const res = await axios.post('/graphql', {
+    //   query: gqlCreateUser,
+    //   variables,
+    // });
+    const res = await client.mutate({ mutation: gqlCreateUser, variables });
 
-    const {
-      data: { data, errors },
-    } = res;
+    const { data, errors } = res;
 
     if (!data) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
@@ -118,7 +117,8 @@ export const login = ({ email, password }, { successMsg }) => async (
   };
 
   try {
-    const res = await axios.post('/graphql', { query: gqlLogin, variables });
+    // const res = await axios.post('/graphql', { query: gqlLogin, variables });
+    const res = await client.mutate({ mutation: gqlLogin, variables });
 
     const {
       data: { data, errors },
@@ -165,14 +165,16 @@ export const uploadUserPhoto = (file) => async (dispatch) => {
     },
   };
   try {
-    const res1 = await axios.post('/graphql', {
-      query: gqlFileUploadSign,
+    // const res1 = await axios.post('/graphql', {
+    //   query: gqlFileUploadSign,
+    //   variables,
+    // });
+    const res1 = await client.mutate({
+      mutation: gqlFileUploadSign,
       variables,
     });
 
-    const {
-      data: { data, errors },
-    } = res1;
+    const { data, errors } = res1;
 
     if (!data) {
       return dispatch(setAlert(errors, 'danger'));
@@ -205,14 +207,13 @@ export const editUser = (
   };
 
   try {
-    const res = await axios.post('/graphql', {
-      query: gqlUpdateUser,
-      variables,
-    });
+    // const res = await axios.post('/graphql', {
+    //   query: gqlUpdateUser,
+    //   variables,
+    // });
+    const res = await client.mutate({ mutation: gqlUpdateUser, variables });
 
-    const {
-      data: { data, errors },
-    } = res;
+    const { data, errors } = res;
 
     if (!data) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
@@ -238,13 +239,12 @@ export const logout = () => (dispatch) => {
 // Unregister User
 export const unregister = () => async (dispatch) => {
   try {
-    const res = await axios.post('/graphql', {
-      query: gqlDeleteUser,
-    });
+    const res = await client.mutate({ mutation: gqlDeleteUser });
+    // const res = await axios.post('/graphql', {
+    //   query: gqlDeleteUser,
+    // });
 
-    const {
-      data: { data, errors },
-    } = res;
+    const { data, errors } = res;
 
     if (!data) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
@@ -268,11 +268,10 @@ export const follow = (id, setFollowStatus) => async (dispatch) => {
   const variables = { id: id };
 
   try {
-    const res = await axios.post('/graphql', { query: gqlFollow, variables });
+    // const res = await axios.post('/graphql', { query: gqlFollow, variables });
+    const res = await client.mutate({ mutation: gqlFollow, variables });
 
-    const {
-      data: { data, errors },
-    } = res;
+    const { data, errors } = res;
 
     if (!data) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
@@ -294,11 +293,10 @@ export const unfollow = (id, setFollowStatus) => async (dispatch) => {
   const variables = { id: id };
 
   try {
-    const res = await axios.post('/graphql', { query: gqlUnfollow, variables });
+    const res = await client.mutate({ mutation: gqlUnfollow, variables });
+    // const res = await axios.post('/graphql', { query: gqlUnfollow, variables });
 
-    const {
-      data: { data, errors },
-    } = res;
+    const { data, errors } = res;
 
     if (!data) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
@@ -326,14 +324,13 @@ export const resetPassword = ({ email }, successMsg, history) => async (
   };
 
   try {
-    const res = await axios.post('/graphql', {
-      query: gqlForgotPassword,
-      variables,
-    });
+    const res = await client.mutate({ mutation: gqlForgotPassword, variables });
+    // const res = await axios.post('/graphql', {
+    //   query: gqlForgotPassword,
+    //   variables,
+    // });
 
-    const {
-      data: { data, errors },
-    } = res;
+    const { data, errors } = res;
 
     if (!data) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
@@ -360,14 +357,13 @@ export const resetPasswordConfirm = (
   };
 
   try {
-    const res = await axios.post('/graphql', {
-      query: gqlResetPassword,
-      variables,
-    });
+    // const res = await axios.post('/graphql', {
+    //   query: gqlResetPassword,
+    //   variables,
+    // });
+    const res = await client.mutate({ mutation: gqlResetPassword, variables });
 
-    const {
-      data: { data, errors },
-    } = res;
+    const { data, errors } = res;
 
     if (!data) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));

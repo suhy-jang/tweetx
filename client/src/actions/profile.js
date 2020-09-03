@@ -6,7 +6,7 @@ import {
   GET_PROFILES,
   PROFILE_ERROR,
 } from './types';
-import { queryUser, queryUsers, mutateUnfollow } from './operations';
+import { queryUser, queryUsers } from './operations';
 
 // Get Profile User
 export const getProfile = (id) => async (dispatch) => {
@@ -71,7 +71,7 @@ export const unfollowedUsers = (id) => async (dispatch) => {
   dispatch({ type: PROFILE_LOADING });
 
   try {
-    const res = await client.query({ query: mutateUnfollow, variables });
+    const res = await client.query({ query: queryUsers, variables });
 
     const { data, errors } = res;
 

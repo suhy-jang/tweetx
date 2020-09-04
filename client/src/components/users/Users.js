@@ -7,7 +7,7 @@ import { unfollowedUsers } from '../../actions/profile';
 import MobileHeader from '../layouts/MobileHeader';
 import { useLocation, Redirect } from 'react-router-dom';
 
-const Users = ({ auth: { user }, profile: { profiles }, unfollowedUsers }) => {
+const Users = ({ profile: { profiles }, unfollowedUsers }) => {
   const location = useLocation();
 
   useEffect(() => {
@@ -26,14 +26,10 @@ const Users = ({ auth: { user }, profile: { profiles }, unfollowedUsers }) => {
       <Head title="Connect" />
       <MobileHeader title="users" optionTwo={true} />
       <h4 className="mb-3">Who to follow...</h4>
-      {user && (
-        <>
-          {profiles.length > 0 ? (
-            profiles.map((user) => <User key={user.id} user={user} />)
-          ) : (
-            <div>no suggested users</div>
-          )}
-        </>
+      {profiles.length > 0 ? (
+        profiles.map((user) => <User key={user.id} user={user} />)
+      ) : (
+        <div>no suggested users</div>
       )}
     </div>
   );
@@ -41,13 +37,11 @@ const Users = ({ auth: { user }, profile: { profiles }, unfollowedUsers }) => {
 
 Users.propTypes = {
   profile: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired,
   unfollowedUsers: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   profile: state.profile,
-  auth: state.auth,
 });
 
 export default connect(mapStateToProps, { unfollowedUsers })(Users);

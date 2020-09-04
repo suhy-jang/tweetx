@@ -6,10 +6,11 @@ import { connect } from 'react-redux';
 const PrivateRoute = ({
   component: Component,
   auth: { loading, isAuthenticated },
+  profile: { loading: profileLoading },
   ...rest
 }) => {
-  if (loading) {
-    return <></>;
+  if (loading || profileLoading) {
+    return <>loading...</>;
   }
 
   return (
@@ -28,10 +29,12 @@ const PrivateRoute = ({
 
 PrivateRoute.propTypes = {
   auth: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  profile: state.profile,
 });
 
 export default connect(mapStateToProps)(PrivateRoute);

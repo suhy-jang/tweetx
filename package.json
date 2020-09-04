@@ -1,7 +1,7 @@
 {
   "name": "tweetx",
-  "version": "1.0.0",
-  "description": "Twitter clone project",
+  "version": "1.1.0",
+  "description": "Twitter functional clone project",
   "main": "index.js",
   "directories": {
     "doc": "docs"

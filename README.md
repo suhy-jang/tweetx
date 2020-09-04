@@ -1,6 +1,6 @@
 # Tweetx
 
-> Twitter simple clone app
+> Twitter functional clone app
 
 ## Version Info
 
@@ -30,7 +30,7 @@
 ### Client
 
 - Create-react-app
-- Axios client, XMLHttpRequest
+- Apollo client, XMLHttpRequest
 - Localstorage to save token and temporary form data
 - Redux store
 - React-router-dom: useHistory, useParams, useLocation hooks
@@ -87,5 +87,5 @@ The app is live at [herokuapp](https://suhy-tweetx-app.herokuapp.com/)
 
 Postman API documentation with examples [here](https://documenter.getpostman.com/view/8001436/T1LPESsJ)
 
-- Version: 1.0.0
+- Version: 1.1.0
 - Author: Suhyeon Jang

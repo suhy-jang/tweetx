@@ -53,11 +53,10 @@
     "@babel/core": "^7.11.1",
     "@babel/node": "^7.10.5",
     "@babel/preset-env": "^7.11.0",
-    "axios": "^0.19.2",
+    "apollo-boost": "^0.4.9",
     "concurrently": "^5.2.0",
     "env-cmd": "^10.1.0",
     "graphql-cli": "^3.0.14",
-    "graphql-tag": "^2.11.0",
     "jest": "^26.2.2",
     "nodemon": "^2.0.4",
     "regenerator-runtime": "^0.13.7"

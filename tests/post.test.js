@@ -1,7 +1,7 @@
 import 'core-js/stable';
 import 'cross-fetch/polyfill';
 import 'regenerator-runtime/runtime';
-import axios from 'axios';
+import getClient from './utils/apolloClient';
 import prisma from '../src/prisma';
 import {
   getPosts,
@@ -10,20 +10,17 @@ import {
   deletePost,
   updatePost,
 } from './utils/operations';
-import { setAuthToken, setBaseUrl } from './utils/axiosDefaults';
 import seedDatabase, { userOne, postOne } from './utils/seedDatabase';
 
 beforeAll(seedDatabase);
-setBaseUrl();
+const client = getClient();
 
 test('Should get all posts', async () => {
-  const res = await axios.post('/', {
+  const res = await client.query({
     query: getPosts,
   });
 
-  const {
-    data: { data, errors },
-  } = res;
+  const { data } = res;
 
   expect(data.posts.length).toBe(1);
 });
@@ -33,17 +30,15 @@ test('Should get single post', async () => {
     id: postOne.post.id,
   };
 
-  const res = await axios.post('/', { query: getPost, variables });
+  const res = await client.query({ query: getPost, variables });
 
-  const {
-    data: { data, errors },
-  } = res;
+  const { data } = res;
 
   expect(data.post.content).toBe(postOne.post.content);
 });
 
 test('Should create a new post', async () => {
-  setAuthToken(userOne.jwt);
+  const client = getClient(userOne.jwt);
 
   const variables = {
     data: {
@@ -51,11 +46,9 @@ test('Should create a new post', async () => {
     },
   };
 
-  const res = await axios.post('/', { query: createPost, variables });
+  const res = await client.mutate({ mutation: createPost, variables });
 
-  const {
-    data: { data, errors },
-  } = res;
+  const { data } = res;
 
   const exists = await prisma.exists.Post({
     id: data.createPost.id,
@@ -65,7 +58,7 @@ test('Should create a new post', async () => {
 });
 
 test('Should update post', async () => {
-  setAuthToken(userOne.jwt);
+  const client = getClient(userOne.jwt);
 
   const lemonJuice = 'lemon juice';
 
@@ -76,28 +69,24 @@ test('Should update post', async () => {
     },
   };
 
-  const res = await axios.post('/', { query: updatePost, variables });
+  const res = await client.mutate({ mutation: updatePost, variables });
 
-  const {
-    data: { data, errors },
-  } = res;
+  const { data } = res;
 
   expect(data.updatePost.content).toBe(lemonJuice);
   expect(data.updatePost.updatedAt).not.toBe(postOne.updatedAt);
 });
 
 test('Should delete post', async () => {
-  setAuthToken(userOne.jwt);
+  const client = getClient(userOne.jwt);
 
   const variables = {
     id: postOne.post.id,
   };
 
-  const res = await axios.post('/', { query: deletePost, variables });
+  const res = await client.mutate({ mutation: deletePost, variables });
 
-  const {
-    data: { data, errors },
-  } = res;
+  const { data } = res;
 
   const exists = await prisma.exists.Post({
     id: data.deletePost.id,

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import client from '../utils/apolloClient';
 import { setAlert } from './alert';
 import {
   PROFILE_LOADING,
@@ -6,7 +6,7 @@ import {
   GET_PROFILES,
   PROFILE_ERROR,
 } from './types';
-import { gqlUser, gqlUsers } from './operations';
+import { queryUser, queryUsers } from './operations';
 
 // Get Profile User
 export const getProfile = (id) => async (dispatch) => {
@@ -14,11 +14,9 @@ export const getProfile = (id) => async (dispatch) => {
   const variables = { id };
 
   try {
-    const res = await axios.post('/graphql', { query: gqlUser, variables });
+    const res = await client.query({ query: queryUser, variables });
 
-    const {
-      data: { data, errors },
-    } = res;
+    const { data, errors } = res;
 
     if (!data) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
@@ -39,11 +37,9 @@ export const getUsers = () => async (dispatch) => {
   dispatch({ type: PROFILE_LOADING });
 
   try {
-    const res = await axios.post('/graphql', { query: gqlUsers });
+    const res = await client.query({ query: queryUsers });
 
-    const {
-      data: { data, errors },
-    } = res;
+    const { data, errors } = res;
 
     if (!data) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
@@ -75,11 +71,9 @@ export const unfollowedUsers = (id) => async (dispatch) => {
   dispatch({ type: PROFILE_LOADING });
 
   try {
-    const res = await axios.post('/graphql', { query: gqlUsers, variables });
+    const res = await client.query({ query: queryUsers, variables });
 
-    const {
-      data: { data, errors },
-    } = res;
+    const { data, errors } = res;
 
     if (!data) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));

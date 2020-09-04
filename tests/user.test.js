@@ -1,7 +1,7 @@
 import 'core-js/stable';
 import 'cross-fetch/polyfill';
 import 'regenerator-runtime/runtime';
-import axios from 'axios';
+import getClient from './utils/apolloClient';
 import prisma from '../src/prisma';
 import {
   createUser,
@@ -12,20 +12,18 @@ import {
   deleteUser,
   updateUser,
 } from './utils/operations';
-import { setAuthToken, setBaseUrl } from './utils/axiosDefaults';
 import seedDatabase, { userOne } from './utils/seedDatabase';
 
 beforeAll(seedDatabase);
-setBaseUrl();
+
+const client = getClient();
 
 test('Should get all users', async () => {
-  const res = await axios.post('/', {
+  const res = await client.query({
     query: getUsers,
   });
 
-  const {
-    data: { data, errors },
-  } = res;
+  const { data } = res;
 
   expect(data.users.length).toBe(1);
 });
@@ -35,14 +33,12 @@ test('Should get single user', async () => {
     id: userOne.user.id,
   };
 
-  const res = await axios.post('/', {
+  const res = await client.query({
     query: getUser,
     variables,
   });
 
-  const {
-    data: { data, errors },
-  } = res;
+  const { data } = res;
 
   expect(data.user.username).toBe(userOne.user.username);
 });
@@ -57,11 +53,9 @@ test('Should create a new user', async () => {
     },
   };
 
-  const res = await axios.post('/', { query: createUser, variables });
+  const res = await client.mutate({ mutation: createUser, variables });
 
-  const {
-    data: { data, errors },
-  } = res;
+  const { data } = res;
 
   const exists = await prisma.exists.User({
     id: data.createUser.user.id,
@@ -80,14 +74,9 @@ test('Should not register with invalid email', async () => {
     },
   };
 
-  const res = await axios.post('/', { query: createUser, variables });
+  const query = client.mutate({ mutation: createUser, variables });
 
-  const {
-    data: { data, errors },
-  } = res;
-
-  expect(data).toBe(null);
-  expect(errors[0]).toHaveProperty('message');
+  await expect(query).rejects.toThrow();
 });
 
 test('Should not login with bad credentials', async () => {
@@ -98,17 +87,17 @@ test('Should not login with bad credentials', async () => {
     },
   };
 
-  await expect(axios.post('/', { query: login, variables })).rejects.toThrow();
+  const query = client.mutate({ mutation: login, variables });
+
+  await expect(query).rejects.toThrow();
 });
 
 test('Should fetch current user profile', async () => {
-  setAuthToken(userOne.jwt);
+  const client = getClient(userOne.jwt);
 
-  const res = await axios.post('/', { query: getMe });
+  const res = await client.query({ query: getMe });
 
-  const {
-    data: { data, errors },
-  } = res;
+  const { data } = res;
 
   expect(data).toHaveProperty('me');
   expect(data.me.id).toBe(userOne.user.id);
@@ -116,7 +105,7 @@ test('Should fetch current user profile', async () => {
 });
 
 test('Should update current user', async () => {
-  setAuthToken(userOne.jwt);
+  const client = getClient(userOne.jwt);
 
   const variables = {
     data: {
@@ -124,23 +113,19 @@ test('Should update current user', async () => {
     },
   };
 
-  const res = await axios.post('/', { query: updateUser, variables });
+  const res = await client.mutate({ mutation: updateUser, variables });
 
-  const {
-    data: { data, errors },
-  } = res;
+  const { data } = res;
 
   expect(data.updateUser.fullname).toBe('Momo');
 });
 
 test('Should delete current user', async () => {
-  setAuthToken(userOne.jwt);
+  const client = getClient(userOne.jwt);
 
-  const res = await axios.post('/', { query: deleteUser });
+  const res = await client.mutate({ mutation: deleteUser });
 
-  const {
-    data: { data, errors },
-  } = res;
+  const { data } = res;
 
   const exists = await prisma.exists.User({
     id: data.deleteUser.id,

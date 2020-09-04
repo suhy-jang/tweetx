@@ -17,11 +17,13 @@ const Profile = ({ auth, profile: { profile }, getProfile }) => {
   const [userinfo, setUserinfo] = useState(user);
   const [tabHide, setTabHide] = useState(true);
 
+  // pre-loaded basic user info, then profile sync
   useEffect(() => {
     if (profile.id && profile.id === user.id) {
       setUserinfo(profile);
       setTabHide(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profile, user]);
 
   useEffect(() => {

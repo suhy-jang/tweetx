@@ -7,7 +7,7 @@ import { unfollowedUsers } from '../../actions/profile';
 import MobileHeader from '../layouts/MobileHeader';
 import { useLocation, Redirect } from 'react-router-dom';
 
-const Users = ({ profile: { profiles }, unfollowedUsers }) => {
+const Users = ({ profile: { loading, profiles }, unfollowedUsers }) => {
   const location = useLocation();
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const Users = ({ profile: { profiles }, unfollowedUsers }) => {
       {profiles.length > 0 ? (
         profiles.map((user) => <User key={user.id} user={user} />)
       ) : (
-        <div>no suggested users</div>
+        <div>{loading ? 'loading...' : 'no suggested users'}</div>
       )}
     </div>
   );

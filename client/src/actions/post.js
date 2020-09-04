@@ -1,4 +1,4 @@
-import axios from 'axios';
+import client from '../utils/apolloClient';
 import { setAlert } from './alert';
 import {
   POST_LOADING,
@@ -7,17 +7,15 @@ import {
   DELETE_POST,
   POST_ERROR,
 } from './types';
-import { gqlMyFeed, gqlCreatePost, gqlDeletePost } from './operations';
+import { queryMyFeed, mutateCreatePost, mutateDeletePost } from './operations';
 
 export const getMyFeed = () => async (dispatch) => {
   dispatch({ type: POST_LOADING });
 
   try {
-    const res = await axios.post('/graphql', { query: gqlMyFeed });
+    const res = await client.query({ query: queryMyFeed });
 
-    const {
-      data: { data, errors },
-    } = res;
+    const { data, errors } = res;
 
     if (!data) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
@@ -43,14 +41,9 @@ export const createPost = (content, history) => async (dispatch) => {
   };
 
   try {
-    const res = await axios.post('/graphql', {
-      query: gqlCreatePost,
-      variables,
-    });
+    const res = await client.mutate({ mutation: mutateCreatePost, variables });
 
-    const {
-      data: { data, errors },
-    } = res;
+    const { data, errors } = res;
 
     if (!data) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
@@ -74,14 +67,9 @@ export const deletePost = (id, history) => async (dispatch) => {
   };
 
   try {
-    const res = await axios.post('/graphql', {
-      query: gqlDeletePost,
-      variables,
-    });
+    const res = await client.mutate({ mutation: mutateDeletePost, variables });
 
-    const {
-      data: { data, errors },
-    } = res;
+    const { data, errors } = res;
 
     if (!data) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));

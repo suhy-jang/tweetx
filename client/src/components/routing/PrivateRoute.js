@@ -9,7 +9,7 @@ const PrivateRoute = ({
   ...rest
 }) => {
   if (loading) {
-    return <></>;
+    return <>loading...</>;
   }
 
   return (

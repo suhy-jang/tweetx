@@ -16,10 +16,8 @@ const MenuBar = ({ user, onClick }) => {
       </div>
       <div className="my-4">
         <Link
-          to={{
-            pathname: '/profile',
-            state: { user },
-          }}
+          to="/profile"
+          state={{ user }}
           onClick={onClick}
           className="btn btn-lighter rounded-pill px-3 py-2 font-lg font-weight-bold"
         >
@@ -29,10 +27,8 @@ const MenuBar = ({ user, onClick }) => {
       </div>
       <div className="my-4">
         <Link
-          to={{
-            pathname: '/users',
-            state: { user },
-          }}
+          to="/users"
+          state={{ user }}
           onClick={onClick}
           className="btn btn-lighter rounded-pill px-3 py-2 font-lg font-weight-bold"
         >

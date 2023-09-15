@@ -1,17 +1,24 @@
-import React from 'react';
-import { Redirect } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useNavigate, Outlet } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 const Landing = ({ auth: { loading, isAuthenticated } }) => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/feed');
+    } else {
+      navigate('/login-or-register');
+    }
+  }, [isAuthenticated, navigate]);
+
   if (loading) {
     return <div>loading...</div>;
   }
-  return isAuthenticated ? (
-    <Redirect to="/feed" />
-  ) : (
-    <Redirect to="/login-or-register" />
-  );
+
+  return <Outlet />;
 };
 
 Landing.propTypes = {

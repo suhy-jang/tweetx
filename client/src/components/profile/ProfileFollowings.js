@@ -6,54 +6,60 @@ import UserInfoBar from './UserInfoBar';
 import User from '../users/User';
 import { getProfile } from '../../actions/profile';
 import { connect } from 'react-redux';
-import { useLocation, useHistory, Redirect } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import MobileHeader from '../layouts/MobileHeader';
 
-const ProfileFollowings = ({ auth, profile: { profile }, getProfile }) => {
+const ProfileFollowings = ({
+  auth: { user },
+  profile: { profile },
+  getProfile,
+}) => {
   const location = useLocation();
-  const history = useHistory();
-  const user = location.state ? location.state.user : {};
-  const [userinfo, setUserinfo] = useState(user);
+  const navigate = useNavigate();
+  const profileUser = location.state ? location.state.user : {};
+  const [profileInfo, setProfileInfo] = useState(profileUser);
   const [tabHide, setTabHide] = useState(true);
 
   useEffect(() => {
-    if (profile.id && profile.id === user.id) {
-      setUserinfo(profile);
+    if (profile.id && profile.id === profileUser.id) {
+      setProfileInfo(profile);
       setTabHide(false);
     }
-  }, [profile, user]);
+  }, [profile, profileUser]);
 
   useEffect(() => {
-    if (user && user.id) {
-      getProfile(user.id);
+    if (profileUser && profileUser.id) {
+      getProfile(profileUser.id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [profileUser]);
 
-  if (!userinfo || !userinfo.id) {
-    return <Redirect to="/" />;
-  }
+  useEffect(() => {
+    if (!profileUser || !profileUser.id) {
+      navigate(-1);
+    }
+  }, [profileUser, profileUser?.id, navigate]);
 
   return (
     <>
-      <Head title={`People followed by ${userinfo.fullname}`} />
+      <Head title={`People followed by ${profileInfo.fullname}`} />
       <MobileHeader
-        title={userinfo.fullname}
+        title={profileInfo.fullname}
         optionTwo={true}
         redirect={() => {
-          history.push({
+          navigate({
             pathname: '/profile',
-            state: { user: userinfo },
+            state: { user: profileInfo },
           });
         }}
       />
-      <UserInfoBar auth={auth} user={userinfo} />
-      <TabBar user={userinfo} disabled={tabHide} />
+      <UserInfoBar loginUser={user} user={profileInfo} />
+      <TabBar user={profileInfo} disabled={tabHide} />
       <div className="users border-top">
-        {userinfo.followers &&
-          userinfo.followings.length > 0 &&
-          userinfo.followings[0].following &&
-          userinfo.followings.map(
+        {profileInfo.followers &&
+          profileInfo.followings.length > 0 &&
+          profileInfo.followings[0].following &&
+          profileInfo.followings.map(
             (f) => f.following && <User key={f.id} user={f.following} />,
           )}
       </div>

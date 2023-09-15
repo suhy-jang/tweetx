@@ -1,6 +1,14 @@
 require('@babel/polyfill/noConflict');
-const server = require('../../src/server').default;
+const server = require('./server').default;
+
+const opts = {
+  endpoint: '/graphql',
+  port: 4000,
+  tracing: true,
+};
 
 module.exports = async () => {
-  global.httpServer = await server.start({ port: 4000 });
+  global.httpServer = server.listen(opts, () => {
+    console.log('The server is up');
+  });
 };

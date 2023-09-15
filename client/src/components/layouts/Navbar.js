@@ -27,10 +27,8 @@ const Navbar = ({ auth: { isAuthenticated, user } }) => {
                 </li>
                 <li>
                   <Link
-                    to={{
-                      pathname: '/users',
-                      state: { user },
-                    }}
+                    to="/users"
+                    state={{ user }}
                     className={`${selected('/users')}`}
                   >
                     Users
@@ -38,10 +36,8 @@ const Navbar = ({ auth: { isAuthenticated, user } }) => {
                 </li>
                 <li>
                   <Link
-                    to={{
-                      pathname: '/profile',
-                      state: { user },
-                    }}
+                    to="/profile"
+                    state={{ user }}
                     className={`${selected('/profile')}`}
                   >
                     Profile

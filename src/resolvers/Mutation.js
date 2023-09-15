@@ -1,5 +1,5 @@
+import { PrismaClient } from '@prisma/client';
 import crypto from 'crypto';
-import getUserId from '../utils/getUserId';
 import { generateToken } from '../utils/jwtToken';
 import { hashPassword, verifyPassword } from '../utils/hashPassword';
 import {
@@ -10,9 +10,12 @@ import {
 } from '../utils/userValidation';
 import sendEmail from '../utils/sendEmail';
 import signS3 from '../utils/fileUpload';
+import getUserId from '../utils/getUserId';
+
+const prisma = new PrismaClient();
 
 const Mutation = {
-  async createUser(parent, args, { prisma }, info) {
+  async createUser(parent, args, context, info) {
     const password = await hashPassword(args.data.password);
     const photoUrl =
       'https://suhy.s3.ap-northeast-2.amazonaws.com/tweetx/Download/no-image-icon-389x389.jpg';
@@ -20,7 +23,7 @@ const Mutation = {
     await emailValidation(prisma, args.data.email);
     await nameValidation(prisma, args.data.fullname);
 
-    const user = await prisma.mutation.createUser({
+    const user = await prisma.user.create({
       data: {
         ...args.data,
         photoUrl,
@@ -33,9 +36,9 @@ const Mutation = {
       token: generateToken(user.id),
     };
   },
-  async login(parent, args, { prisma }, info) {
+  async login(parent, args, context, info) {
     const user = (
-      await prisma.query.users({
+      await prisma.user.findMany({
         where: {
           OR: [{ email: args.data.email }, { username: args.data.email }],
         },
@@ -57,20 +60,19 @@ const Mutation = {
       token: generateToken(user.id),
     };
   },
-  async deleteUser(parent, args, { prisma, request }, info) {
-    const userId = getUserId(request);
+  async deleteUser(parent, args, context, info) {
+    const userId = getUserId(context);
 
     await authCheck(prisma, userId);
 
-    return prisma.mutation.deleteUser({
+    return prisma.user.delete({
       where: {
         id: userId,
       },
-      info,
     });
   },
-  async fileUploadSign(parent, args, { prisma, request }, info) {
-    const userId = getUserId(request);
+  async fileUploadSign(parent, args, context, info) {
+    const userId = getUserId(context);
     await authCheck(prisma, userId);
 
     const { name, size, type } = args.data;
@@ -92,8 +94,8 @@ const Mutation = {
 
     return signS3(updatedName, type);
   },
-  async updateUser(parent, args, { prisma, request }, info) {
-    const userId = getUserId(request);
+  async updateUser(parent, args, context, info) {
+    const userId = getUserId(context);
 
     await authCheck(prisma, userId);
 
@@ -110,114 +112,84 @@ const Mutation = {
       await nameValidation(prisma, args.data.fullname);
     }
 
-    return prisma.mutation.updateUser(
-      {
-        where: {
-          id: userId,
-        },
-        data: args.data,
+    return prisma.user.update({
+      where: {
+        id: userId,
       },
-      info,
-    );
+      data: args.data,
+    });
   },
-  async createPost(parent, args, { prisma, request }, info) {
-    const userId = getUserId(request);
+  async createPost(parent, args, context, info) {
+    const userId = getUserId(context);
 
     await authCheck(prisma, userId);
 
-    return prisma.mutation.createPost(
-      {
-        data: {
-          ...args.data,
-          author: {
-            connect: {
-              id: userId,
-            },
-          },
-        },
+    return prisma.post.create({
+      data: {
+        ...args.data,
+        authorId: userId,
       },
-      info,
-    );
+    });
   },
-  async deletePost(parent, args, { prisma, request }, info) {
-    const userId = getUserId(request);
+  async deletePost(parent, args, context, info) {
+    const userId = getUserId(context);
 
     await authCheck(prisma, userId);
 
     const post = (
-      await prisma.query.posts(
-        {
-          where: {
-            id: args.id,
-            author: {
-              id: userId,
-            },
-          },
+      await prisma.post.findMany({
+        where: {
+          id: args.id,
+          authorId: userId,
         },
-        info,
-      )
+      })
     )[0];
 
     if (!post) {
       throw new Error('Post not found');
     }
 
-    return prisma.mutation.deletePost(
-      {
-        where: {
-          id: args.id,
-        },
+    return prisma.post.delete({
+      where: {
+        id: args.id,
       },
-      info,
-    );
+    });
   },
-  async updatePost(parent, args, { prisma, request }, info) {
-    const userId = getUserId(request);
+  async updatePost(parent, args, context, info) {
+    const userId = getUserId(context);
 
     await authCheck(prisma, userId);
 
     const post = (
-      await prisma.query.posts(
-        {
-          where: {
-            id: args.id,
-            author: {
-              id: userId,
-            },
-          },
+      await prisma.post.findMany({
+        where: {
+          id: args.id,
+          authorId: userId,
         },
-        info,
-      )
+      })
     )[0];
 
     if (!post) {
       throw new Error('Post not found');
     }
 
-    return prisma.mutation.updatePost(
-      {
-        where: {
-          id: args.id,
-        },
-        data: args.data,
+    return prisma.post.update({
+      where: {
+        id: args.id,
       },
-      info,
-    );
+      data: args.data,
+    });
   },
-  async follow(parent, args, { prisma, request }, info) {
-    const userId = getUserId(request);
+  async follow(parent, args, context, info) {
+    const userId = getUserId(context);
 
     await authCheck(prisma, userId);
 
     const follow = (
-      await prisma.query.follows({
+      await prisma.follow.findMany({
         where: {
-          follower: {
-            id: userId,
-          },
-          following: {
-            id: args.id,
-          },
+          followerId: userId,
+          followingId: args.id,
         },
       })
     )[0];
@@ -226,38 +198,23 @@ const Mutation = {
       throw new Error('Failed follow');
     }
 
-    return prisma.mutation.createFollow(
-      {
-        data: {
-          follower: {
-            connect: {
-              id: userId,
-            },
-          },
-          following: {
-            connect: {
-              id: args.id,
-            },
-          },
-        },
+    return prisma.follow.create({
+      data: {
+        followerId: userId,
+        followingId: args.id,
       },
-      info,
-    );
+    });
   },
-  async unfollow(parent, args, { prisma, request }, info) {
-    const userId = getUserId(request);
+  async unfollow(parent, args, context, info) {
+    const userId = getUserId(context);
 
     await authCheck(prisma, userId);
 
     const follow = (
-      await prisma.query.follows({
+      await prisma.follow.findMany({
         where: {
-          follower: {
-            id: userId,
-          },
-          following: {
-            id: args.id,
-          },
+          followerId: userId,
+          followingId: args.id,
         },
       })
     )[0];
@@ -266,18 +223,15 @@ const Mutation = {
       throw new Error('Failed unfollow');
     }
 
-    return prisma.mutation.deleteFollow(
-      {
-        where: {
-          id: follow.id,
-        },
+    return prisma.follow.delete({
+      where: {
+        id: follow.id,
       },
-      info,
-    );
+    });
   },
-  async forgotPassword(parent, args, { prisma, request }, info) {
+  async forgotPassword(parent, args, context, info) {
     const user = (
-      await prisma.query.users({
+      await prisma.user.findMany({
         where: {
           OR: [{ email: args.data.email }, { username: args.data.email }],
         },
@@ -299,7 +253,7 @@ const Mutation = {
       new Date().getTime() + 10 * 60 * 1000, // 10 minutes
     ).toISOString();
 
-    const rootUrl = `${request.request.protocol}://${request.request.get(
+    const rootUrl = `${context.request.protocol}://${context.request.get(
       'host',
     )}/reset-password/${resetToken}`;
 
@@ -317,7 +271,7 @@ const Mutation = {
         html,
       });
 
-      const updatedUser = await prisma.mutation.updateUser({
+      const updatedUser = await prisma.user.update({
         where: {
           id: user.id,
         },
@@ -336,7 +290,7 @@ const Mutation = {
       throw new Error('Email could not be sent');
     }
   },
-  async resetPassword(parent, args, { prisma }, info) {
+  async resetPassword(parent, args, context, info) {
     const password = await hashPassword(args.data.password);
 
     if (!args.data.resetToken) {
@@ -349,10 +303,12 @@ const Mutation = {
       .digest('hex');
 
     const user = (
-      await prisma.query.users({
+      await prisma.user.findMany({
         where: {
           resetPasswordToken,
-          resetPasswordExpire_gte: new Date().toISOString(),
+          resetPasswordExpire: {
+            gte: new Date().toISOString(),
+          },
         },
       })
     )[0];
@@ -361,7 +317,7 @@ const Mutation = {
       throw new Error('Invalid token');
     }
 
-    const updatedUser = await prisma.mutation.updateUser({
+    const updatedUser = await prisma.user.update({
       where: {
         id: user.id,
       },
@@ -383,4 +339,4 @@ const Mutation = {
   },
 };
 
-export { Mutation as default };
+export default Mutation;

@@ -12,8 +12,10 @@ const rootReducer = combineReducers({
   profile,
 });
 
-export default (state, action) =>
+const Reducer = (state, action) =>
   rootReducer(
     action.type === LOGOUT || action.type === UNREGISTER ? undefined : state,
     action,
   );
+
+export default Reducer;

@@ -2,8 +2,10 @@ import 'core-js/stable';
 import 'cross-fetch/polyfill';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import prisma from '../../src/prisma';
+import { PrismaClient } from '@prisma/client';
 import { userOne } from './seedDatabase';
+
+const prisma = new PrismaClient();
 
 export const userTwo = {
   input: {
@@ -36,14 +38,14 @@ export const postTwo = {
 
 const seedDatabase = async () => {
   // Create User two
-  userTwo.user = await prisma.mutation.createUser({
+  userTwo.user = await prisma.user.create({
     data: userTwo.input,
   });
 
   userTwo.jwt = jwt.sign({ userId: userTwo.user.id }, process.env.JWT_SECRET);
 
   // Create User three
-  userThree.user = await prisma.mutation.createUser({
+  userThree.user = await prisma.user.create({
     data: userThree.input,
   });
 
@@ -53,46 +55,26 @@ const seedDatabase = async () => {
   );
 
   // Create Post two
-  postTwo.post = await prisma.mutation.createPost({
+  postTwo.post = await prisma.post.create({
     data: {
       ...postTwo.input,
-      author: {
-        connect: {
-          id: userTwo.user.id,
-        },
-      },
+      authorId: userTwo.user.id,
     },
   });
 
   // Create Follow userOne -> userTwo
-  const followOne = await prisma.mutation.createFollow({
+  const followOne = await prisma.follow.create({
     data: {
-      follower: {
-        connect: {
-          id: userOne.user.id,
-        },
-      },
-      following: {
-        connect: {
-          id: userTwo.user.id,
-        },
-      },
+      followerId: userOne.user.id,
+      followingId: userTwo.user.id,
     },
   });
 
   // Create Follow userThree -> userOne
-  const followTwo = await prisma.mutation.createFollow({
+  const followTwo = await prisma.follow.create({
     data: {
-      follower: {
-        connect: {
-          id: userThree.user.id,
-        },
-      },
-      following: {
-        connect: {
-          id: userOne.user.id,
-        },
-      },
+      followerId: userThree.user.id,
+      followingId: userOne.user.id,
     },
   });
 };

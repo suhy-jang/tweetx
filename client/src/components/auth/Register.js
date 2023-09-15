@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Link, useHistory, Redirect } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SplashBg from './SplashBg';
 import { connect } from 'react-redux';
 import { setAlert } from '../../actions/alert';
@@ -9,7 +9,7 @@ import Head from '../head/Head';
 import MobileHeader from '../layouts/MobileHeader';
 
 const Register = ({ auth, setAlert, register }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     fullname: '',
@@ -20,7 +20,8 @@ const Register = ({ auth, setAlert, register }) => {
   });
 
   // eslint-disable-next-line
-  const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const emailRegex =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   const { fullname, username, email, password, password2 } = formData;
 
@@ -48,9 +49,11 @@ const Register = ({ auth, setAlert, register }) => {
     });
   };
 
-  if (auth.isAuthenticated) {
-    return <Redirect to="/" />;
-  }
+  useEffect(() => {
+    if (auth.isAuthenticated) {
+      navigate('/');
+    }
+  }, [auth, navigate]);
 
   return (
     <div className="splash">
@@ -58,7 +61,7 @@ const Register = ({ auth, setAlert, register }) => {
       <MobileHeader
         title="Create Account"
         redirect={() => {
-          history.push('login-or-register');
+          navigate('login-or-register');
         }}
       />
       <Link
@@ -125,7 +128,7 @@ const Register = ({ auth, setAlert, register }) => {
           </div>
           <div className="font-sm description text-center mx-auto my-4">
             By Creating Account, you are automatically accepting all the{' '}
-            <Link to="#">Terms & Conditions</Link> related to Momento
+            <Link to="/register">Terms & Conditions</Link> related to Momento
           </div>
           <div className="form-group">
             <input

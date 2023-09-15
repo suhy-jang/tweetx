@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import SplashBg from './SplashBg';
 import { useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -10,7 +10,7 @@ import Head from '../head/Head';
 
 const ResetPasswordConfirm = ({ resetPasswordConfirm }) => {
   const params = useParams();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const { resetToken } = params;
   const [formData, setFormData] = useState({
@@ -38,7 +38,7 @@ const ResetPasswordConfirm = ({ resetPasswordConfirm }) => {
         password,
       },
       { successMsg: `Successfully updated.` },
-      history,
+      () => navigate('/'),
     );
   };
 

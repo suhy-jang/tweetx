@@ -1,16 +1,16 @@
-import aws from 'aws-sdk';
+import { S3Client, AbortMultipartUploadCommand } from '@aws-sdk/client-s3';
 
-aws.config.update({
+const s3Client = new S3Client({
   region: process.env.S3_REGION,
-  accessKeyId: process.env.S3_KEY,
-  secretAccessKey: process.env.S3_SECRET,
+  credentials: {
+    accessKeyId: process.env.S3_KEY,
+    secretAccessKey: process.env.S3_SECRET,
+  },
 });
 
 const S3_BUCKET = process.env.S3_BUCKET;
 
 const signS3 = async (fileName, fileType) => {
-  const s3 = new aws.S3();
-
   const s3Params = {
     Bucket: S3_BUCKET,
     Key: `tweetx/Upload/${fileName}`,
@@ -20,10 +20,14 @@ const signS3 = async (fileName, fileType) => {
   };
 
   try {
-    const res = await s3.getSignedUrl('putObject', s3Params);
+    const command = new AbortMultipartUploadCommand(s3Params);
+    const res = await s3Client.send(command);
+
+    const url = `https://${S3_BUCKET}.s3.ap-northeast-2.amazonaws.com/tweetx/Upload/${fileName}`;
+
     return {
-      signedRequest: res,
-      url: `https://${S3_BUCKET}.s3.ap-northeast-2.amazonaws.com/tweetx/Upload/${fileName}`,
+      res,
+      url: url,
     };
   } catch (err) {
     throw new Error(err);

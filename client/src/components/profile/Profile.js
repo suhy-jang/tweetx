@@ -7,48 +7,54 @@ import TabBar from './TabBar';
 import UserInfoBar from './UserInfoBar';
 import { getProfile } from '../../actions/profile';
 import { connect } from 'react-redux';
-import { useLocation, Redirect } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import MobileHeader from '../layouts/MobileHeader';
 
-const Profile = ({ auth, profile: { profile }, getProfile }) => {
+const Profile = ({
+  auth: { isAuthenticated, user },
+  profile: { profile },
+  getProfile,
+}) => {
   const location = useLocation();
-  // user priority before get profile
-  const user = location.state ? location.state.user : {};
-  const [userinfo, setUserinfo] = useState(user);
+  const navigate = useNavigate();
+  const profileUser = location.state ? location.state.user : {};
+  const [profileInfo, setProfileInfo] = useState(profileUser);
   const [tabHide, setTabHide] = useState(true);
 
   // pre-loaded basic user info, then profile sync
   useEffect(() => {
-    if (profile.id && profile.id === user.id) {
-      setUserinfo(profile);
+    if (profile.id && profile.id === profileUser.id) {
+      setProfileInfo(profile);
       setTabHide(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profile, user]);
+  }, [profile, profileUser]);
 
   useEffect(() => {
-    if (user && user.id) {
-      getProfile(user.id);
+    if (profileUser && profileUser.id) {
+      getProfile(profileUser.id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [profileUser]);
 
-  if (!userinfo || !userinfo.id) {
-    return <Redirect to="/" />;
-  }
+  useEffect(() => {
+    if (!profileUser || !profileUser.id) {
+      navigate(-1);
+    }
+  }, [profileUser, profileUser?.id, navigate]);
 
   return (
     <>
-      <Head title={userinfo.fullname} />
-      <MobileHeader title={userinfo.fullname} optionTwo={true} />
-      <UserInfoBar auth={auth} user={userinfo} />
-      <TabBar user={userinfo} disabled={tabHide} />
+      <Head title={profileInfo.fullname} />
+      <MobileHeader title={profileInfo.fullname} optionTwo={true} />
+      <UserInfoBar loginUser={user} user={profileInfo} />
+      <TabBar user={profileInfo} disabled={tabHide} />
       <div className="posts border-top">
-        {auth.isAuthenticated && auth.user.id === userinfo.id && <NewPostBtn />}
-        {userinfo.posts &&
-          userinfo.posts.length > 0 &&
-          userinfo.posts[0].content &&
-          userinfo.posts.map((post) => <Post key={post.id} post={post} />)}
+        {isAuthenticated && user.id === profileInfo.id && <NewPostBtn />}
+        {profileInfo.posts &&
+          profileInfo.posts.length > 0 &&
+          profileInfo.posts[0].content &&
+          profileInfo.posts.map((post) => <Post key={post.id} post={post} />)}
       </div>
     </>
   );

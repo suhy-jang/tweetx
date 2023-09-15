@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SplashBg = (props) => {
+const SplashBg = () => {
   return (
     <img
       src="https://suhy.s3.ap-northeast-2.amazonaws.com/tweetx/Download/back.png"

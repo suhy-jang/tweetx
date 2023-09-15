@@ -1,48 +1,44 @@
-import getUserId from '../utils/getUserId';
+import { PrismaClient } from '@prisma/client';
 import { authCheck } from '../utils/userValidation';
+import getUserId from '../utils/getUserId';
+
+const prisma = new PrismaClient();
 
 const Query = {
-  users(parent, args, { prisma }, info) {
+  async users(parent, args, context, info) {
     const opArgs = {
       where: args.where,
-      first: args.first,
+      take: args.first,
       skip: args.skip,
-      after: args.after,
-      orderBy: args.orderBy || 'createdAt_DESC',
+      cursor: args.after,
+      orderBy: args.orderBy || { createdAt: 'desc' },
     };
 
     if (args.query) {
       opArgs.where = {
-        ...opArgs.where,
-        username_contains: args.query,
+        username: { contains: args.query },
       };
     }
 
-    return prisma.query.users(opArgs, info);
+    return prisma.user.findMany(opArgs);
   },
-  async me(parent, args, { prisma, request }, info) {
-    const userId = getUserId(request);
+  async me(parent, args, context, info) {
+    const userId = getUserId(context);
 
     await authCheck(prisma, userId);
 
-    return prisma.query.user(
-      {
-        where: {
-          id: userId,
-        },
+    return prisma.user.findUnique({
+      where: {
+        id: userId,
       },
-      info,
-    );
+    });
   },
-  async user(parent, args, { prisma }, info) {
-    const user = await prisma.query.user(
-      {
-        where: {
-          id: args.id,
-        },
+  async user(parent, args, context, info) {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: args.id,
       },
-      info,
-    );
+    });
 
     if (!user) {
       throw new Error('User not found');
@@ -50,49 +46,47 @@ const Query = {
 
     return user;
   },
-  posts(parent, args, { prisma }, info) {
+  async posts(parent, args, context, info) {
     const opArgs = {
-      first: args.first,
+      take: args.first,
       skip: args.skip,
-      after: args.after,
-      orderBy: args.orderBy || 'createdAt_DESC',
+      cursor: args.after,
+      orderBy: args.orderBy || { createdAt: 'desc' },
     };
 
     if (args.query) {
       opArgs.where = {
-        content_contains: args.query,
+        content: { contains: args.query },
       };
     }
 
-    return prisma.query.posts(opArgs, info);
+    return prisma.post.findMany(opArgs);
   },
-  async myFeed(parent, args, { prisma, request }, info) {
-    const userId = getUserId(request);
+  async myFeed(parent, args, context, info) {
+    const opArgs = {
+      take: args.first,
+      skip: args.skip,
+      cursor: args.after,
+      orderBy: args.orderBy || { createdAt: 'desc' },
+    };
+
+    const userId = getUserId(context);
 
     await authCheck(prisma, userId);
 
-    const opArgs = {
-      first: args.first,
-      skip: args.skip,
-      after: args.after,
-      orderBy: args.orderBy || 'createdAt_DESC',
-    };
-
-    const follows = await prisma.query.follows(
-      {
-        where: {
-          follower: {
-            id: userId,
+    const follows = await prisma.follow.findMany({
+      where: {
+        followerId: userId,
+      },
+      select: {
+        id: true,
+        following: {
+          select: {
+            id: true,
           },
         },
       },
-      `{
-        id
-        following {
-          id
-        }
-      }`,
-    );
+    });
 
     const authors = follows.map((follow) => ({
       id: follow.following.id,
@@ -100,27 +94,21 @@ const Query = {
 
     authors.push({ id: userId });
 
-    return prisma.query.posts(
-      {
-        ...opArgs,
-        where: {
-          author: {
-            OR: authors,
-          },
+    return prisma.post.findMany({
+      ...opArgs,
+      where: {
+        authorId: {
+          in: authors.map((author) => author.id),
         },
       },
-      info,
-    );
+    });
   },
-  async post(parent, args, { prisma }, info) {
-    const post = await prisma.query.post(
-      {
-        where: {
-          id: args.id,
-        },
+  async post(parent, args, context, info) {
+    const post = await prisma.post.findUnique({
+      where: {
+        id: args.id,
       },
-      info,
-    );
+    });
 
     if (!post) {
       throw new Error('Post not found');
@@ -128,54 +116,36 @@ const Query = {
 
     return post;
   },
-  async followers(parent, args, { prisma, request }, info) {
-    const userId = getUserId(request);
+  async followers(parent, args, context, info) {
+    const userId = getUserId(context);
 
     await authCheck(prisma, userId);
 
-    const opArgs = {
-      first: args.first,
-      skip: args.skip,
-      after: args.after,
-      orderBy: args.orderBy || 'createdAt_DESC',
-    };
-
-    return prisma.query.follows(
-      {
-        ...opArgs,
-        where: {
-          following: {
-            id: userId,
-          },
-        },
+    return prisma.follow.findMany({
+      where: {
+        followingId: userId,
       },
-      info,
-    );
+      take: args.first,
+      skip: args.skip,
+      cursor: args.after,
+      orderBy: args.orderBy || { createdAt: 'desc' },
+    });
   },
-  async followings(parent, args, { prisma, request }, info) {
-    const userId = getUserId(request);
+  async followings(parent, args, context, info) {
+    const userId = getUserId(context);
 
     await authCheck(prisma, userId);
 
-    const opArgs = {
-      first: args.first,
-      skip: args.skip,
-      after: args.after,
-      orderBy: args.orderBy || 'createdAt_DESC',
-    };
-
-    return prisma.query.follows(
-      {
-        ...opArgs,
-        where: {
-          follower: {
-            id: userId,
-          },
-        },
+    return prisma.follow.findMany({
+      where: {
+        followerId: userId,
       },
-      info,
-    );
+      take: args.first,
+      skip: args.skip,
+      cursor: args.after,
+      orderBy: args.orderBy || { createdAt: 'desc' },
+    });
   },
 };
 
-export { Query as default };
+export default Query;

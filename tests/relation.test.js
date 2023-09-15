@@ -16,8 +16,6 @@ import seedDatabase2, { userTwo, userThree } from './utils/seedDatabase2';
 beforeAll(seedDatabase);
 beforeAll(seedDatabase2);
 
-const client = getClient();
-
 test('Should get followers', async () => {
   const client = getClient(userOne.jwt);
 

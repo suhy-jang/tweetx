@@ -5,21 +5,13 @@ import { Link } from 'react-router-dom';
 const UserInfo = ({ user, onClick }) => {
   return (
     <div className="d-flex position-relative pl-2 pt-5">
-      <Link
-        to={{
-          pathname: '/profile',
-          state: { user },
-        }}
-        onClick={onClick}
-      >
+      <Link to="/profile" state={{ user }} onClick={onClick}>
         <img src={user.photoUrl} alt="" className="profile-img" />
       </Link>
       <div className="ml-3">
         <Link
-          to={{
-            pathname: '/profile',
-            state: { user },
-          }}
+          to="/profile"
+          state={{ user }}
           className="underline"
           onClick={onClick}
         >

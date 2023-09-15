@@ -1,12 +1,13 @@
-export const emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+export const emailRegex =
+  /^(([^<>()\[\]\.,;:\s@\"]+(\.[[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
 export const usernameValidation = async (prisma, username) => {
   if (!username) {
     throw new Error('Username is not valid');
   }
-  const usernameTaken = await prisma.exists.User({ username });
+  const existingUser = await prisma.user.findUnique({ where: { username } });
 
-  if (usernameTaken) {
+  if (existingUser) {
     throw new Error('Username already taken.');
   }
 };
@@ -15,9 +16,9 @@ export const emailValidation = async (prisma, email) => {
   if (!emailRegex.test(email)) {
     throw new Error('Email is not valid');
   }
-  const emailTaken = await prisma.exists.User({ email });
+  const existingEmail = await prisma.user.findUnique({ where: { email } });
 
-  if (emailTaken) {
+  if (existingEmail) {
     throw new Error('Email already taken.');
   }
 };
@@ -27,13 +28,7 @@ export const nameValidation = (prisma, name) => {
 };
 
 export const authCheck = async (prisma, userId) => {
-  const user = (
-    await prisma.query.users({
-      where: {
-        id: userId,
-      },
-    })
-  )[0];
+  const user = await prisma.user.findUnique({ where: { id: userId } });
 
   if (!user) {
     throw new Error('Unable to authenticate');

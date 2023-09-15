@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import SplashBg from './SplashBg';
 import { connect } from 'react-redux';
 import Head from '../head/Head';
@@ -8,7 +8,7 @@ import { setAlert } from '../../actions/alert';
 import { resetPassword } from '../../actions/auth';
 
 const ResetPassword = ({ resetPassword, setAlert }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     email: '',
@@ -26,7 +26,7 @@ const ResetPassword = ({ resetPassword, setAlert }) => {
       {
         successMsg: `Email sent. Please confirm it within 10 minutes.`,
       },
-      history,
+      () => navigate('/'),
     );
   };
 
@@ -41,10 +41,7 @@ const ResetPassword = ({ resetPassword, setAlert }) => {
     <>
       <Head title="Reset Password" />
       <div className="splash position-relative">
-        <MobileHeader
-          title="Password Reset"
-          redirect={() => history.goBack()}
-        />
+        <MobileHeader title="Password Reset" redirect={() => navigate(-1)} />
         <div className="p-3 flex-column-between">
           <h4 className="mt-3">Find your TweetX account</h4>
           <div className="font-sm description my-2">

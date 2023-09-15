@@ -1,6 +1,5 @@
 [
   {
-    "id": "5d713995b721c3bb38c1f5d0",
     "username": "mary",
     "fullname": "Mary Cook",
     "email": "mary@example.org",
@@ -8,7 +7,6 @@
     "password": "foobar"
   },
   {
-    "id": "5d713a66ec8f2b88b8f830b8",
     "username": "liam",
     "fullname": "Liam Jacklin",
     "email": "liam@example.org",
@@ -16,7 +14,6 @@
     "password": "foobar"
   },
   {
-    "id": "5d725a037b292f5f8ceff787",
     "username": "patricia",
     "fullname": "Patricia Takara",
     "email": "patricia@example.org",
@@ -24,7 +21,6 @@
     "password": "foobar"
   },
   {
-    "id": "5d725a1b7b292f5f8eefa789",
     "username": "barbara",
     "fullname": "Barbara Rosa",
     "email": "barbara@example.org",
@@ -32,7 +28,6 @@
     "password": "foobar"
   },
   {
-    "id": "5d725a1b7b315f5a8e7fa728",
     "username": "lisa",
     "fullname": "Lisa Abell",
     "email": "lisa@example.org",

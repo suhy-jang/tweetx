@@ -132,21 +132,21 @@ export const queryUser = gql(`
   query($id: ID!) {
     user(id: $id) {
       ...userData
-      posts(orderBy: createdAt_DESC) {
+      posts(orderBy: { createdAt: desc }) {
         ...postData
         author {
           ...userData
           ...relationData
         }
       }
-      followers(orderBy: createdAt_DESC) {
+      followers(orderBy: { createdAt: desc }) {
         id
         follower {
           ...userData
           ...relationData
         }
       }
-      followings(orderBy: createdAt_DESC) {
+      followings(orderBy: { createdAt: desc }) {
         id
         following {
           ...userData
@@ -176,7 +176,7 @@ export const queryUsers = gql(`
 
 export const queryMyFeed = gql(`
   query {
-    myFeed(orderBy: createdAt_DESC) {
+    myFeed(orderBy: { createdAt: desc }) {
       ...postData
       author {
         ...userData

@@ -1,49 +1,44 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Head from '../head/Head';
-import { Link, useLocation, useHistory, Redirect } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import DeletePost from './DeletePost';
 import MobileHeader from '../layouts/MobileHeader';
 
 const Post = ({ auth: { user } }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const location = useLocation();
 
   const post = location.state ? location.state.post : undefined;
 
-  if (!post) {
-    return <Redirect to="/" />;
-  }
+  useEffect(() => {
+    if (!post) {
+      navigate('/');
+    }
+  }, [post, navigate]);
 
   return (
     <div className="splash mx-auto post single-post border-0 p-4 h-100">
       <Head title={`${post.author.fullname} on TweetX: ${post.content}`} />
       <MobileHeader
         title="Post"
-        redirect={() => history.goBack()}
+        redirect={() => navigate(-1)}
         optionTwo={true}
       />
       <div className="desktop header text-center my-2">Post</div>
       <div className="d-flex">
         <div className="pt-3">
-          <Link
-            to={{
-              pathname: '/profile',
-              state: { user: post.author },
-            }}
-          >
+          <Link to="/profile" state={{ user: post.author }}>
             <img src={post.author.photoUrl} alt="" className="profile-img" />
           </Link>
         </div>
         <div className="post-content d-flex flex-column w-100">
           <div>
             <Link
-              to={{
-                pathname: '/profile',
-                state: { user: post.author },
-              }}
+              to="/profile"
+              state={{ user: post.author }}
               className="underline font-weight-bold d-inline"
             >
               {post.author.fullname}

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import SplashBg from './SplashBg';
 
-const LoginOrRegister = (props) => {
+const LoginOrRegister = () => {
   return (
     <div className="splash p-3 flex-column-between">
       <div className="splash-promotion flex-column-center text-center mx-auto">

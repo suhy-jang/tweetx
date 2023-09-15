@@ -2,7 +2,6 @@ import 'core-js/stable';
 import 'cross-fetch/polyfill';
 import 'regenerator-runtime/runtime';
 import getClient from './utils/apolloClient';
-import prisma from '../src/prisma';
 import {
   createUser,
   login,
@@ -13,6 +12,9 @@ import {
   updateUser,
 } from './utils/operations';
 import seedDatabase, { userOne } from './utils/seedDatabase';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 beforeAll(seedDatabase);
 
@@ -57,11 +59,13 @@ test('Should create a new user', async () => {
 
   const { data } = res;
 
-  const exists = await prisma.exists.User({
-    id: data.createUser.user.id,
+  const user = await prisma.user.findUnique({
+    where: {
+      id: data.createUser.user.id,
+    },
   });
 
-  expect(exists).toBe(true);
+  expect(user).toBeTruthy();
 });
 
 test('Should not register with invalid email', async () => {
@@ -127,9 +131,11 @@ test('Should delete current user', async () => {
 
   const { data } = res;
 
-  const exists = await prisma.exists.User({
-    id: data.deleteUser.id,
+  const user = await prisma.user.findUnique({
+    where: {
+      id: data.deleteUser.id,
+    },
   });
 
-  expect(exists).toBe(false);
+  expect(user).toBeFalsy();
 });

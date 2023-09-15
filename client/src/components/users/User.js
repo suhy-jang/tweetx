@@ -6,21 +6,13 @@ import Follow from '../follow/Follow';
 const User = ({ user }) => {
   return (
     <div className="user d-flex border-bottom clearfix">
-      <Link
-        to={{
-          pathname: '/profile',
-          state: { user },
-        }}
-        className="user-element float-left"
-      >
+      <Link to="/profile" state={{ user }} className="user-element float-left">
         <img src={user.photoUrl} alt="" className="profile-img" />
       </Link>
       <div className="user-element ml-2">
         <Link
-          to={{
-            pathname: '/profile',
-            state: { user },
-          }}
+          to="/profile"
+          state={{ user }}
           className="underline font-weight-bold d-inline"
         >
           {user.fullname}

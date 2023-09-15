@@ -13,30 +13,24 @@ const TabBar = ({ user, disabled }) => {
   return (
     <div className="tabbar d-flex font-weight-bold text-center">
       <Link
-        to={{
-          pathname: '/profile',
-          state: { user },
-        }}
+        to="/profile"
+        state={{ user }}
         className={`${basicClass}${selected('/profile')}`}
       >
         <div>{user.posts && user.posts.length}</div>
         <div>POSTS</div>
       </Link>
       <Link
-        to={{
-          pathname: '/profile-followers',
-          state: { user },
-        }}
+        to="/profile-followers"
+        state={{ user }}
         className={`${basicClass}${selected('/profile-followers')}`}
       >
         <div>{user.followers && user.followers.length}</div>
         <div>FOLLOWERS</div>
       </Link>
       <Link
-        to={{
-          pathname: './profile-followings',
-          state: { user },
-        }}
+        to="/profile-followings"
+        state={{ user }}
         className={`${basicClass}${selected('/profile-followings')}`}
       >
         <div>{user.followings && user.followings.length}</div>

@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String    @id @default(uuid())
+  username            String    @unique
+  fullname            String
+  email               String    @unique
+  photoUrl            String?
+  password            String
+  resetPasswordToken  String?
+  resetPasswordExpire DateTime?
+  posts               Post[]    @relation("PostToUser")
+  followings          Follow[]  @relation("FollowerUser")
+  followers           Follow[]  @relation("FollowingUser")
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+}
+
+model Post {
+  id        String   @id @default(uuid())
+  content   String
+  author    User?    @relation("PostToUser", fields: [authorId], onDelete: SetNull, references: [id])
+  authorId  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Follow {
+  id          String   @id @default(uuid())
+  following   User     @relation("FollowingUser", fields: [followingId], references: [id])
+  followingId String
+  follower    User     @relation("FollowerUser", fields: [followerId], references: [id])
+  followerId  String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

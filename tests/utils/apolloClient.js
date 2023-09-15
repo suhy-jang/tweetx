@@ -1,18 +1,26 @@
-import ApolloBoost from 'apollo-boost';
+import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 
 const getClient = (jwt) => {
-  return new ApolloBoost({
-    uri: 'http://localhost:4000',
-    request(operation) {
-      if (jwt) {
-        operation.setContext({
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        });
-      }
-    },
+  const httpLink = createHttpLink({
+    uri: 'http://localhost:4000/graphql',
+  });
+
+  const authLink = setContext((_, { headers }) => {
+    if (!jwt) return { headers };
+
+    return {
+      headers: {
+        ...headers,
+        Authorization: `Bearer ${jwt}`,
+      },
+    };
+  });
+
+  return new ApolloClient({
+    link: authLink.concat(httpLink),
+    cache: new InMemoryCache(),
   });
 };
 
-export { getClient as default };
+export default getClient;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { createPost } from '../../actions/post';
 import { connect } from 'react-redux';
 import MobileHeader from '../layouts/MobileHeader';
@@ -9,10 +9,10 @@ import Head from '../head/Head';
 const CreatePost = ({ auth, createPost }) => {
   const [content, setContent] = useState('');
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const cancelClick = () => {
-    history.goBack();
+    navigate(-1);
   };
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const CreatePost = ({ auth, createPost }) => {
   }, []);
 
   const onSubmit = () => {
-    createPost(content, history);
+    createPost(content, () => navigate('/'));
     localStorage.removeItem(`new-post`);
   };
 
@@ -35,7 +35,7 @@ const CreatePost = ({ auth, createPost }) => {
       <Head title="Create Post" />
       <MobileHeader
         title="Create New Post"
-        redirect={() => history.goBack()}
+        redirect={() => navigate(-1)}
         desktop={true}
       />
       <div className="p-2">

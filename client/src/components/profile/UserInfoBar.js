@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Follow from '../follow/Follow';
 import Moment from 'react-moment';
 
-const UserInfoBar = ({ auth: { user: authUser }, user }) => {
+const UserInfoBar = ({ loginUser, user }) => {
   const [float, setFloat] = useState('');
   const [scroll, setScroll] = useState(0);
 
@@ -29,7 +29,7 @@ const UserInfoBar = ({ auth: { user: authUser }, user }) => {
   );
 
   const editProfileOptions = () => {
-    if (authUser.id === user.id) {
+    if (loginUser.id === user.id) {
       return editProfile;
     } else {
       // Follow component: authUser || authUser.followings exception controlled
@@ -58,13 +58,13 @@ const UserInfoBar = ({ auth: { user: authUser }, user }) => {
           </div>
         </div>
       </div>
-      <div>{authUser && editProfileOptions()}</div>
+      <div>{loginUser && editProfileOptions()}</div>
     </div>
   );
 };
 
 UserInfoBar.propTypes = {
-  auth: PropTypes.object.isRequired,
+  loginUser: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
 };
 

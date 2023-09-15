@@ -1,9 +1,61 @@
 import '@babel/polyfill/noConflict';
-import server from './server';
 import seeder from './seeder';
 import os from 'os';
-import path from 'path';
 import express from 'express';
+import { createSchema, createYoga } from 'graphql-yoga';
+import prisma from './prisma';
+import { resolvers } from './resolvers';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import { xssPrevention } from './middlewares/xssPrevention';
+import typeDefs from './typedefs';
+
+const app = express();
+
+// Helmet middleware
+app.use(
+  helmet({
+    contentSecurityPolicy:
+      process.env.NODE_ENV === 'development' ? false : undefined,
+  }),
+);
+
+// Serve static assets in production
+if (process.env.NODE_ENV === 'production') {
+  // Rate limiting middleware
+  const limiter = rateLimit({
+    windowMs: 10 * 60 * 1000, // 10 mins
+    max: 100, // limit each IP to 100 requests per windowMs
+    message: 'Too many requests, please try again after 15 minutes later.',
+  });
+
+  app.use(limiter);
+
+  app.use('/', express.static('public'));
+  app.get('*', (req, res, next) => {
+    const routes = ['/graphql', '/graphql/playground'];
+
+    if (routes.includes(req.url)) {
+      return next();
+    }
+
+    res.sendFile(path.resolve(__dirname, '../public', 'index.html'));
+  });
+}
+
+const yoga = createYoga({
+  schema: createSchema({
+    typeDefs,
+    resolvers,
+    context(request) {
+      return {
+        prisma,
+        request,
+      };
+    },
+    middlewares: [xssPrevention],
+  }),
+});
 
 const host =
   'http://' +
@@ -19,30 +71,20 @@ const opts = {
   },
 };
 
-// Serve static assets in production
-if (process.env.NODE_ENV === 'production') {
-  server.express.use('/', express.static('public'));
-  server.express.get('*', (req, res, next) => {
-    const routes = ['/graphql', '/graphql/playground'];
+app.use(yoga.graphqlEndpoint, yoga);
 
-    if (routes.includes(req.url)) {
-      return next();
-    }
-
-    res.sendFile(path.resolve(__dirname, '../public', 'index.html'));
-  });
-}
-
-server.start(opts, () => {
+app.listen(opts, () => {
   console.log('The server is up');
   if (process.env.NODE_ENV === 'development') {
     seeder();
   }
 });
 
-// Handle unhandled promise rejection
-process.on('unhandledRejection', (err, promise) => {
-  console.log(`Error: ${err.message}`);
-  // Exit process
-  process.exit(1);
-});
+process
+  .on('unhandledRejection', (reason, promise) => {
+    console.warn('Unhandled Rejection at: ', promise, 'reason: ', reason);
+  })
+  .on('uncaughtException', (err) => {
+    console.warn(err, 'Uncaught Exception thrown');
+    process.exit(1);
+  });

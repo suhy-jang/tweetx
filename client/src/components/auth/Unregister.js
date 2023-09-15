@@ -1,19 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { unregister } from '../../actions/auth';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Unregister = ({ auth, unregister }) => {
+  const navigate = useNavigate();
   const onClick = (e) => {
     if (window.confirm('Are you sure you wish to delete your account?')) {
       unregister();
     }
   };
 
-  if (!auth.isAuthenticated) {
-    return <Redirect to="/" />;
-  }
+  useEffect(() => {
+    if (auth.isAuthenticated) {
+      navigate('/');
+    }
+  }, [auth, navigate]);
 
   return (
     <>

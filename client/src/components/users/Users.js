@@ -5,21 +5,21 @@ import User from './User';
 import Head from '../head/Head';
 import { unfollowedUsers } from '../../actions/profile';
 import MobileHeader from '../layouts/MobileHeader';
-import { useLocation, Redirect } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Users = ({ profile: { loading, profiles }, unfollowedUsers }) => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const user = location.state?.user;
 
   useEffect(() => {
-    if (location.state) {
-      unfollowedUsers(location.state.user.id);
+    if (user) {
+      unfollowedUsers(user.id);
+    } else {
+      navigate('/');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.state]);
-
-  if (!location.state) {
-    return <Redirect to="/" />;
-  }
+  }, [user, navigate]);
 
   return (
     <div className="users m-3">
@@ -27,7 +27,7 @@ const Users = ({ profile: { loading, profiles }, unfollowedUsers }) => {
       <MobileHeader title="users" optionTwo={true} />
       <h4 className="mb-3">Who to follow...</h4>
       {profiles.length > 0 ? (
-        profiles.map((user) => <User key={user.id} user={user} />)
+        profiles.map((profile) => <User key={profile.id} user={profile} />)
       ) : (
         <div>{loading ? 'loading...' : 'no suggested users'}</div>
       )}

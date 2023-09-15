@@ -57,91 +57,80 @@ export const loadUser = () => async (dispatch) => {
 };
 
 // Register User
-export const register = (
-  { username, fullname, email, password },
-  { successMsg },
-) => async (dispatch) => {
-  const variables = {
-    data: {
-      username,
-      fullname,
-      email,
-      password,
-    },
-  };
-
-  try {
-    const res = await client.mutate({ mutation: mutateCreateUser, variables });
-
-    const { data, errors } = res;
-
-    if (!data) {
-      errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
-      return dispatch({ type: AUTH_ERROR });
-    }
-
-    authIn(data.createUser.token);
-
-    dispatch({
-      type: REGISTER_SUCCESS,
-      payload: data.createUser,
-    });
-
-    dispatch(setAlert(successMsg, 'success'));
-    dispatch(loadUser());
-  } catch (err) {
-    dispatch(setAlert(err.message, 'danger'));
-    dispatch({ type: AUTH_ERROR });
-  }
-};
-
-// Login User
-export const login = ({ email, password }, { successMsg }) => async (
-  dispatch,
-) => {
-  const variables = {
-    data: {
-      email,
-      password,
-    },
-  };
-
-  try {
-    const res = await client.mutate({ mutation: mutateLogin, variables });
-
-    const { data, errors } = res;
-
-    if (!data) {
-      errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
-      return dispatch({ type: AUTH_ERROR });
-    }
-
-    authIn(data.login.token);
-
-    dispatch({
-      type: LOGIN_SUCCESS,
-      payload: data.login,
-    });
-    dispatch(setAlert(successMsg, 'success'));
-    dispatch(loadUser());
-  } catch (err) {
-    dispatch(setAlert(err.message, 'danger'));
-    dispatch({ type: AUTH_ERROR });
-  }
-};
-
-function uploadToS3(file, signedRequest) {
-  return new Promise(function (resolve, reject) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('PUT', signedRequest);
-    xhr.setRequestHeader('x-amz-acl', 'public-read');
-    xhr.onload = () => {
-      return resolve(xhr.status);
+export const register =
+  ({ username, fullname, email, password }, { successMsg }) =>
+  async (dispatch) => {
+    const variables = {
+      data: {
+        username,
+        fullname,
+        email,
+        password,
+      },
     };
 
-    xhr.send(file);
-  });
-}
+    try {
+      const res = await client.mutate({
+        mutation: mutateCreateUser,
+        variables,
+      });
+
+      const { data, errors } = res;
+
+      if (!data) {
+        errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
+        return dispatch({ type: AUTH_ERROR });
+      }
+
+      authIn(data.createUser.token);
+
+      dispatch({
+        type: REGISTER_SUCCESS,
+        payload: data.createUser,
+      });
+
+      dispatch(setAlert(successMsg, 'success'));
+      dispatch(loadUser());
+    } catch (err) {
+      dispatch(setAlert(err.message, 'danger'));
+      dispatch({ type: AUTH_ERROR });
+    }
+  };
+
+// Login User
+export const login =
+  ({ email, password }, { successMsg }) =>
+  async (dispatch) => {
+    const variables = {
+      data: {
+        email,
+        password,
+      },
+    };
+
+    try {
+      const res = await client.mutate({ mutation: mutateLogin, variables });
+
+      const { data, errors } = res;
+
+      if (!data) {
+        errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
+        return dispatch({ type: AUTH_ERROR });
+      }
+
+      authIn(data.login.token);
+
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: data.login,
+      });
+      dispatch(setAlert(successMsg, 'success'));
+      dispatch(loadUser());
+    } catch (err) {
+      dispatch(setAlert(err.message, 'danger'));
+      dispatch({ type: AUTH_ERROR });
+    }
+  };
 
 export const uploadUserPhoto = (file) => async (dispatch) => {
   const { name, size, type } = file;
@@ -164,9 +153,7 @@ export const uploadUserPhoto = (file) => async (dispatch) => {
       return dispatch(setAlert(errors, 'danger'));
     }
 
-    const { signedRequest, url } = data.fileUploadSign;
-
-    const res2 = await uploadToS3(file, signedRequest);
+    const { res: res2, url } = data.fileUploadSign;
 
     if (res2 !== 200) {
       return dispatch(setAlert('Failed file upload', 'danger'));
@@ -178,37 +165,38 @@ export const uploadUserPhoto = (file) => async (dispatch) => {
   }
 };
 
-export const editUser = (
-  { fullname, photoUrl },
-  { successMsg },
-  history,
-) => async (dispatch) => {
-  const variables = {
-    data: {
-      fullname,
-      photoUrl,
-    },
-  };
+export const editUser =
+  ({ fullname, photoUrl }, { successMsg }, history) =>
+  async (dispatch) => {
+    const variables = {
+      data: {
+        fullname,
+        photoUrl,
+      },
+    };
 
-  try {
-    const res = await client.mutate({ mutation: mutateUpdateUser, variables });
+    try {
+      const res = await client.mutate({
+        mutation: mutateUpdateUser,
+        variables,
+      });
 
-    const { data, errors } = res;
+      const { data, errors } = res;
 
-    if (!data) {
-      errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
-      return;
+      if (!data) {
+        errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
+        return;
+      }
+
+      dispatch({ type: EDIT_USER, payload: data.updateUser });
+      history.goBack();
+
+      dispatch(setAlert(successMsg, 'success'));
+      loadUser();
+    } catch (err) {
+      dispatch(setAlert('Update failed', 'danger'));
     }
-
-    dispatch({ type: EDIT_USER, payload: data.updateUser });
-    history.goBack();
-
-    dispatch(setAlert(successMsg, 'success'));
-    loadUser();
-  } catch (err) {
-    dispatch(setAlert('Update failed', 'danger'));
-  }
-};
+  };
 
 // Logout
 export const logout = () => (dispatch) => {
@@ -289,73 +277,71 @@ export const unfollow = (id, setFollowStatus) => async (dispatch) => {
 };
 
 // Reset password
-export const resetPassword = ({ email }, successMsg, history) => async (
-  dispatch,
-) => {
-  const variables = {
-    data: {
-      email,
-    },
-  };
+export const resetPassword =
+  ({ email }, successMsg, callback) =>
+  async (dispatch) => {
+    const variables = {
+      data: {
+        email,
+      },
+    };
 
-  try {
-    const res = await client.mutate({
-      mutation: mutateForgotPassword,
-      variables,
-    });
+    try {
+      const res = await client.mutate({
+        mutation: mutateForgotPassword,
+        variables,
+      });
 
-    const { data, errors } = res;
+      const { data, errors } = res;
 
-    if (!data) {
-      errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
-      return dispatch({ type: AUTH_ERROR });
+      if (!data) {
+        errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
+        return dispatch({ type: AUTH_ERROR });
+      }
+      dispatch(setAlert(successMsg, 'success'));
+      callback();
+    } catch (err) {
+      dispatch({ type: AUTH_ERROR });
     }
-    dispatch(setAlert(successMsg, 'success'));
-    history.push('/');
-  } catch (err) {
-    dispatch({ type: AUTH_ERROR });
-  }
-};
+  };
 
 // Reset password confirm
-export const resetPasswordConfirm = (
-  { resetToken, password },
-  { successMsg },
-  history,
-) => async (dispatch) => {
-  const variables = {
-    data: {
-      resetToken,
-      password,
-    },
-  };
+export const resetPasswordConfirm =
+  ({ resetToken, password }, { successMsg }, callback) =>
+  async (dispatch) => {
+    const variables = {
+      data: {
+        resetToken,
+        password,
+      },
+    };
 
-  try {
-    const res = await client.mutate({
-      mutation: mutateResetPassword,
-      variables,
-    });
+    try {
+      const res = await client.mutate({
+        mutation: mutateResetPassword,
+        variables,
+      });
 
-    const { data, errors } = res;
+      const { data, errors } = res;
 
-    if (!data) {
-      errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
-      return dispatch({ type: AUTH_ERROR });
+      if (!data) {
+        errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
+        return dispatch({ type: AUTH_ERROR });
+      }
+
+      authIn(data.resetPassword.token);
+
+      dispatch({
+        type: RESET_PASSWORD_CONFIRM,
+        payload: data.resetPassword,
+      });
+
+      dispatch(setAlert(successMsg, 'success'));
+
+      dispatch(loadUser());
+
+      callback();
+    } catch (err) {
+      dispatch({ type: AUTH_ERROR });
     }
-
-    authIn(data.resetPassword.token);
-
-    dispatch({
-      type: RESET_PASSWORD_CONFIRM,
-      payload: data.resetPassword,
-    });
-
-    dispatch(setAlert(successMsg, 'success'));
-
-    dispatch(loadUser());
-
-    history.push('/');
-  } catch (err) {
-    dispatch({ type: AUTH_ERROR });
-  }
-};
+  };

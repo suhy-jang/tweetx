@@ -31,7 +31,7 @@ export const getMyFeed = () => async (dispatch) => {
   }
 };
 
-export const createPost = (content, history) => async (dispatch) => {
+export const createPost = (content, callback) => async (dispatch) => {
   dispatch({ type: POST_LOADING });
 
   const variables = {
@@ -55,13 +55,13 @@ export const createPost = (content, history) => async (dispatch) => {
       payload: data.createPost,
     });
 
-    history.push('/');
+    callback();
   } catch (err) {
     dispatch({ type: POST_ERROR, payload: err });
   }
 };
 
-export const deletePost = (id, history) => async (dispatch) => {
+export const deletePost = (id, callback) => async (dispatch) => {
   const variables = {
     id,
   };
@@ -81,7 +81,7 @@ export const deletePost = (id, history) => async (dispatch) => {
       payload: data.deletePost,
     });
 
-    history.push('/');
+    callback();
   } catch (err) {
     dispatch({ type: POST_ERROR, payload: err });
   }

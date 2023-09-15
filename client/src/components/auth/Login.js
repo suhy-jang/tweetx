@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import SplashBg from './SplashBg';
-import { Link, useHistory, Redirect } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { setAlert } from '../../actions/alert';
 import { login } from '../../actions/auth';
 import { connect } from 'react-redux';
@@ -9,7 +9,8 @@ import Head from '../head/Head';
 import MobileHeader from '../layouts/MobileHeader';
 
 const Login = ({ auth, login, setAlert }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -36,9 +37,11 @@ const Login = ({ auth, login, setAlert }) => {
     });
   };
 
-  if (auth.isAuthenticated) {
-    return <Redirect to="/" />;
-  }
+  useEffect(() => {
+    if (auth.isAuthenticated) {
+      navigate('/');
+    }
+  }, [auth, navigate]);
 
   return (
     <>
@@ -47,7 +50,7 @@ const Login = ({ auth, login, setAlert }) => {
         <MobileHeader
           title="Sign In"
           redirect={() => {
-            history.push('login-or-register');
+            navigate('login-or-register');
           }}
         />
         <Link

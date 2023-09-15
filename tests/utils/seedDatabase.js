@@ -2,7 +2,9 @@ import 'core-js/stable';
 import 'cross-fetch/polyfill';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import prisma from '../../src/prisma';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 export const userOne = {
   input: {
@@ -23,22 +25,20 @@ export const postOne = {
 };
 
 const seedDatabase = async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL *= 10;
-
   // Delete test data
-  await prisma.mutation.deleteManyFollows();
-  await prisma.mutation.deleteManyPosts();
-  await prisma.mutation.deleteManyUsers();
+  await prisma.follow.deleteMany();
+  await prisma.post.deleteMany();
+  await prisma.user.deleteMany();
 
   // Create User one
-  userOne.user = await prisma.mutation.createUser({
+  userOne.user = await prisma.user.create({
     data: userOne.input,
   });
 
   userOne.jwt = jwt.sign({ userId: userOne.user.id }, process.env.JWT_SECRET);
 
   // Create Post one
-  postOne.post = await prisma.mutation.createPost({
+  postOne.post = await prisma.post.create({
     data: {
       ...postOne.input,
       author: {

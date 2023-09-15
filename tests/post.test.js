@@ -50,11 +50,13 @@ test('Should create a new post', async () => {
 
   const { data } = res;
 
-  const exists = await prisma.exists.Post({
-    id: data.createPost.id,
+  const post = await prisma.post.findUnique({
+    where: {
+      id: data.createPost.id,
+    },
   });
 
-  expect(exists).toBe(true);
+  expect(post).toBeTruthy();
 });
 
 test('Should update post', async () => {
@@ -88,9 +90,11 @@ test('Should delete post', async () => {
 
   const { data } = res;
 
-  const exists = await prisma.exists.Post({
-    id: data.deletePost.id,
+  const post = await prisma.post.findUnique({
+    where: {
+      id: data.deletePost.id,
+    },
   });
 
-  expect(exists).toBe(false);
+  expect(post).toBeFalsy();
 });

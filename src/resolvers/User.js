@@ -1,11 +1,11 @@
-import getUserId from '../utils/getUserId';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 const User = {
   email: {
-    fragment: 'fragment userId on User { id }',
-    resolve(parent, args, { request }, info) {
-      const userId = getUserId(request, false);
-      if (userId && userId === parent.id) {
+    resolve(parent, args, context, info) {
+      if (context.userId && context.userId === parent.id) {
         return parent.email;
       } else {
         return null;
@@ -13,20 +13,32 @@ const User = {
     },
   },
   posts: {
-    fragment: 'fragment userId on User { id }',
-    resolve(parent, args, { prisma }, info) {
-      return prisma.query.posts(
-        {
-          where: {
-            author: {
-              id: parent.id,
-            },
-          },
+    resolve(parent, args, context, info) {
+      return prisma.post.findMany({
+        where: {
+          authorId: parent.id,
         },
-        info,
-      );
+      });
+    },
+  },
+  followers: {
+    resolve(parent, args, context, info) {
+      return prisma.follow.findMany({
+        where: {
+          followingId: parent.id,
+        },
+      });
+    },
+  },
+  followings: {
+    resolve(parent, args, context, info) {
+      return prisma.follow.findMany({
+        where: {
+          followerId: parent.id,
+        },
+      });
     },
   },
 };
 
-export { User as default };
+export default User;

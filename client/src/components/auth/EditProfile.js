@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import SplashBg from './SplashBg';
 import { connect } from 'react-redux';
 import { uploadUserPhoto, editUser } from '../../actions/auth';
@@ -9,7 +9,7 @@ import MobileHeader from '../layouts/MobileHeader';
 import { useDropzone } from 'react-dropzone';
 
 const EditProfile = ({ auth: { user }, editUser, uploadUserPhoto }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const [fullname, setFullname] = useState(user.fullname);
   const [file, setFile] = useState({
@@ -27,7 +27,7 @@ const EditProfile = ({ auth: { user }, editUser, uploadUserPhoto }) => {
     editUser(
       { fullname, photoUrl: url },
       { successMsg: 'Successfully updated' },
-      history,
+      navigate,
     );
   };
 
@@ -52,7 +52,7 @@ const EditProfile = ({ auth: { user }, editUser, uploadUserPhoto }) => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
   return (
     <div className="splash">
-      <MobileHeader title="Edit Profile" redirect={() => history.goBack()} />
+      <MobileHeader title="Edit Profile" redirect={() => navigate(-1)} />
       <div className="edit-user d-flex justify-content-center my-3">
         <img src={file.imagePreviewUrl} alt="" className="profile-img" />
       </div>

@@ -11,46 +11,59 @@ const posts = JSON.parse(
 );
 
 const createUsers = async () => {
-  for await (const user of users) {
-    const password = bcrypt.hashSync(user.password);
-    await prisma.mutation.createUser({
-      data: {
-        ...user,
-        password,
-      },
+  const userRecords = [];
+
+  for (const user of users) {
+    const password = await bcrypt.hash(user.password, 10);
+
+    userRecords.push({
+      ...user,
+      password,
     });
   }
+
+  await prisma.user.createMany({
+    data: userRecords,
+  });
+  return await prisma.user.findMany();
 };
 
-const createPosts = async () => {
-  for await (const post of posts) {
-    await prisma.mutation.createPost({
-      data: {
-        content: post.content,
-        author: {
-          connect: {
-            id: post.author,
-          },
-        },
-      },
+const createPosts = async (users) => {
+  const postRecords = [];
+
+  for (const post of posts) {
+    const randomIndex = Math.floor(Math.random() * users.length);
+    const randomUser = users[randomIndex];
+    postRecords.push({
+      content: post.content,
+      authorId: randomUser.id,
     });
   }
+
+  await prisma.post.createMany({
+    data: postRecords,
+  });
 };
 
-const createFollows = async (follower, following) => {
-  await prisma.mutation.createFollow({
-    data: {
-      following: {
-        connect: {
-          id: following.id,
-        },
-      },
-      follower: {
-        connect: {
-          id: follower.id,
-        },
-      },
-    },
+const createFollows = async (users) => {
+  const followRecords = [];
+
+  for (let i = 0; i < users.length; i++) {
+    for (let j = i + 1; j < users.length; j++) {
+      followRecords.push({
+        followingId: users[i].id,
+        followerId: users[j].id,
+      });
+
+      followRecords.push({
+        followingId: users[j].id,
+        followerId: users[i].id,
+      });
+    }
+  }
+
+  await prisma.follow.createMany({
+    data: followRecords,
   });
 };
 
@@ -58,19 +71,9 @@ const importData = async () => {
   try {
     console.log('Data Importing...');
 
-    await createUsers();
-    await createPosts();
-    await createFollows(users[0], users[1]);
-    await createFollows(users[0], users[2]);
-    await createFollows(users[0], users[3]);
-    await createFollows(users[1], users[2]);
-    await createFollows(users[1], users[3]);
-    await createFollows(users[2], users[0]);
-    await createFollows(users[2], users[3]);
-    await createFollows(users[3], users[0]);
-    await createFollows(users[3], users[4]);
-    await createFollows(users[4], users[3]);
-    await createFollows(users[4], users[0]);
+    const users = await createUsers();
+    await createPosts(users);
+    await createFollows(users);
 
     console.log('Data Imported...');
     process.exit(0);
@@ -83,9 +86,9 @@ const deleteData = async () => {
   try {
     console.log('Data Destroying...');
 
-    await prisma.mutation.deleteManyFollows();
-    await prisma.mutation.deleteManyPosts();
-    await prisma.mutation.deleteManyUsers();
+    await prisma.follow.deleteMany();
+    await prisma.post.deleteMany();
+    await prisma.user.deleteMany();
 
     console.log('Data Destroyed...');
     process.exit(0);
@@ -94,7 +97,7 @@ const deleteData = async () => {
   }
 };
 
-module.exports = async () => {
+const main = async () => {
   const command = process.argv[process.argv.length - 1];
   switch (command) {
     case 'i':
@@ -109,3 +112,5 @@ module.exports = async () => {
       break;
   }
 };
+
+module.exports = main;

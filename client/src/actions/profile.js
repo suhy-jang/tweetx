@@ -59,10 +59,12 @@ export const getUsers = () => async (dispatch) => {
 export const unfollowedUsers = (id) => async (dispatch) => {
   const variables = {
     where: {
-      id_not: id,
-      followers_none: {
-        follower: {
-          id,
+      id: { not: id },
+      followers: {
+        none: {
+          follower: {
+            id,
+          },
         },
       },
     },

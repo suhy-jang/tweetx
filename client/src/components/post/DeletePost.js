@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { deletePost } from '../../actions/post';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const DeletePost = ({ id, deletePost }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const onClick = () => {
-    deletePost(id, history);
+    deletePost(id, () => navigate('/'));
   };
 
   return (

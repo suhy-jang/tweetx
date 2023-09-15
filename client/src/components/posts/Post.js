@@ -7,22 +7,15 @@ const Post = ({ post }) => {
   return (
     <div className="post d-flex border">
       <div>
-        <Link
-          to={{
-            pathname: '/profile',
-            state: { user: post.author },
-          }}
-        >
+        <Link to="/profile" state={{ user: post.author }}>
           <img src={post.author.photoUrl} alt="" className="profile-img" />
         </Link>
       </div>
       <div className="post-content d-flex flex-column">
         <div>
           <Link
-            to={{
-              pathname: '/profile',
-              state: { user: post.author },
-            }}
+            to="/profile"
+            state={{ user: post.author }}
             className="underline font-weight-bold d-inline"
           >
             {post.author.fullname}
@@ -38,10 +31,8 @@ const Post = ({ post }) => {
         <p className="white-space-pre">{post.content}</p>
         <div>
           <Link
-            to={{
-              pathname: '/post',
-              state: { post },
-            }}
+            to="/post"
+            state={{ post }}
             className="w-100 h-100 post-indicator font-sm"
           >
             Read more

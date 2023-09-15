@@ -1,24 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import SplashBg from './SplashBg';
-import { useHistory, Redirect } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { logout } from '../../actions/auth';
 import { connect } from 'react-redux';
 
 const Logout = ({ auth, logout }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const cancelClick = () => {
-    history.goBack();
+    navigate(-1);
   };
 
-  const logoutClick = () => {
-    logout();
-  };
-
-  if (!auth.isAuthenticated) {
-    return <Redirect to="/" />;
-  }
+  useEffect(() => {
+    if (auth.isAuthenticated) {
+      navigate('/');
+    }
+  }, [auth, navigate]);
 
   return (
     <>
@@ -36,7 +34,7 @@ const Logout = ({ auth, logout }) => {
             Cancel
           </button>
           <button
-            onClick={logoutClick}
+            onClick={logout}
             className="btn btn-primary rounded-pill px-3 py-2 font-lg font-weight-bold"
           >
             Log out

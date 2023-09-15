@@ -11,14 +11,14 @@ import {
 import sendEmail from '../utils/sendEmail';
 import signS3 from '../utils/fileUpload';
 import getUserId from '../utils/getUserId';
+import { s3_bucket } from '../utils/constants';
 
 const prisma = new PrismaClient();
 
 const Mutation = {
   async createUser(parent, args, context, info) {
     const password = await hashPassword(args.data.password);
-    const photoUrl =
-      'https://suhy.s3.ap-northeast-2.amazonaws.com/tweetx/Download/no-image-icon-389x389.jpg';
+    const photoUrl = `${s3_bucket}/Download/no-image-icon-389x389.jpg`;
     await usernameValidation(prisma, args.data.username);
     await emailValidation(prisma, args.data.email);
     await nameValidation(prisma, args.data.fullname);

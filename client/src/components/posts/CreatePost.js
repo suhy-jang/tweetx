@@ -21,7 +21,7 @@ const CreatePost = ({ auth, createPost }) => {
   }, []);
 
   const onSubmit = () => {
-    createPost(content, () => navigate('/'));
+    createPost(content, () => navigate('/', { state: { update: true } }));
     localStorage.removeItem(`new-post`);
   };
 

@@ -91,6 +91,21 @@ textarea {
   line-height: unset;
 }
 
+.btn:hover {
+  background-color: var(--primary-selected);
+  border-color: var(--primary-selected);
+}
+
+.btn:active {
+  box-shadow: none;
+  background-color: var(--lighter-color);
+  border-color: var(--lighter-color);
+}
+
+.btn:focus {
+  box-shadow: var(--lighter-color);
+}
+
 .btn:disabled {
   pointer-events: none;
 }

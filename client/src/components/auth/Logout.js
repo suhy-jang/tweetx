@@ -13,7 +13,7 @@ const Logout = ({ auth, logout }) => {
   };
 
   useEffect(() => {
-    if (auth.isAuthenticated) {
+    if (!auth.isAuthenticated) {
       navigate('/');
     }
   }, [auth, navigate]);

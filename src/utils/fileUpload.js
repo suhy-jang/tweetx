@@ -1,7 +1,10 @@
 import { S3Client, AbortMultipartUploadCommand } from '@aws-sdk/client-s3';
+import { s3_bucket } from './constants';
+
+const S3_REGION = process.env.S3_REGION;
 
 const s3Client = new S3Client({
-  region: process.env.S3_REGION,
+  region: S3_REGION,
   credentials: {
     accessKeyId: process.env.S3_KEY,
     secretAccessKey: process.env.S3_SECRET,
@@ -23,7 +26,7 @@ const signS3 = async (fileName, fileType) => {
     const command = new AbortMultipartUploadCommand(s3Params);
     const res = await s3Client.send(command);
 
-    const url = `https://${S3_BUCKET}.s3.ap-northeast-2.amazonaws.com/tweetx/Upload/${fileName}`;
+    const url = `${s3_bucket}/Upload/${fileName}`;
 
     return {
       res,

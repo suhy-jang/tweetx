@@ -3,35 +3,35 @@
     "username": "mary",
     "fullname": "Mary Cook",
     "email": "mary@example.org",
-    "photoUrl": "https://suhy.s3.ap-northeast-2.amazonaws.com/tweetx/Download/mary.jpg",
+    "photoUrl": "https://suhypractice.s3.ap-northeast-2.amazonaws.com/tweetx/Download/mary.jpg",
     "password": "foobar"
   },
   {
     "username": "liam",
     "fullname": "Liam Jacklin",
     "email": "liam@example.org",
-    "photoUrl": "https://suhy.s3.ap-northeast-2.amazonaws.com/tweetx/Download/liam.jpg",
+    "photoUrl": "https://suhypractice.s3.ap-northeast-2.amazonaws.com/tweetx/Download/liam.jpg",
     "password": "foobar"
   },
   {
     "username": "patricia",
     "fullname": "Patricia Takara",
     "email": "patricia@example.org",
-    "photoUrl": "https://suhy.s3.ap-northeast-2.amazonaws.com/tweetx/Download/patricia.jpg",
+    "photoUrl": "https://suhypractice.s3.ap-northeast-2.amazonaws.com/tweetx/Download/patricia.jpg",
     "password": "foobar"
   },
   {
     "username": "barbara",
     "fullname": "Barbara Rosa",
     "email": "barbara@example.org",
-    "photoUrl": "https://suhy.s3.ap-northeast-2.amazonaws.com/tweetx/Download/barbara.jpg",
+    "photoUrl": "https://suhypractice.s3.ap-northeast-2.amazonaws.com/tweetx/Download/barbara.jpg",
     "password": "foobar"
   },
   {
     "username": "lisa",
     "fullname": "Lisa Abell",
     "email": "lisa@example.org",
-    "photoUrl": "https://suhy.s3.ap-northeast-2.amazonaws.com/tweetx/Download/lisa.jpg",
+    "photoUrl": "https://suhypractice.s3.ap-northeast-2.amazonaws.com/tweetx/Download/lisa.jpg",
     "password": "foobar"
   }
 ]

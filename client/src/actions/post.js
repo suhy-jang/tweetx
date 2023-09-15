@@ -9,11 +9,14 @@ import {
 } from './types';
 import { queryMyFeed, mutateCreatePost, mutateDeletePost } from './operations';
 
-export const getMyFeed = () => async (dispatch) => {
+export const getMyFeed = (update) => async (dispatch) => {
   dispatch({ type: POST_LOADING });
 
   try {
-    const res = await client.query({ query: queryMyFeed });
+    const res = await client.query({
+      query: queryMyFeed,
+      fetchPolicy: update ? 'no-cache' : undefined,
+    });
 
     const { data, errors } = res;
 

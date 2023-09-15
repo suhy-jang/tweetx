@@ -4,7 +4,7 @@ import { unregister } from '../../actions/auth';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-const Unregister = ({ auth, unregister }) => {
+const Unregister = ({ auth: { isAuthenticated }, unregister }) => {
   const navigate = useNavigate();
   const onClick = (e) => {
     if (window.confirm('Are you sure you wish to delete your account?')) {
@@ -13,10 +13,10 @@ const Unregister = ({ auth, unregister }) => {
   };
 
   useEffect(() => {
-    if (auth.isAuthenticated) {
+    if (!isAuthenticated) {
       navigate('/');
     }
-  }, [auth, navigate]);
+  }, [isAuthenticated, navigate]);
 
   return (
     <>

@@ -1,5 +1,4 @@
-export const emailRegex =
-  /^(([^<>()\[\]\.,;:\s@\"]+(\.[[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+const validator = require('validator');
 
 export const usernameValidation = async (prisma, username) => {
   if (!username) {
@@ -13,7 +12,7 @@ export const usernameValidation = async (prisma, username) => {
 };
 
 export const emailValidation = async (prisma, email) => {
-  if (!emailRegex.test(email)) {
+  if (!validator.isEmail(email)) {
     throw new Error('Email is not valid');
   }
   const existingEmail = await prisma.user.findUnique({ where: { email } });

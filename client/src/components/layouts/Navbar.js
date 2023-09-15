@@ -5,8 +5,15 @@ import { connect } from 'react-redux';
 
 const Navbar = ({ auth: { isAuthenticated, user } }) => {
   const location = useLocation();
-  const pathname = location.pathname.split('/')[1];
-  const selected = (path) => (pathname.includes(path) ? 'selected' : '');
+  const selected = (path) =>
+    location.pathname.includes(path) ? 'selected' : '';
+
+  const links = [
+    { path: '/feed', label: 'Feed' },
+    { path: '/users', label: 'Users', state: { user } },
+    { path: '/profile', label: 'Profile', state: { user } },
+    { path: '/logout', label: 'Logout' },
+  ];
 
   return (
     <>
@@ -20,34 +27,17 @@ const Navbar = ({ auth: { isAuthenticated, user } }) => {
             </div>
             {isAuthenticated && (
               <ul className="header-menubar mb-0">
-                <li>
-                  <Link to="/feed" className={`${selected('/feed')}`}>
-                    Feed
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/users"
-                    state={{ user }}
-                    className={`${selected('/users')}`}
-                  >
-                    Users
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/profile"
-                    state={{ user }}
-                    className={`${selected('/profile')}`}
-                  >
-                    Profile
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/logout" className={`${selected('/logout')}`}>
-                    Logout
-                  </Link>
-                </li>
+                {links.map((link) => (
+                  <li key={link.path}>
+                    <Link
+                      to={link.path}
+                      className={`${selected(link.path)}`}
+                      state={link.state}
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             )}
           </div>

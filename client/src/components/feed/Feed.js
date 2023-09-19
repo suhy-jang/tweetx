@@ -23,7 +23,7 @@ const Feed = ({ auth: { isAuthenticated }, post: { myFeed }, getMyFeed }) => {
       <Head title="Feed" />
       <MobileHeader title="feed" optionTwo={true} />
       <NewPostBtn />
-      {myFeed.map((post) => (
+      {(myFeed || []).map((post) => (
         <Post key={post.id} post={post} />
       ))}
     </div>

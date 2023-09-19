@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Follow from '../follow/Follow';
 import Moment from 'react-moment';
 
-const UserInfoBar = ({ loginUser, user }) => {
+const UserInfoBar = ({ loginUser, user, handleFollow, loading, followed }) => {
   const [float, setFloat] = useState('');
   const [scroll, setScroll] = useState(0);
 
@@ -16,30 +16,6 @@ const UserInfoBar = ({ loginUser, user }) => {
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, [scroll]);
-
-  const editProfile = (
-    <div className="user-info-floating-btn-cover">
-      <Link
-        to="/edit-profile"
-        className={`btn btn-primary rounded-pill font-sm ${float}`}
-      >
-        Edit Profile
-      </Link>
-    </div>
-  );
-
-  const editProfileOptions = () => {
-    if (loginUser.id === user.id) {
-      return editProfile;
-    } else {
-      // Follow component: authUser || authUser.followings exception controlled
-      return (
-        <div className="user-info-floating-btn-cover">
-          <Follow user={user} className={float} />
-        </div>
-      );
-    }
-  };
 
   return (
     <div className="d-flex justify-content-around main-user-info">
@@ -58,7 +34,29 @@ const UserInfoBar = ({ loginUser, user }) => {
           </div>
         </div>
       </div>
-      <div>{loginUser && editProfileOptions()}</div>
+      <div>
+        {loginUser && loginUser.id === user.id && (
+          <div className="user-info-floating-btn-cover">
+            <Link
+              to="/edit-profile"
+              className={`btn btn-primary rounded-pill font-sm ${float}`}
+            >
+              Edit Profile
+            </Link>
+          </div>
+        )}
+        {loginUser && loginUser.id !== user.id && (
+          <div className="user-info-floating-btn-cover">
+            <Follow
+              className={float}
+              handleFollow={handleFollow}
+              loading={loading}
+              followed={followed}
+              userId={user.id}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 };
@@ -66,6 +64,9 @@ const UserInfoBar = ({ loginUser, user }) => {
 UserInfoBar.propTypes = {
   loginUser: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
+  handleFollow: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  followed: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({

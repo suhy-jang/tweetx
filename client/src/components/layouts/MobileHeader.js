@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 const MobileHeader = ({ title, optionTwo, desktop, redirect }) => {
   const onClick = () => {
@@ -25,7 +27,7 @@ const MobileHeader = ({ title, optionTwo, desktop, redirect }) => {
           onClick={onClick}
           className={`position-absolute bg-white ml-3 mt-1 cursor-pointer mobile ${backBtn}`}
         >
-          <i className="fas fa-chevron-left"></i>
+          <FontAwesomeIcon icon={faChevronLeft} />
         </div>
         {title}
       </div>

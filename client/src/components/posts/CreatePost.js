@@ -5,6 +5,9 @@ import { createPost } from '../../actions/post';
 import { connect } from 'react-redux';
 import MobileHeader from '../layouts/MobileHeader';
 import Head from '../head/Head';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaperPlane } from '@fortawesome/free-regular-svg-icons';
+import { faBan } from '@fortawesome/free-solid-svg-icons';
 
 const CreatePost = ({ auth, createPost }) => {
   const [content, setContent] = useState('');
@@ -58,14 +61,18 @@ const CreatePost = ({ auth, createPost }) => {
             onClick={cancelClick}
             className="btn btn-outline-primary submit-btn rounded-pill px-3 py-2 w-50"
           >
-            <i className="far fa-paper-plane"></i>
+            <FontAwesomeIcon icon={faBan} size="lg" />
             <span className="ml-2">Cancel</span>
           </button>
           <button
             onClick={onSubmit}
             className="btn btn-primary submit-btn rounded-pill px-3 py-2 w-50"
           >
-            <i className="far fa-paper-plane"></i>
+            <FontAwesomeIcon
+              icon={faPaperPlane}
+              size="lg"
+              className="text-white"
+            />
             <span className="ml-2">Post</span>
           </button>
         </div>

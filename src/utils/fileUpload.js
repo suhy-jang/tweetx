@@ -1,7 +1,8 @@
-import { S3Client, AbortMultipartUploadCommand } from '@aws-sdk/client-s3';
-import { s3_bucket } from './constants';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 const S3_REGION = process.env.S3_REGION;
+const S3_BUCKET = process.env.S3_BUCKET;
 
 const s3Client = new S3Client({
   region: S3_REGION,
@@ -11,30 +12,29 @@ const s3Client = new S3Client({
   },
 });
 
-const S3_BUCKET = process.env.S3_BUCKET;
-
-const signS3 = async (fileName, fileType) => {
-  const s3Params = {
-    Bucket: S3_BUCKET,
-    Key: `tweetx/Upload/${fileName}`,
-    Expires: 500,
-    ContentType: fileType,
-    ACL: 'public-read',
-  };
-
+const getPresignedUrl = async (fileName, fileType) => {
   try {
-    const command = new AbortMultipartUploadCommand(s3Params);
-    const res = await s3Client.send(command);
+    const key = `tweetx/profile/${fileName}`;
+    const signedUrlExpireSeconds = 60 * 5; // 5 minutes
 
-    const url = `${s3_bucket}/Upload/${fileName}`;
+    const presignedUrl = await getSignedUrl(
+      s3Client,
+      new PutObjectCommand({
+        Bucket: S3_BUCKET,
+        Key: key,
+        ContentType: fileType,
+        ACL: 'public-read',
+      }),
+      {
+        expiresIn: signedUrlExpireSeconds,
+      },
+    );
 
-    return {
-      res,
-      url: url,
-    };
-  } catch (err) {
-    throw new Error(err);
+    return presignedUrl;
+  } catch (error) {
+    console.error('Error generating presigned URL:', error);
+    res.status(500).send('Error generating presigned URL');
   }
 };
 
-export { signS3 as default };
+export { getPresignedUrl as default };

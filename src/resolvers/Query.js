@@ -121,9 +121,11 @@ const Query = {
 
     await authCheck(prisma, userId);
 
+    const followingId = args.where ? args.where.id : userId;
+
     return prisma.follow.findMany({
       where: {
-        followingId: userId,
+        followingId,
       },
       take: args.first,
       skip: args.skip,
@@ -136,9 +138,11 @@ const Query = {
 
     await authCheck(prisma, userId);
 
+    const followerId = args.where ? args.where.id : userId;
+
     return prisma.follow.findMany({
       where: {
-        followerId: userId,
+        followerId,
       },
       take: args.first,
       skip: args.skip,

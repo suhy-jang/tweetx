@@ -35,6 +35,14 @@ const typeDefs = gql`
     followers: FollowListRelationFilter
   }
 
+  input FollowerWhereInput {
+    id: ID
+  }
+
+  input FollowingWhereInput {
+    id: ID
+  }
+
   type Query {
     users(
       where: UserWhereInput
@@ -55,12 +63,14 @@ const typeDefs = gql`
     user(id: ID!): User!
     post(id: ID!): Post!
     followers(
+      where: FollowerWhereInput
       first: Int
       after: String
       skip: Int
       orderBy: CommonOrderByInput
     ): [Follow]!
     followings(
+      where: FollowingWhereInput
       first: Int
       after: String
       skip: Int
@@ -90,8 +100,7 @@ const typeDefs = gql`
   }
 
   type FileSignedResult {
-    signedRequest: String!
-    url: String!
+    presignedUrl: String!
   }
 
   input FileUploadInput {

@@ -14,7 +14,11 @@ export const getProfile = (id) => async (dispatch) => {
   const variables = { id };
 
   try {
-    const res = await client.query({ query: queryUser, variables });
+    const res = await client.query({
+      query: queryUser,
+      variables,
+      fetchPolicy: 'no-cache',
+    });
 
     const { data, errors } = res;
 
@@ -26,29 +30,6 @@ export const getProfile = (id) => async (dispatch) => {
     dispatch({
       type: GET_PROFILE,
       payload: data.user,
-    });
-  } catch (err) {
-    dispatch({ type: PROFILE_ERROR });
-  }
-};
-
-// Get All Users list
-export const getUsers = () => async (dispatch) => {
-  dispatch({ type: PROFILE_LOADING });
-
-  try {
-    const res = await client.query({ query: queryUsers });
-
-    const { data, errors } = res;
-
-    if (!data) {
-      errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
-      return dispatch({ type: PROFILE_ERROR });
-    }
-
-    dispatch({
-      type: GET_PROFILES,
-      payload: data.users,
     });
   } catch (err) {
     dispatch({ type: PROFILE_ERROR });
@@ -73,7 +54,11 @@ export const unfollowedUsers = (id) => async (dispatch) => {
   dispatch({ type: PROFILE_LOADING });
 
   try {
-    const res = await client.query({ query: queryUsers, variables });
+    const res = await client.query({
+      query: queryUsers,
+      variables,
+      fetchPolicy: 'no-cache',
+    });
 
     const { data, errors } = res;
 

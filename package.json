@@ -40,7 +40,8 @@
   "dependencies": {
     "@apollo/client": "^3.8.3",
     "@apollo/server": "^4.9.3",
-    "@aws-sdk/client-s3": "^3.410.0",
+    "@aws-sdk/client-s3": "^3.414.0",
+    "@aws-sdk/s3-request-presigner": "^3.414.0",
     "@babel/polyfill": "^7.10.4",
     "@prisma/client": "^5.3.0",
     "@sendgrid/mail": "^7.2.3",

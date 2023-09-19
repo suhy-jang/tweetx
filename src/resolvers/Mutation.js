@@ -9,7 +9,7 @@ import {
   authCheck,
 } from '../utils/userValidation';
 import sendEmail from '../utils/sendEmail';
-import signS3 from '../utils/fileUpload';
+import getPresignedUrl from '../utils/fileUpload';
 import getUserId from '../utils/getUserId';
 import { s3_bucket } from '../utils/constants';
 
@@ -37,13 +37,11 @@ const Mutation = {
     };
   },
   async login(parent, args, context, info) {
-    const user = (
-      await prisma.user.findMany({
-        where: {
-          OR: [{ email: args.data.email }, { username: args.data.email }],
-        },
-      })
-    )[0];
+    const user = await prisma.user.findFirst({
+      where: {
+        OR: [{ email: args.data.email }, { username: args.data.email }],
+      },
+    });
 
     if (!user) {
       throw new Error('Unable to authenticate');
@@ -80,7 +78,9 @@ const Mutation = {
       throw new Error('Please upload a file');
     }
 
-    if (!type.startsWith('image')) {
+    const [mediaType, _] = type.split('/');
+
+    if (mediaType !== 'image') {
       throw new Error('Please upload an image file');
     }
 
@@ -90,9 +90,11 @@ const Mutation = {
       );
     }
 
-    const updatedName = `photo_${userId}${name}`;
+    const updatedName = `${userId}_${name}`;
 
-    return signS3(updatedName, type);
+    const presignedUrl = getPresignedUrl(updatedName, type);
+
+    return { presignedUrl };
   },
   async updateUser(parent, args, context, info) {
     const userId = getUserId(context);
@@ -136,14 +138,12 @@ const Mutation = {
 
     await authCheck(prisma, userId);
 
-    const post = (
-      await prisma.post.findMany({
-        where: {
-          id: args.id,
-          authorId: userId,
-        },
-      })
-    )[0];
+    const post = await prisma.post.findFirst({
+      where: {
+        id: args.id,
+        authorId: userId,
+      },
+    });
 
     if (!post) {
       throw new Error('Post not found');
@@ -160,14 +160,12 @@ const Mutation = {
 
     await authCheck(prisma, userId);
 
-    const post = (
-      await prisma.post.findMany({
-        where: {
-          id: args.id,
-          authorId: userId,
-        },
-      })
-    )[0];
+    const post = await prisma.post.findFirst({
+      where: {
+        id: args.id,
+        authorId: userId,
+      },
+    });
 
     if (!post) {
       throw new Error('Post not found');
@@ -185,14 +183,12 @@ const Mutation = {
 
     await authCheck(prisma, userId);
 
-    const follow = (
-      await prisma.follow.findMany({
-        where: {
-          followerId: userId,
-          followingId: args.id,
-        },
-      })
-    )[0];
+    const follow = await prisma.follow.findFirst({
+      where: {
+        followerId: userId,
+        followingId: args.id,
+      },
+    });
 
     if (follow) {
       throw new Error('Failed follow');
@@ -210,14 +206,12 @@ const Mutation = {
 
     await authCheck(prisma, userId);
 
-    const follow = (
-      await prisma.follow.findMany({
-        where: {
-          followerId: userId,
-          followingId: args.id,
-        },
-      })
-    )[0];
+    const follow = await prisma.follow.findFirst({
+      where: {
+        followerId: userId,
+        followingId: args.id,
+      },
+    });
 
     if (!follow) {
       throw new Error('Failed unfollow');
@@ -230,13 +224,11 @@ const Mutation = {
     });
   },
   async forgotPassword(parent, args, context, info) {
-    const user = (
-      await prisma.user.findMany({
-        where: {
-          OR: [{ email: args.data.email }, { username: args.data.email }],
-        },
-      })
-    )[0];
+    const user = await prisma.user.findFirst({
+      where: {
+        OR: [{ email: args.data.email }, { username: args.data.email }],
+      },
+    });
 
     if (!user) {
       throw new Error('Not registered');
@@ -302,16 +294,14 @@ const Mutation = {
       .update(args.data.resetToken)
       .digest('hex');
 
-    const user = (
-      await prisma.user.findMany({
-        where: {
-          resetPasswordToken,
-          resetPasswordExpire: {
-            gte: new Date().toISOString(),
-          },
+    const user = await prisma.user.findFirst({
+      where: {
+        resetPasswordToken,
+        resetPasswordExpire: {
+          gte: new Date().toISOString(),
         },
-      })
-    )[0];
+      },
+    });
 
     if (!user) {
       throw new Error('Invalid token');

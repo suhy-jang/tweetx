@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Follow from '../follow/Follow';
 
-const User = ({ user }) => {
+const User = ({ user, handleFollow, loading, followed, myself }) => {
   return (
     <div className="user d-flex border-bottom clearfix">
       <Link to="/profile" state={{ user }} className="user-element float-left">
@@ -22,15 +22,26 @@ const User = ({ user }) => {
           Followers : {user.followers.length}
         </div>
       </div>
-      <div className="user-element flex-column-center">
-        <Follow user={user} className="float-right" />
-      </div>
+      {!myself && (
+        <div className="user-element flex-column-center">
+          <Follow
+            className="float-right"
+            handleFollow={handleFollow}
+            loading={loading}
+            followed={followed}
+            userId={user.id}
+          />
+        </div>
+      )}
     </div>
   );
 };
 
 User.propTypes = {
   user: PropTypes.object.isRequired,
+  handleFollow: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  followed: PropTypes.bool.isRequired,
 };
 
 export default User;

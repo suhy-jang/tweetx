@@ -4,6 +4,8 @@ import SplashBg from './SplashBg';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../../actions/auth';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXTwitter } from '@fortawesome/free-brands-svg-icons';
 
 const Logout = ({ auth, logout }) => {
   const navigate = useNavigate();
@@ -21,7 +23,7 @@ const Logout = ({ auth, logout }) => {
   return (
     <>
       <div className="logout splash flex-column-evenly">
-        <i className="fas fa-dove font-main-logo"></i>
+        <FontAwesomeIcon icon={faXTwitter} size="2xl" />
         <div className="font-weight-bold font-lg">Log out of TweetX?</div>
         <div className="text-secondary font-sm">
           You can always log back in at any time.

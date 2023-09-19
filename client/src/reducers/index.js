@@ -3,6 +3,7 @@ import alert from './alert';
 import auth from './auth';
 import post from './post';
 import profile from './profile';
+import following from './following';
 import { UNREGISTER, LOGOUT } from '../actions/types';
 
 const rootReducer = combineReducers({
@@ -10,6 +11,7 @@ const rootReducer = combineReducers({
   auth,
   post,
   profile,
+  following,
 });
 
 const Reducer = (state, action) =>

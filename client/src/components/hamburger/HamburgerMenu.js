@@ -29,7 +29,7 @@ const HamburgerMenu = ({ auth: { user } }) => {
       <button
         type="button"
         onClick={itemClick}
-        className="btn btn-link hamburger-btn p-0 position-fixed zindex-top lt mobile"
+        className="btn btn-link hamburger-btn py-0 px-2 position-fixed zindex-top lt mobile"
       >
         {open ? 'X' : '☰'}
       </button>

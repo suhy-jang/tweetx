@@ -1,7 +1,6 @@
 import client from '../utils/apolloClient';
 import { setAlert } from './alert';
 import {
-  AUTH_LOADING,
   USER_LOADED,
   REGISTER_SUCCESS,
   LOGIN_SUCCESS,
@@ -9,15 +8,11 @@ import {
   UNREGISTER,
   AUTH_ERROR,
   LOGOUT,
-  FOLLOW,
-  UNFOLLOW,
   RESET_PASSWORD_CONFIRM,
 } from './types';
 import {
   mutateCreateUser,
   mutateUpdateUser,
-  mutateFollow,
-  mutateUnfollow,
   mutateDeleteUser,
   mutateLogin,
   queryMe,
@@ -33,6 +28,7 @@ const authIn = (token) => {
 const authOut = () => {
   localStorage.removeItem(`new-post`);
   localStorage.removeItem('token');
+  client.clearStore();
 };
 
 // Load User
@@ -142,31 +138,43 @@ export const uploadUserPhoto = (file) => async (dispatch) => {
     },
   };
   try {
-    const res1 = await client.mutate({
+    const get_sign_response = await client.mutate({
       mutation: mutateFileUploadSign,
       variables,
     });
 
-    const { data, errors } = res1;
-
-    if (!data) {
+    const { data, errors } = get_sign_response;
+    if (!data || !data.fileUploadSign) {
       return dispatch(setAlert(errors, 'danger'));
     }
 
-    const { res: res2, url } = data.fileUploadSign;
-
-    if (res2 !== 200) {
-      return dispatch(setAlert('Failed file upload', 'danger'));
+    const { presignedUrl } = data.fileUploadSign;
+    if (!presignedUrl) {
+      return dispatch(setAlert('Failed to get presigned url', 'danger'));
     }
 
-    return url;
+    const put_response = await fetch(presignedUrl, {
+      method: 'PUT',
+      body: file,
+      headers: {
+        'Content-Type': file.type,
+      },
+    });
+
+    if (put_response.status !== 200) {
+      return dispatch(setAlert('Failed to upload an image', 'danger'));
+    }
+
+    const [imageUrl, _] = put_response.url.split('?');
+
+    return imageUrl;
   } catch (err) {
     dispatch(setAlert('Failed file upload', 'danger'));
   }
 };
 
 export const editUser =
-  ({ fullname, photoUrl }, { successMsg }, history) =>
+  ({ fullname, photoUrl }, { successMsg }, callback) =>
   async (dispatch) => {
     const variables = {
       data: {
@@ -189,10 +197,10 @@ export const editUser =
       }
 
       dispatch({ type: EDIT_USER, payload: data.updateUser });
-      history.goBack();
 
       dispatch(setAlert(successMsg, 'success'));
       loadUser();
+      callback?.();
     } catch (err) {
       dispatch(setAlert('Update failed', 'danger'));
     }
@@ -201,6 +209,7 @@ export const editUser =
 // Logout
 export const logout = () => (dispatch) => {
   authOut();
+
   dispatch({ type: LOGOUT });
 };
 
@@ -224,55 +233,6 @@ export const unregister = () => async (dispatch) => {
     });
   } catch (err) {
     dispatch({ type: AUTH_ERROR });
-  }
-};
-
-export const follow = (id, setFollowStatus) => async (dispatch) => {
-  dispatch({ type: AUTH_LOADING });
-
-  const variables = { id: id };
-
-  try {
-    const res = await client.mutate({ mutation: mutateFollow, variables });
-
-    const { data, errors } = res;
-
-    if (!data) {
-      errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
-    }
-
-    dispatch({
-      type: FOLLOW,
-      payload: data.follow,
-    });
-    setFollowStatus(true);
-  } catch (err) {
-    dispatch(setAlert('Failed follow', 'danger'));
-  }
-};
-
-export const unfollow = (id, setFollowStatus) => async (dispatch) => {
-  dispatch({ type: AUTH_LOADING });
-
-  const variables = { id: id };
-
-  try {
-    const res = await client.mutate({ mutation: mutateUnfollow, variables });
-
-    const { data, errors } = res;
-
-    if (!data) {
-      errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
-    }
-
-    dispatch({
-      type: UNFOLLOW,
-      payload: data.unfollow,
-    });
-
-    setFollowStatus(false);
-  } catch (err) {
-    dispatch(setAlert('Failed unfollow', 'danger'));
   }
 };
 

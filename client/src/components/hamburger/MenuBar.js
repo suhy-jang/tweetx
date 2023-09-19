@@ -1,6 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXTwitter } from '@fortawesome/free-brands-svg-icons';
+import {
+  faUserAlt,
+  faUserFriends,
+  faSignOutAlt,
+} from '@fortawesome/free-solid-svg-icons';
 
 const MenuBar = ({ user, onClick }) => {
   return (
@@ -11,7 +18,8 @@ const MenuBar = ({ user, onClick }) => {
           onClick={onClick}
           className="btn btn-lighter rounded-pill px-3 py-2 font-lg font-weight-bold"
         >
-          <i className="fas fa-dove"></i> <span className="nav-text">Feed</span>
+          <FontAwesomeIcon icon={faXTwitter} />{' '}
+          <span className="nav-text pl-2">Feed</span>
         </Link>
       </div>
       <div className="my-4">
@@ -21,8 +29,8 @@ const MenuBar = ({ user, onClick }) => {
           onClick={onClick}
           className="btn btn-lighter rounded-pill px-3 py-2 font-lg font-weight-bold"
         >
-          <i className="fas fa-user-alt"></i>{' '}
-          <span className="nav-text">My Profile</span>
+          <FontAwesomeIcon icon={faUserAlt} />{' '}
+          <span className="nav-text pl-2">My Profile</span>
         </Link>
       </div>
       <div className="my-4">
@@ -32,7 +40,7 @@ const MenuBar = ({ user, onClick }) => {
           onClick={onClick}
           className="btn btn-lighter rounded-pill px-3 py-2 font-lg font-weight-bold"
         >
-          <i className="fas fa-user-friends"></i>{' '}
+          <FontAwesomeIcon icon={faUserFriends} />{' '}
           <span className="nav-text">User List</span>
         </Link>
       </div>
@@ -42,7 +50,7 @@ const MenuBar = ({ user, onClick }) => {
           onClick={onClick}
           className="btn btn-lighter rounded-pill px-3 py-2 font-lg font-weight-bold"
         >
-          <i className="fas fa-sign-out-alt"></i>{' '}
+          <FontAwesomeIcon icon={faSignOutAlt} />{' '}
           <span className="nav-text">Sign Out</span>
         </Link>
       </div>

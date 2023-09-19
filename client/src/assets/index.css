@@ -34,8 +34,13 @@ h4 {
   line-height: 1.3;
 }
 
-.fas {
+.fas,
+.svg-inline--fa {
   color: var(--primary-color);
+}
+
+.text-white {
+  color: white;
 }
 
 .flex-1 {

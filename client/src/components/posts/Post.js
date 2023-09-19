@@ -8,7 +8,9 @@ const Post = ({ post }) => {
     <div className="post d-flex border">
       <div>
         <Link to="/profile" state={{ user: post.author }}>
-          <img src={post.author.photoUrl} alt="" className="profile-img" />
+          {post.author.photoUrl && (
+            <img src={post.author.photoUrl} alt="" className="profile-img" />
+          )}
         </Link>
       </div>
       <div className="post-content d-flex flex-column">

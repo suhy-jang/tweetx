@@ -9,11 +9,16 @@ import { getProfile } from '../../actions/profile';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import MobileHeader from '../layouts/MobileHeader';
+import { follow, unfollow, getUserFollowings } from '../../actions/follow';
 
 const Profile = ({
   auth: { isAuthenticated, user },
-  profile: { profile },
+  profile: { loading, profile },
+  following: { userFollowings },
   getProfile,
+  getUserFollowings,
+  follow,
+  unfollow,
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -33,6 +38,7 @@ const Profile = ({
   useEffect(() => {
     if (profileUser && profileUser.id) {
       getProfile(profileUser.id);
+      getUserFollowings();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileUser]);
@@ -43,18 +49,40 @@ const Profile = ({
     }
   }, [profileUser, profileUser?.id, navigate]);
 
+  const handleFollow = (userId, followed) => {
+    const callback = () => {
+      getProfile(profileUser.id);
+      getUserFollowings();
+    };
+    if (followed === true) {
+      unfollow(userId, callback);
+    } else if (followed === false) {
+      follow(userId, callback);
+    }
+  };
+
   return (
     <>
       <Head title={profileInfo.fullname} />
       <MobileHeader title={profileInfo.fullname} optionTwo={true} />
-      <UserInfoBar loginUser={user} user={profileInfo} />
-      <TabBar user={profileInfo} disabled={tabHide} />
+      <UserInfoBar
+        loginUser={user}
+        user={profileInfo}
+        handleFollow={handleFollow}
+        followed={!!userFollowings.find((f) => f.following.id === profile.id)}
+        loading={loading}
+      />
+      {profile && <TabBar user={profile} disabled={tabHide} />}
       <div className="posts border-top">
         {isAuthenticated && user.id === profileInfo.id && <NewPostBtn />}
-        {profileInfo.posts &&
-          profileInfo.posts.length > 0 &&
-          profileInfo.posts[0].content &&
-          profileInfo.posts.map((post) => <Post key={post.id} post={post} />)}
+        {profile &&
+          (profile.posts || []).map((post) =>
+            post.content ? (
+              <Post key={post.id} post={post} />
+            ) : (
+              <React.Fragment key={post.id}></React.Fragment>
+            ),
+          )}
       </div>
     </>
   );
@@ -64,11 +92,20 @@ Profile.propTypes = {
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
   getProfile: PropTypes.func.isRequired,
+  follow: PropTypes.func.isRequired,
+  unfollow: PropTypes.func.isRequired,
+  getUserFollowings: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
   profile: state.profile,
+  following: state.following,
 });
 
-export default connect(mapStateToProps, { getProfile })(Profile);
+export default connect(mapStateToProps, {
+  follow,
+  unfollow,
+  getProfile,
+  getUserFollowings,
+})(Profile);

@@ -8,11 +8,22 @@ import { getProfile } from '../../actions/profile';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import MobileHeader from '../layouts/MobileHeader';
+import {
+  follow,
+  unfollow,
+  getFollowings,
+  getUserFollowings,
+} from '../../actions/follow';
 
 const ProfileFollowings = ({
   auth: { user },
-  profile: { profile },
+  profile: { loading, profile },
+  following: { followings, userFollowings },
   getProfile,
+  getFollowings,
+  getUserFollowings,
+  follow,
+  unfollow,
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -28,8 +39,16 @@ const ProfileFollowings = ({
   }, [profile, profileUser]);
 
   useEffect(() => {
+    if (followings) {
+      setProfileInfo({ ...profileInfo, followings });
+    }
+  }, [followings]);
+
+  useEffect(() => {
     if (profileUser && profileUser.id) {
       getProfile(profileUser.id);
+      getFollowings(profileUser.id);
+      getUserFollowings();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileUser]);
@@ -39,6 +58,19 @@ const ProfileFollowings = ({
       navigate(-1);
     }
   }, [profileUser, profileUser?.id, navigate]);
+
+  const handleFollow = (userId, followed) => {
+    const callback = () => {
+      getUserFollowings();
+      getFollowings(profileUser.id);
+      getProfile(profileUser.id);
+    };
+    if (followed === true) {
+      unfollow(userId, callback);
+    } else if (followed === false) {
+      follow(userId, callback);
+    }
+  };
 
   return (
     <>
@@ -53,15 +85,31 @@ const ProfileFollowings = ({
           });
         }}
       />
-      <UserInfoBar loginUser={user} user={profileInfo} />
-      <TabBar user={profileInfo} disabled={tabHide} />
+      <UserInfoBar
+        loginUser={user}
+        user={profileInfo}
+        handleFollow={handleFollow}
+        followed={!!userFollowings.find((f) => f.following.id === profile.id)}
+        loading={loading}
+      />
+      {profile && <TabBar user={profile} disabled={tabHide} />}
       <div className="users border-top">
-        {profileInfo.followers &&
-          profileInfo.followings.length > 0 &&
-          profileInfo.followings[0].following &&
-          profileInfo.followings.map(
-            (f) => f.following && <User key={f.id} user={f.following} />,
-          )}
+        {userFollowings &&
+          profile &&
+          (profile.followings || []).map((f) => (
+            <User
+              key={f.id}
+              user={f.following}
+              handleFollow={handleFollow}
+              followed={
+                !!(userFollowings || []).find(
+                  ({ following }) => following.id === f.following.id,
+                )
+              }
+              myself={f.following.id === user.id}
+              loading={loading}
+            />
+          ))}
       </div>
     </>
   );
@@ -70,12 +118,24 @@ const ProfileFollowings = ({
 ProfileFollowings.propTypes = {
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
+  following: PropTypes.object.isRequired,
   getProfile: PropTypes.func.isRequired,
+  getFollowings: PropTypes.func.isRequired,
+  getUserFollowings: PropTypes.func.isRequired,
+  follow: PropTypes.func.isRequired,
+  unfollow: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
   profile: state.profile,
+  following: state.following,
 });
 
-export default connect(mapStateToProps, { getProfile })(ProfileFollowings);
+export default connect(mapStateToProps, {
+  getProfile,
+  getFollowings,
+  getUserFollowings,
+  follow,
+  unfollow,
+})(ProfileFollowings);

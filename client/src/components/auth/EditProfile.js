@@ -20,14 +20,14 @@ const EditProfile = ({ auth: { user }, editUser, uploadUserPhoto }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    const url = await uploadUserPhoto(file.file);
-
-    if (!url) return;
+    const photoUrl = file.file
+      ? await uploadUserPhoto(file.file)
+      : user.photoUrl;
 
     editUser(
-      { fullname, photoUrl: url },
+      { fullname, photoUrl },
       { successMsg: 'Successfully updated' },
-      navigate,
+      () => navigate(-1),
     );
   };
 

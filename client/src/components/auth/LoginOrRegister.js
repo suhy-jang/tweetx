@@ -1,12 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import SplashBg from './SplashBg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faImage } from '@fortawesome/free-regular-svg-icons';
 
 const LoginOrRegister = () => {
   return (
     <div className="splash p-3 flex-column-between">
       <div className="splash-promotion flex-column-center text-center mx-auto">
-        <i className="far fa-image" />
+        <FontAwesomeIcon icon={faImage} />
         <h1>
           <Link to="/" className="text-primary">
             TweetX

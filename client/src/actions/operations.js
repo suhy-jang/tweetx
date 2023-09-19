@@ -189,6 +189,40 @@ export const queryMyFeed = gql(`
   ${fragments.relations}
 `);
 
+export const queryFollowers = gql(`
+  query($where: FollowerWhereInput) {
+    followers(where: $where, orderBy: { createdAt: desc }) {
+      id
+      follower {
+        id
+        fullname
+        photoUrl
+        username
+        followers {
+          id
+        }
+      }
+    }
+  }
+`);
+
+export const queryFollowings = gql(`
+  query($where: FollowingWhereInput) {
+    followings(where: $where, orderBy: { createdAt: desc }) {
+      id
+      following {
+        id
+        fullname
+        photoUrl
+        username
+        followers {
+          id
+        }
+      }
+    }
+  }
+`);
+
 export const mutateCreatePost = gql(`
   mutation($data: PostCreateInput!) {
     createPost(data: $data) {
@@ -234,8 +268,7 @@ export const mutateResetPassword = gql(`
 export const mutateFileUploadSign = gql(`
   mutation($data: FileUploadInput!) {
     fileUploadSign(data: $data) {
-      signedRequest
-      url
+      presignedUrl
     }
   }
 `);

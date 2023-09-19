@@ -8,11 +8,16 @@ export const UNREGISTER = 'UNREGISTER';
 export const USER_LOADED = 'USER_LOADED';
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const LOGOUT = 'LOGOUT';
-export const FOLLOW = 'FOLLOW';
-export const UNFOLLOW = 'UNFOLLOW';
 export const AUTH_LOADING = 'AUTH_LOADING';
 export const RESET_PASSWORD = 'RESET_PASSWORD';
 export const RESET_PASSWORD_CONFIRM = 'RESET_PASSWORD_CONFIRM';
+
+export const FOLLOW_LOADING = 'FOLLOW_LOADING';
+export const FOLLOW = 'FOLLOW';
+export const UNFOLLOW = 'UNFOLLOW';
+export const GET_FOLLOWERS = 'GET_FOLLOWERS';
+export const GET_FOLLOWINGS = 'GET_FOLLOWINGS';
+export const GET_USER_FOLLOWINGS = 'GET_USER_FOLLOWINGS';
 
 export const POST_LOADING = 'POST_LOADING';
 export const GET_MY_FEED = 'GET_MY_FEED';

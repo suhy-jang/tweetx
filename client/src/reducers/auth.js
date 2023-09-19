@@ -3,8 +3,6 @@ import {
   REGISTER_SUCCESS,
   LOGIN_SUCCESS,
   EDIT_USER,
-  FOLLOW,
-  UNFOLLOW,
   UNREGISTER,
   LOGOUT,
   AUTH_ERROR,
@@ -56,39 +54,15 @@ const Auth = (state = initialState, action) => {
         },
         loading: false,
       };
-    case FOLLOW:
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          followings: [payload, ...state.user.followings],
-        },
-        loading: false,
-      };
-    case UNFOLLOW:
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          followings: state.user.followings.filter((f) => f.id !== payload.id),
-        },
-        loading: false,
-      };
     case CREATE_POST:
       return {
         ...state,
-        user: {
-          ...state.user,
-          posts: [{ id: payload.id }, ...state.user.posts],
-        },
+        loading: false,
       };
     case DELETE_POST:
       return {
         ...state,
-        user: {
-          ...state.user,
-          posts: state.user.posts.filter((post) => post.id !== payload.id),
-        },
+        loading: false,
       };
     case UNREGISTER:
     case LOGOUT:

@@ -2,21 +2,15 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Post from '../posts/Post';
 import NewPostBtn from '../posts/NewPostBtn';
-import { useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getMyFeed } from '../../actions/post';
 import Head from '../head/Head';
 import MobileHeader from '../layouts/MobileHeader';
 
 const Feed = ({ auth: { isAuthenticated }, post: { myFeed }, getMyFeed }) => {
-  const location = useLocation();
-
   useEffect(() => {
-    const toBeUpdated = location.state?.update;
-    if (isAuthenticated || toBeUpdated) {
-      getMyFeed(toBeUpdated);
-    }
-  }, [getMyFeed, isAuthenticated, location.state]);
+    getMyFeed();
+  }, [getMyFeed, isAuthenticated]);
 
   return (
     <div className="posts">

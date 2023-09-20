@@ -1,14 +1,11 @@
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
-const S3_REGION = process.env.S3_REGION;
-const S3_BUCKET = process.env.S3_BUCKET;
-
 const s3Client = new S3Client({
-  region: S3_REGION,
+  region: process.env.AWS_REGION,
   credentials: {
-    accessKeyId: process.env.S3_KEY,
-    secretAccessKey: process.env.S3_SECRET,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   },
 });
 
@@ -20,7 +17,7 @@ const getPresignedUrl = async (fileName, fileType) => {
     const presignedUrl = await getSignedUrl(
       s3Client,
       new PutObjectCommand({
-        Bucket: S3_BUCKET,
+        Bucket: process.env.AWS_S3_BUCKET,
         Key: key,
         ContentType: fileType,
         ACL: 'public-read',

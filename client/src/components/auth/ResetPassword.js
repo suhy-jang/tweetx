@@ -21,13 +21,11 @@ const ResetPassword = ({ resetPassword, setAlert }) => {
     if (!formData.email) {
       return setAlert('All required fields must be filled out', 'danger');
     }
-    resetPassword(
-      formData,
-      {
-        successMsg: `Email sent. Please confirm it within 10 minutes.`,
-      },
-      () => navigate('/'),
-    );
+    resetPassword({
+      email: formData.email,
+      successMsg: `Email sent. Please confirm it within 10 minutes.`,
+      callback: () => navigate('/'),
+    });
   };
 
   const onChange = (e) => {
@@ -49,7 +47,6 @@ const ResetPassword = ({ resetPassword, setAlert }) => {
           </div>
           <form onSubmit={onSubmit} className="form my-3">
             <div className="form-group">
-              {/* email or username */}
               <input
                 type="text"
                 name="email"

@@ -47,10 +47,10 @@ const yoga = createYoga({
   schema: createSchema({
     typeDefs,
     resolvers,
-    context(request) {
+    context({ request }) {
       return {
-        prisma,
         request,
+        prisma,
       };
     },
     middlewares: [xssPrevention],

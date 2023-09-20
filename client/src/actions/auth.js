@@ -238,7 +238,7 @@ export const unregister = () => async (dispatch) => {
 
 // Reset password
 export const resetPassword =
-  ({ email }, successMsg, callback) =>
+  ({ email, successMsg, callback }) =>
   async (dispatch) => {
     const variables = {
       data: {
@@ -261,13 +261,15 @@ export const resetPassword =
       dispatch(setAlert(successMsg, 'success'));
       callback();
     } catch (err) {
+      const message = err.message;
+      dispatch(setAlert(message, 'danger'));
       dispatch({ type: AUTH_ERROR });
     }
   };
 
 // Reset password confirm
 export const resetPasswordConfirm =
-  ({ resetToken, password }, { successMsg }, callback) =>
+  ({ resetToken, password, successMsg }) =>
   async (dispatch) => {
     const variables = {
       data: {
@@ -280,6 +282,7 @@ export const resetPasswordConfirm =
       const res = await client.mutate({
         mutation: mutateResetPassword,
         variables,
+        fetchPolicy: 'no-cache',
       });
 
       const { data, errors } = res;
@@ -299,8 +302,6 @@ export const resetPasswordConfirm =
       dispatch(setAlert(successMsg, 'success'));
 
       dispatch(loadUser());
-
-      callback();
     } catch (err) {
       dispatch({ type: AUTH_ERROR });
     }

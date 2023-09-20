@@ -226,12 +226,12 @@ const Mutation = {
   async forgotPassword(parent, args, context, info) {
     const user = await prisma.user.findFirst({
       where: {
-        OR: [{ email: args.data.email }, { username: args.data.email }],
+        OR: [{ email: args.data.email }],
       },
     });
 
     if (!user) {
-      throw new Error('Not registered');
+      throw new Error('User not found with the provided email');
     }
 
     const resetToken = crypto.randomBytes(20).toString('hex');
@@ -245,22 +245,39 @@ const Mutation = {
       new Date().getTime() + 10 * 60 * 1000, // 10 minutes
     ).toISOString();
 
-    const rootUrl = `${context.request.protocol}://${context.request.get(
-      'host',
-    )}/reset-password/${resetToken}`;
+    const { referer } = context.request.options.headers;
+    const passwordResetLinkWithToken = `${referer}/${resetToken}`;
 
-    const html = `
-      <div>You are receiving this email because you (or someone else) has requested the reset of a password.</div>
-      <div>Please visit our website. If not you, please ignore this email.</div>
-      <br />
-      <div>${rootUrl}</div>
+    const body = `
+    Hello ${user.fullname},
+
+    We received a request to reset the password for your account. 
+    If you did not make this request, please ignore this email. 
+    Otherwise, you can reset your password using the link below:
+
+    ${passwordResetLinkWithToken}
+
+    This link will expire in "10 minutes". If the link expires, please request a new one.
+
+    For security reasons, we recommend:
+
+    - Not sharing this email with anyone.
+    - Using a strong password that you don't use on other websites.
+    - Regularly updating your password.
+
+    If you have any questions or did not request this password reset, please contact our support team immediately.
+
+    Thank you for using TweetX.
+
+    Warm regards,
+    TweetX
     `;
 
     try {
       await sendEmail({
-        to: user.email,
-        subject: 'Password reset token for a test project',
-        html,
+        ToAddresses: [user.email],
+        subject: 'Your Password Reset Request',
+        body,
       });
 
       const updatedUser = await prisma.user.update({

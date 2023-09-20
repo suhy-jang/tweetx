@@ -1,14 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import SplashBg from './SplashBg';
 import { useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { resetPasswordConfirm } from '../../actions/auth';
+import { resetPasswordConfirm, logout } from '../../actions/auth';
 import { setAlert } from '../../actions/alert';
 import MobileHeader from '../layouts/MobileHeader';
 import Head from '../head/Head';
 
-const ResetPasswordConfirm = ({ resetPasswordConfirm }) => {
+const ResetPasswordConfirm = ({
+  auth: { isAuthenticated },
+  resetPasswordConfirm,
+  logout,
+}) => {
   const params = useParams();
   const navigate = useNavigate();
 
@@ -32,14 +37,11 @@ const ResetPasswordConfirm = ({ resetPasswordConfirm }) => {
       return setAlert('Password should be minimum 6 characters', 'danger');
     }
     delete formData.password2;
-    resetPasswordConfirm(
-      {
-        resetToken,
-        password,
-      },
-      { successMsg: `Successfully updated.` },
-      () => navigate('/'),
-    );
+    resetPasswordConfirm({
+      resetToken,
+      password,
+      successMsg: `Successfully updated.`,
+    });
   };
 
   const onChange = (e) => {
@@ -48,6 +50,17 @@ const ResetPasswordConfirm = ({ resetPasswordConfirm }) => {
       [e.target.name]: e.target.value,
     });
   };
+
+  useEffect(() => {
+    logout();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/');
+    }
+  }, [isAuthenticated, navigate]);
 
   return (
     <>
@@ -93,4 +106,14 @@ const ResetPasswordConfirm = ({ resetPasswordConfirm }) => {
   );
 };
 
-export default connect(null, { resetPasswordConfirm })(ResetPasswordConfirm);
+ResetPasswordConfirm.propTypes = {
+  auth: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { resetPasswordConfirm, logout })(
+  ResetPasswordConfirm,
+);

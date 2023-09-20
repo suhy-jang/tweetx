@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXTwitter } from '@fortawesome/free-brands-svg-icons';
 
 const Navbar = ({ auth: { isAuthenticated, user } }) => {
   const location = useLocation();
@@ -10,7 +12,7 @@ const Navbar = ({ auth: { isAuthenticated, user } }) => {
 
   const links = [
     { path: '/feed', label: 'Feed' },
-    { path: '/users', label: 'Users', state: { user } },
+    { path: '/users', label: 'Users' },
     { path: '/profile', label: 'Profile', state: { user } },
     { path: '/logout', label: 'Logout' },
   ];
@@ -22,7 +24,8 @@ const Navbar = ({ auth: { isAuthenticated, user } }) => {
           <div className="d-md-flex justify-content-between align-items-baseline">
             <div>
               <Link to="/" className="font-main-logo text-primary">
-                TweetX
+                Tweet
+                <FontAwesomeIcon icon={faXTwitter} />
               </Link>
             </div>
             {isAuthenticated && (

@@ -12,21 +12,20 @@
   },
   "scripts": {
     "start": "node dist/index.js",
+    "build": "babel src --out-dir dist --copy-files",
     "heroku:seed": "NODE_ENV=development babel-node src --ext js, graphql",
     "heroku:migrate": "prisma migrate dev --schema=./prisma/schema.postgresql.prisma",
-    "heroku-postbuild": "npm install && npm run build:apollo-client && npm run build",
-    "build": "babel src --out-dir dist --copy-files",
-    "build:apollo-client": "prisma generate --schema=./prisma/schema.postgresql.prisma",
-    "start:heroku-local": "PORT=4000 node dist/index.js",
-    "start:ec2": "NODE_ENV=production env-cmd -f ./config/prod.env babel-node src --ext js, graphql",
-    "build:client": "npm run build:apollo-client",
-    "dev": "NODE_ENV=development env-cmd -f ./config/dev.env nodemon src --ext js, graphql --exec babel-node",
-    "seed": "NODE_ENV=development env-cmd -f ./config/prod.env babel-node src --ext js, graphql",
-    "dev:seed": "NODE_ENV=development env-cmd -f ./config/dev.env babel-node src --ext js, graphql",
-    "test": "env-cmd -f ./config/test.env jest --watch --runInBand --notify",
+    "heroku-postbuild": "npm install && npm run build-client && npm run build",
+    "heroku-local:start": "PORT=4000 node dist/index.js",
+    "ec2:start": "NODE_ENV=production env-cmd -f ./config/prod.env node dist/index.js",
+    "ec2:seed": "NODE_ENV=development env-cmd -f ./config/prod.env node dist/index.js",
+    "ec2:migrate": "env-cmd -f ./config/prod.env prisma migrate dev --schema=./prisma/schema.postgresql.prisma",
     "get-schema": "graphql get-schema -p prisma --dotenv config/dev.env --no-all",
-    "dev:migrate": "env-cmd -f ./config/dev.env prisma migrate dev --schema=./prisma/schema.postgresql.prisma",
-    "migrate": "env-cmd -f ./config/prod.env prisma migrate dev --schema=./prisma/schema.postgresql.prisma"
+    "dev": "NODE_ENV=development env-cmd -f ./config/dev.env nodemon src --ext js, graphql --exec babel-node",
+    "seed": "NODE_ENV=development env-cmd -f ./config/dev.env babel-node src --ext js, graphql",
+    "test": "env-cmd -f ./config/test.env jest --watch --runInBand --notify",
+    "build-client": "prisma generate --schema=./prisma/schema.postgresql.prisma",
+    "migrate": "env-cmd -f ./config/dev.env prisma migrate dev --schema=./prisma/schema.postgresql.prisma"
   },
   "prisma": {
     "seed": "babel-node prisma/seed.js"

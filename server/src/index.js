@@ -57,9 +57,10 @@ const yoga = createYoga({
   }),
 });
 
-const host =
-  'http://' +
-  (process.env.NODE_ENV === 'production' ? os.hostname() : 'localhost');
+const origin =
+  process.env.NODE_ENV === 'production'
+    ? process.env.ORIGIN
+    : 'http://localhost:3000';
 
 const opts = {
   endpoint: '/graphql',
@@ -67,7 +68,7 @@ const opts = {
   tracing: true,
   playground: '/graphql/playground',
   cors: {
-    origin: [host + ':3000'],
+    origin,
   },
 };
 

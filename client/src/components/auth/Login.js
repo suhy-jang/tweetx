@@ -44,9 +44,9 @@ const Login = ({ auth, login, setAlert }) => {
   }, [auth, navigate]);
 
   return (
-    <>
+    <div className="d-flex">
       <Head title="Login" />
-      <div className="splash">
+      <div className="content">
         <MobileHeader
           title="Sign In"
           redirect={() => {
@@ -94,29 +94,21 @@ const Login = ({ auth, login, setAlert }) => {
               />
             </div>
           </form>
-          <div className="mobile splash-description font-sm mb-3">
+          <div className="mobile content-description font-sm mb-3">
             <Link to="/register" className="text-primary">
               Create an account
             </Link>
             <span className="text-secondary">to use TweetX for free!</span>
           </div>
-          <div className="splash-description font-sm">
+          <div className="content-description font-sm">
             <Link to="/reset-password" className="text-primary">
               Can't Sign In? Reset Password
             </Link>
           </div>
         </div>
-        <div className="white-space-pre sample-account">
-          {`
-      Sample Account(ID / PW) :
-      mary / foobar
-      or
-      liam / foobar
-        `}
-        </div>
       </div>
       <SplashBg />
-    </>
+    </div>
   );
 };
 

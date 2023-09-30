@@ -34,9 +34,12 @@ h4 {
   line-height: 1.3;
 }
 
-.fas,
 .svg-inline--fa {
   color: var(--primary-color);
+}
+
+.hover-text-white:hover {
+  color: var(--lighter-color);
 }
 
 .text-white {
@@ -232,11 +235,6 @@ textarea {
   margin: 16px 0;
 }
 
-.hamburger-btn {
-  color: black !important;
-  text-decoration: black !important;
-}
-
 .hamburger-menu {
   height: 100%;
   width: 0;
@@ -367,8 +365,17 @@ textarea {
   margin: 0.5rem;
 }
 
-.splash {
-  width: 350px;
+.user-image {
+  background-image: url('https://suhypractice.s3.ap-northeast-2.amazonaws.com/tweetx/Download/back.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100%;
+  min-height: 80vh;
+}
+
+.content {
+  width: 450px;
   max-width: 100%;
   height: min(100%, 570px);
   border-radius: 10px;
@@ -377,7 +384,7 @@ textarea {
   border: 1px solid var(--primary-color);
 }
 
-.splash.single-post {
+.content.single-post {
   width: 550px;
   height: 400px;
   margin-top: 4rem;
@@ -401,7 +408,7 @@ textarea {
   justify-content: space-evenly;
 }
 
-.splash .position-absolute {
+.content .position-absolute {
   margin-left: 0.5rem;
   margin-top: 0.5rem;
 }
@@ -411,19 +418,19 @@ textarea {
   align-items: center;
 }
 
-.splash-promotion {
+.content-promotion {
   max-width: 100%;
   vertical-align: center;
   height: 320px;
 }
 
-.splash-promotion .fa-image {
+.content-promotion .fa-image {
   font-size: 8rem;
   font-style: italic;
   color: var(--primary-color);
 }
 
-.splash-description {
+.content-description {
   max-width: 350px;
 }
 
@@ -514,16 +521,16 @@ textarea {
     height: 3rem;
   }
 
-  .splash {
+  .content {
     border: none;
     margin: 3rem auto 0 0;
   }
 
-  .splash .position-absolute {
+  .content .position-absolute {
     display: none;
   }
 
-  .splash .header {
+  .content .header {
     font-size: 2rem;
     box-shadow: none;
   }

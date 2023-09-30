@@ -34,10 +34,6 @@ const AppRoutes = () => {
           path="/edit-profile"
           element={<PrivateComponent Component={EditProfile} />}
         />
-        <Route
-          path="/logout"
-          element={<PrivateComponent Component={Logout} />}
-        />
         <Route path="/users" element={<PrivateComponent Component={Users} />} />
         <Route
           path="/profile"
@@ -52,8 +48,12 @@ const AppRoutes = () => {
           element={<PrivateComponent Component={ProfileFollowers} />}
         />
         <Route path="/post" element={<PrivateComponent Component={Post} />} />
-        <Route path="/login-or-register" element={<LoginOrRegister />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/login-or-register" element={<LoginOrRegister />} />
+        <Route
+          path="/logout"
+          element={<PrivateComponent Component={Logout} />}
+        />
         <Route path="/register" element={<Register />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route

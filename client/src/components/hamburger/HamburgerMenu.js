@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import UserInfo from './UserInfo';
 import MenuBar from './MenuBar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars, faX } from '@fortawesome/free-solid-svg-icons';
 
 const HamburgerMenu = ({ auth: { user } }) => {
   const [open, setOpen] = useState(false);
@@ -31,7 +33,20 @@ const HamburgerMenu = ({ auth: { user } }) => {
         onClick={itemClick}
         className="btn btn-link hamburger-btn py-0 px-2 position-fixed zindex-top lt mobile"
       >
-        {open ? 'X' : '☰'}
+        {open && (
+          <FontAwesomeIcon
+            icon={faX}
+            className="mobile hover-text-white"
+            size="lg"
+          />
+        )}
+        {!open && (
+          <FontAwesomeIcon
+            icon={faBars}
+            className="mobile hover-text-white"
+            size="lg"
+          />
+        )}
       </button>
       <div className={`mobile hamburger-menu ${open && 'hamburger-menu-open'}`}>
         <UserInfo onClick={itemClick} user={user} />

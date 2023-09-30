@@ -34,7 +34,7 @@ const CreatePost = ({ auth, createPost }) => {
   };
 
   return (
-    <div className="splash single-post new-post mx-auto">
+    <div className="content single-post new-post mx-auto">
       <Head title="Create Post" />
       <MobileHeader
         title="Create New Post"

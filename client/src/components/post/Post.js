@@ -20,7 +20,7 @@ const Post = ({ auth: { user } }) => {
   }, [post, navigate]);
 
   return (
-    <div className="splash mx-auto post single-post border-0 p-4 h-100">
+    <div className="content mx-auto post single-post border-0 p-4 h-100">
       <Head title={`${post.author.fullname} on TweetX: ${post.content}`} />
       <MobileHeader
         title="Post"

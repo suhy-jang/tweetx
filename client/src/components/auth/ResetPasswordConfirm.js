@@ -63,9 +63,9 @@ const ResetPasswordConfirm = ({
   }, [isAuthenticated, navigate]);
 
   return (
-    <>
+    <div className="d-flex">
       <Head title="Reset Password Confirm" />
-      <div className="splash position-relative">
+      <div className="content position-relative">
         <MobileHeader title="Password Reset" />
         <div className="p-3 flex-column-between">
           <h4 className="mt-3">Reset your password</h4>
@@ -102,7 +102,7 @@ const ResetPasswordConfirm = ({
         </div>
       </div>
       <SplashBg />
-    </>
+    </div>
   );
 };
 

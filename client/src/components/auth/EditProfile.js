@@ -51,45 +51,47 @@ const EditProfile = ({ auth: { user }, editUser, uploadUserPhoto }) => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
   return (
-    <div className="splash">
-      <MobileHeader title="Edit Profile" redirect={() => navigate(-1)} />
-      <div className="edit-user d-flex justify-content-center my-3">
-        <img src={file.imagePreviewUrl} alt="" className="profile-img" />
-      </div>
-      <div className="p-3 flex-column-between">
-        <form onSubmit={onSubmit} className="form">
-          <div className="form-group">
-            <label className="text-secondary font-sm">Photo</label>
-            <div className="drag-n-drop form-control" {...getRootProps()}>
-              <input {...getInputProps()} />
-              {isDragActive ? (
-                <p>Drop the files here ...</p>
-              ) : (
-                <p>Drag 'n' drop some files here, or click to select files</p>
-              )}
+    <div className="d-flex">
+      <div className="content">
+        <MobileHeader title="Edit Profile" redirect={() => navigate(-1)} />
+        <div className="edit-user d-flex justify-content-center my-3">
+          <img src={file.imagePreviewUrl} alt="" className="profile-img" />
+        </div>
+        <div className="p-3 flex-column-between">
+          <form onSubmit={onSubmit} className="form">
+            <div className="form-group">
+              <label className="text-secondary font-sm">Photo</label>
+              <div className="drag-n-drop form-control" {...getRootProps()}>
+                <input {...getInputProps()} />
+                {isDragActive ? (
+                  <p>Drop the files here ...</p>
+                ) : (
+                  <p>Drag 'n' drop some files here, or click to select files</p>
+                )}
+              </div>
             </div>
+            <div className="form-group">
+              <label className="text-secondary font-sm">Name</label>
+              <input
+                id="fullname"
+                type="text"
+                name="fullname"
+                onChange={fullnameChange}
+                value={fullname}
+                className="form-control"
+              />
+            </div>
+            <div className="form-group">
+              <input
+                type="submit"
+                value="Save"
+                className="btn btn-primary rounded-pill form-control submit-btn"
+              />
+            </div>
+          </form>
+          <div className="content-description font-sm">
+            <Unregister />
           </div>
-          <div className="form-group">
-            <label className="text-secondary font-sm">Name</label>
-            <input
-              id="fullname"
-              type="text"
-              name="fullname"
-              onChange={fullnameChange}
-              value={fullname}
-              className="form-control"
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="submit"
-              value="Save"
-              className="btn btn-primary rounded-pill form-control submit-btn"
-            />
-          </div>
-        </form>
-        <div className="splash-description font-sm">
-          <Unregister />
         </div>
       </div>
       <SplashBg />

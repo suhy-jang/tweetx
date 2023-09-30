@@ -56,96 +56,98 @@ const Register = ({ auth, setAlert, register }) => {
   }, [auth, navigate]);
 
   return (
-    <div className="splash">
-      <Head title="Sign up for TweetX" />
-      <MobileHeader
-        title="Create Account"
-        redirect={() => {
-          navigate('login-or-register');
-        }}
-      />
-      <Link
-        to="/login"
-        className="desktop btn btn-outline-secondary rounded-pill px-3 py-2 w-50 font-weight-bold"
-      >
-        Login
-      </Link>
-      <div className="p-3 flex-column-between">
-        <div className="font-sm description mt-3 mb-3">
-          Fill in the required details and click Proceed.
-        </div>
-        <form onSubmit={onSubmit} className="form">
-          <div className="form-group">
-            <input
-              type="text"
-              name="fullname"
-              onChange={onChange}
-              placeholder="Name"
-              value={fullname}
-              className="form-control"
-            />
+    <>
+      <div className="content">
+        <Head title="Sign up for TweetX" />
+        <MobileHeader
+          title="Create Account"
+          redirect={() => {
+            navigate('login-or-register');
+          }}
+        />
+        <Link
+          to="/login"
+          className="desktop btn btn-outline-secondary rounded-pill px-3 py-2 w-50 font-weight-bold"
+        >
+          Login
+        </Link>
+        <div className="p-3 flex-column-between">
+          <div className="font-sm description mt-3 mb-3">
+            Fill in the required details and click Proceed.
           </div>
-          {/* to use custome alert, email type is text */}
-          <div className="form-group">
-            <input
-              type="text"
-              name="email"
-              onChange={onChange}
-              placeholder="Email ID"
-              value={email}
-              className="form-control"
-            />
+          <form onSubmit={onSubmit} className="form">
+            <div className="form-group">
+              <input
+                type="text"
+                name="fullname"
+                onChange={onChange}
+                placeholder="Name"
+                value={fullname}
+                className="form-control"
+              />
+            </div>
+            {/* to use custome alert, email type is text */}
+            <div className="form-group">
+              <input
+                type="text"
+                name="email"
+                onChange={onChange}
+                placeholder="Email ID"
+                value={email}
+                className="form-control"
+              />
+            </div>
+            <div className="form-group">
+              <input
+                type="text"
+                name="username"
+                onChange={onChange}
+                placeholder="Username"
+                value={username}
+                className="form-control"
+              />
+            </div>
+            <div className="form-group">
+              <input
+                type="password"
+                name="password"
+                onChange={onChange}
+                placeholder="Password"
+                value={password}
+                className="form-control"
+              />
+            </div>
+            <div className="form-group">
+              <input
+                type="password"
+                name="password2"
+                onChange={onChange}
+                placeholder="Confirm Password"
+                value={password2}
+                className="form-control"
+              />
+            </div>
+            <div className="font-sm description text-center mx-auto my-4">
+              By Creating Account, you are automatically accepting all the{' '}
+              <Link to="/register">Terms & Conditions</Link> related to Momento
+            </div>
+            <div className="form-group">
+              <input
+                type="submit"
+                value="Register"
+                className="btn btn-primary rounded-pill form-control submit-btn"
+              />
+            </div>
+          </form>
+          <div className="mobile content-description font-sm">
+            <Link to="/login" className="text-primary">
+              Already have an account?
+            </Link>
           </div>
-          <div className="form-group">
-            <input
-              type="text"
-              name="username"
-              onChange={onChange}
-              placeholder="Username"
-              value={username}
-              className="form-control"
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="password"
-              name="password"
-              onChange={onChange}
-              placeholder="Password"
-              value={password}
-              className="form-control"
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="password"
-              name="password2"
-              onChange={onChange}
-              placeholder="Confirm Password"
-              value={password2}
-              className="form-control"
-            />
-          </div>
-          <div className="font-sm description text-center mx-auto my-4">
-            By Creating Account, you are automatically accepting all the{' '}
-            <Link to="/register">Terms & Conditions</Link> related to Momento
-          </div>
-          <div className="form-group">
-            <input
-              type="submit"
-              value="Register"
-              className="btn btn-primary rounded-pill form-control submit-btn"
-            />
-          </div>
-        </form>
-        <div className="mobile splash-description font-sm">
-          <Link to="/login" className="text-primary">
-            Already have an account?
-          </Link>
         </div>
       </div>
       <SplashBg />
-    </div>
+    </>
   );
 };
 

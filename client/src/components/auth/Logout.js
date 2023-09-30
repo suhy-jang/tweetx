@@ -21,8 +21,8 @@ const Logout = ({ auth, logout }) => {
   }, [auth, navigate]);
 
   return (
-    <>
-      <div className="logout splash flex-column-evenly">
+    <div className="d-flex">
+      <div className="logout content flex-column-evenly">
         <FontAwesomeIcon icon={faXTwitter} size="2xl" />
         <div className="font-weight-bold font-lg">Log out of TweetX?</div>
         <div className="text-secondary font-sm">
@@ -44,7 +44,7 @@ const Logout = ({ auth, logout }) => {
         </div>
       </div>
       <SplashBg />
-    </>
+    </div>
   );
 };
 

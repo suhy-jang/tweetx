@@ -36,9 +36,9 @@ const ResetPassword = ({ resetPassword, setAlert }) => {
   };
 
   return (
-    <>
+    <div className="d-flex">
       <Head title="Reset Password" />
-      <div className="splash position-relative">
+      <div className="content position-relative">
         <MobileHeader title="Password Reset" redirect={() => navigate(-1)} />
         <div className="p-3 flex-column-between">
           <h4 className="mt-3">Find your TweetX account</h4>
@@ -66,7 +66,7 @@ const ResetPassword = ({ resetPassword, setAlert }) => {
         </div>
       </div>
       <SplashBg />
-    </>
+    </div>
   );
 };
 

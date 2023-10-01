@@ -7,6 +7,7 @@ import HamburgerMenu from './components/hamburger/HamburgerMenu';
 import store from './store';
 import { loadUser } from './actions/auth';
 import Routes from './components/routing/Routes';
+import WakeUpServer from './utils/wakeupServer';
 
 const App = () => {
   useEffect(() => {
@@ -16,12 +17,11 @@ const App = () => {
   return (
     <Provider store={store}>
       <Router>
-        <div>
-          <Head />
-          <Navbar />
-          <HamburgerMenu />
-          <Routes />
-        </div>
+        <WakeUpServer />
+        <Head />
+        <Navbar />
+        <HamburgerMenu />
+        <Routes />
       </Router>
     </Provider>
   );

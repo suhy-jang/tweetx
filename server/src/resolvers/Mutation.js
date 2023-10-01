@@ -246,7 +246,8 @@ const Mutation = {
     ).toISOString();
 
     const { referer } = context.request.options.headers;
-    const passwordResetLinkWithToken = `${referer}/${resetToken}`;
+    // referer: xxx/ format
+    const passwordResetLinkWithToken = `${referer}reset-password/${resetToken}`;
 
     const body = `
     Hello ${user.fullname},

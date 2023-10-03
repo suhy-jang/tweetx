@@ -22,7 +22,7 @@ export const getProfile = (id) => async (dispatch) => {
 
     const { data, errors } = res;
 
-    if (!data) {
+    if (errors) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
       return dispatch({ type: PROFILE_ERROR });
     }
@@ -62,7 +62,7 @@ export const unfollowedUsers = (id) => async (dispatch) => {
 
     const { data, errors } = res;
 
-    if (!data) {
+    if (errors) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
       return dispatch({ type: PROFILE_ERROR });
     }

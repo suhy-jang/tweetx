@@ -122,6 +122,10 @@ textarea {
   color: var(--primary-color) !important;
 }
 
+.text-primary.hover-text-white:hover {
+  color: white !important;
+}
+
 .btn-primary,
 .btn-primary:link,
 .btn-primary:visited {

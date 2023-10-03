@@ -23,8 +23,9 @@ export const follow = (id, callback) => async (dispatch) => {
 
     const { data, errors } = res;
 
-    if (!data) {
+    if (errors) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
+      return;
     }
 
     callback?.();
@@ -46,8 +47,9 @@ export const unfollow = (id, callback) => async (dispatch) => {
 
     const { data, errors } = res;
 
-    if (!data) {
+    if (errors) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
+      return;
     }
 
     callback?.();
@@ -75,8 +77,9 @@ export const getFollowers = (id) => async (dispatch) => {
 
     const { data, errors } = res;
 
-    if (!data) {
+    if (errors) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
+      return;
     }
 
     dispatch({
@@ -102,8 +105,9 @@ export const getFollowings = (id) => async (dispatch) => {
 
     const { data, errors } = res;
 
-    if (!data) {
+    if (errors) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
+      return;
     }
 
     dispatch({
@@ -126,8 +130,9 @@ export const getUserFollowings = () => async (dispatch) => {
 
     const { data, errors } = res;
 
-    if (!data) {
+    if (errors) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
+      return;
     }
 
     dispatch({

@@ -23,7 +23,7 @@ const Unregister = ({ auth: { isAuthenticated }, unregister }) => {
       <div className="text-secondary mb-1">Unhappy?</div>
       <button
         onClick={onClick}
-        className="btn btn-link-primary text-primary p-0 font-sm"
+        className="btn btn-link-primary text-primary py-0 px-1 font-sm hover-text-white"
       >
         Cancel my account
       </button>

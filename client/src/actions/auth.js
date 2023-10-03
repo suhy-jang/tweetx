@@ -38,9 +38,9 @@ export const loadUser = () => async (dispatch) => {
   try {
     const res = await client.query({ query: queryMe });
 
-    const { data } = res;
+    const { data, errors } = res;
 
-    if (!data) {
+    if (errors) {
       // no alert: unloaded -> login
       return dispatch({ type: AUTH_ERROR });
     }
@@ -65,10 +65,12 @@ export const verifyEmail =
         mutation: mutateVerifyEmail,
         variables,
       });
-      const { data, errors } = res;
+      const { errors } = res;
 
-      if (!data) {
-        errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
+      if (errors) {
+        errors.forEach((err) =>
+          dispatch(setAlert(err.extensions.originalError.message, 'danger')),
+        );
         return dispatch({ type: AUTH_ERROR });
       }
 
@@ -78,6 +80,7 @@ export const verifyEmail =
 
       callback();
     } catch (error) {
+      console.log(3, error);
       dispatch(setAlert(error.message, 'danger'));
       dispatch({ type: AUTH_ERROR });
     }
@@ -94,9 +97,9 @@ export const emailVerificationCheck =
         mutation: mutateEmailVerificationCheck,
         variables,
       });
-      const { data, errors } = res;
+      const { errors } = res;
 
-      if (!data) {
+      if (errors) {
         errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
         return dispatch({ type: AUTH_ERROR });
       }
@@ -133,7 +136,7 @@ export const register =
 
       const { data, errors } = res;
 
-      if (!data) {
+      if (errors) {
         errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
         return dispatch({ type: AUTH_ERROR });
       }
@@ -169,7 +172,7 @@ export const login =
 
       const { data, errors } = res;
 
-      if (!data) {
+      if (errors) {
         errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
         return dispatch({ type: AUTH_ERROR });
       }
@@ -204,8 +207,9 @@ export const uploadUserPhoto = (file) => async (dispatch) => {
     });
 
     const { data, errors } = get_sign_response;
-    if (!data || !data.fileUploadSign) {
-      return dispatch(setAlert(errors, 'danger'));
+    if (errors) {
+      errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
+      return;
     }
 
     const { presignedUrl } = data.fileUploadSign;
@@ -251,7 +255,7 @@ export const editUser =
 
       const { data, errors } = res;
 
-      if (!data) {
+      if (errors) {
         errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
         return;
       }
@@ -280,7 +284,7 @@ export const unregister = () => async (dispatch) => {
 
     const { data, errors } = res;
 
-    if (!data) {
+    if (errors) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
       return dispatch({ type: AUTH_ERROR });
     }
@@ -312,9 +316,9 @@ export const resetPassword =
         variables,
       });
 
-      const { data, errors } = res;
+      const { errors } = res;
 
-      if (!data) {
+      if (errors) {
         errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
         return dispatch({ type: AUTH_ERROR });
       }
@@ -347,7 +351,7 @@ export const resetPasswordConfirm =
 
       const { data, errors } = res;
 
-      if (!data) {
+      if (errors) {
         errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
         return dispatch({ type: AUTH_ERROR });
       }

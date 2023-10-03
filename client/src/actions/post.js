@@ -20,7 +20,7 @@ export const getMyFeed = () => async (dispatch) => {
 
     const { data, errors } = res;
 
-    if (!data) {
+    if (errors) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
       return dispatch({ type: POST_ERROR, payload: errors });
     }
@@ -48,7 +48,7 @@ export const createPost = (content, callback) => async (dispatch) => {
 
     const { data, errors } = res;
 
-    if (!data) {
+    if (errors) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
       return dispatch({ type: POST_ERROR, payload: errors });
     }
@@ -74,7 +74,7 @@ export const deletePost = (id, callback) => async (dispatch) => {
 
     const { data, errors } = res;
 
-    if (!data) {
+    if (errors) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
       return dispatch({ type: POST_ERROR, payload: errors });
     }

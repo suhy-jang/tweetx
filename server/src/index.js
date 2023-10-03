@@ -1,9 +1,7 @@
 import '@babel/polyfill/noConflict';
 import seeder from './seeder';
-import os from 'os';
 import express from 'express';
 import { createSchema, createYoga } from 'graphql-yoga';
-import prisma from './prisma';
 import { resolvers } from './resolvers';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
@@ -50,7 +48,6 @@ const yoga = createYoga({
     context({ request }) {
       return {
         request,
-        prisma,
       };
     },
     middlewares: [xssPrevention],

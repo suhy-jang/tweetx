@@ -41,6 +41,7 @@ const Mutation = {
     };
   },
   async verifyEmail(_, args, __, ___) {
+    await emailValidation(prisma, args.email);
     return verifyEmail(args.email);
   },
   async checkEmailVerification(_, args, __, ___) {

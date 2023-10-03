@@ -1,8 +1,8 @@
 import 'core-js/stable';
 import 'cross-fetch/polyfill';
 import 'regenerator-runtime/runtime';
+import { PrismaClient } from '@prisma/client';
 import getClient from './utils/apolloClient';
-import prisma from '../src/prisma';
 import {
   getPosts,
   getPost,
@@ -11,6 +11,8 @@ import {
   updatePost,
 } from './utils/operations';
 import seedDatabase, { userOne, postOne } from './utils/seedDatabase';
+
+const prisma = new PrismaClient();
 
 beforeAll(seedDatabase);
 const client = getClient();

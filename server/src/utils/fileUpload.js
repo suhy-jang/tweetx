@@ -30,7 +30,7 @@ const getPresignedUrl = async (fileName, fileType) => {
     return presignedUrl;
   } catch (error) {
     console.error('Error generating presigned URL:', error);
-    res.status(500).send('Error generating presigned URL');
+    throw new Error('Error generating presigned URL');
   }
 };
 

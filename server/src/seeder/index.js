@@ -1,6 +1,8 @@
 import fs from 'fs';
 import bcrypt from 'bcryptjs';
-import prisma from '../prisma';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 const users = JSON.parse(
   fs.readFileSync(`${__dirname}/_data/users.json`, 'utf-8'),

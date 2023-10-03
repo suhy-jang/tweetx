@@ -4,11 +4,17 @@ import { Link, useNavigate } from 'react-router-dom';
 import SplashBg from './SplashBg';
 import { connect } from 'react-redux';
 import { setAlert } from '../../actions/alert';
-import { register } from '../../actions/auth';
+import {
+  register,
+  verifyEmail,
+  emailVerificationCheck,
+} from '../../actions/auth';
 import Head from '../head/Head';
 import MobileHeader from '../layouts/MobileHeader';
+import { Tooltip } from 'react-tippy';
+import 'tippy.js/dist/tippy.css';
 
-const Register = ({ auth, setAlert, register }) => {
+const Register = ({ auth, setAlert, register, verifyEmail }) => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -19,11 +25,27 @@ const Register = ({ auth, setAlert, register }) => {
     password2: '',
   });
 
+  const [emailVerificationSent, setEmailVerificationSent] = useState(false);
+
   // eslint-disable-next-line
   const emailRegex =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   const { fullname, username, email, password, password2 } = formData;
+
+  const sendEmailVerification = (e) => {
+    e.preventDefault();
+    verifyEmail(
+      {
+        email,
+        successMsg: `An email has been sent for verification. 
+          Please open your email and follow the instructions.`,
+      },
+      () => {
+        setEmailVerificationSent(true);
+      },
+    );
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -47,6 +69,8 @@ const Register = ({ auth, setAlert, register }) => {
       ...formData,
       [e.target.name]: e.target.value,
     });
+
+    console.log(e.target.name);
   };
 
   useEffect(() => {
@@ -56,7 +80,7 @@ const Register = ({ auth, setAlert, register }) => {
   }, [auth, navigate]);
 
   return (
-    <>
+    <div className="d-flex">
       <div className="content">
         <Head title="Sign up for TweetX" />
         <MobileHeader
@@ -87,7 +111,7 @@ const Register = ({ auth, setAlert, register }) => {
               />
             </div>
             {/* to use custome alert, email type is text */}
-            <div className="form-group">
+            <div className="form-group d-flex">
               <input
                 type="text"
                 name="email"
@@ -96,6 +120,12 @@ const Register = ({ auth, setAlert, register }) => {
                 value={email}
                 className="form-control"
               />
+              <button
+                onClick={sendEmailVerification}
+                className="btn btn-outline-primary rounded-pill px-2 py-1 ml-2"
+              >
+                Verify
+              </button>
             </div>
             <div className="form-group">
               <input
@@ -132,11 +162,21 @@ const Register = ({ auth, setAlert, register }) => {
               <Link to="/register">Terms & Conditions</Link> related to Momento
             </div>
             <div className="form-group">
-              <input
-                type="submit"
-                value="Register"
-                className="btn btn-primary rounded-pill form-control submit-btn"
-              />
+              <Tooltip
+                title={
+                  emailVerificationSent ? '' : 'Email verification is required'
+                }
+                position="top"
+              >
+                <span>
+                  <input
+                    type="submit"
+                    value="Register"
+                    className="btn btn-primary rounded-pill form-control submit-btn"
+                    disabled={!emailVerificationSent}
+                  />
+                </span>
+              </Tooltip>
             </div>
           </form>
           <div className="mobile content-description font-sm">
@@ -147,7 +187,7 @@ const Register = ({ auth, setAlert, register }) => {
         </div>
       </div>
       <SplashBg />
-    </>
+    </div>
   );
 };
 
@@ -155,10 +195,15 @@ Register.propTypes = {
   auth: PropTypes.object.isRequired,
   setAlert: PropTypes.func.isRequired,
   register: PropTypes.func.isRequired,
+  verifyEmail: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { setAlert, register })(Register);
+export default connect(mapStateToProps, {
+  setAlert,
+  register,
+  verifyEmail,
+})(Register);

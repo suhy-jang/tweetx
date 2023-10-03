@@ -85,18 +85,20 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    createUser(data: UserCreateInput!): AuthPayload!
-    login(data: UserLoginInput!): AuthPayload!
-    deleteUser: User!
-    updateUser(data: UserUpdateInput!): User!
-    createPost(data: PostCreateInput!): Post!
-    deletePost(id: ID!): Post!
-    updatePost(id: ID!, data: PostUpdateInput!): Post!
-    follow(id: ID!): Follow!
-    unfollow(id: ID!): Follow!
-    forgotPassword(data: ForgotPasswordInput!): String!
-    resetPassword(data: ResetPasswordInput!): AuthPayload!
-    fileUploadSign(data: FileUploadInput!): FileSignedResult!
+    createUser(data: UserCreateInput!): AuthPayload
+    verifyEmail(email: String!): Boolean
+    checkEmailVerification(email: String!): Boolean
+    login(data: UserLoginInput!): AuthPayload
+    deleteUser: User
+    updateUser(data: UserUpdateInput!): User
+    createPost(data: PostCreateInput!): Post
+    deletePost(id: ID!): Post
+    updatePost(id: ID!, data: PostUpdateInput!): Post
+    follow(id: ID!): Follow
+    unfollow(id: ID!): Follow
+    forgotPassword(data: ForgotPasswordInput!): String
+    resetPassword(data: ResetPasswordInput!): AuthPayload
+    fileUploadSign(data: FileUploadInput!): FileSignedResult
   }
 
   type FileSignedResult {

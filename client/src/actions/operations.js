@@ -60,6 +60,18 @@ export const mutateCreateUser = gql(`
   ${fragments.user}
 `);
 
+export const mutateVerifyEmail = gql(`
+  mutation($email: String!) {
+    verifyEmail(email: $email)
+  }
+`);
+
+export const mutateEmailVerificationCheck = gql(`
+  mutation($email: String!) {
+    checkEmailVerification(email: $email)
+  }
+`);
+
 export const mutateUpdateUser = gql(`
   mutation($data: UserUpdateInput!) {
     updateUser(data: $data) {

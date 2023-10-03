@@ -12,6 +12,8 @@ import {
 } from './types';
 import {
   mutateCreateUser,
+  mutateVerifyEmail,
+  mutateEmailVerificationCheck,
   mutateUpdateUser,
   mutateDeleteUser,
   mutateLogin,
@@ -51,6 +53,64 @@ export const loadUser = () => async (dispatch) => {
     dispatch({ type: AUTH_ERROR });
   }
 };
+
+// Verify Email
+export const verifyEmail =
+  ({ email, successMsg }, callback) =>
+  async (dispatch) => {
+    const variables = { email };
+
+    try {
+      const res = await client.mutate({
+        mutation: mutateVerifyEmail,
+        variables,
+      });
+      const { data, errors } = res;
+
+      if (!data) {
+        errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
+        return dispatch({ type: AUTH_ERROR });
+      }
+
+      if (successMsg) {
+        dispatch(setAlert(successMsg, 'success'));
+      }
+
+      callback();
+    } catch (error) {
+      dispatch(setAlert(error.message, 'danger'));
+      dispatch({ type: AUTH_ERROR });
+    }
+  };
+
+// Email Verification Check
+export const emailVerificationCheck =
+  ({ email, successMsg }, callback) =>
+  async (dispatch) => {
+    const variables = { email };
+
+    try {
+      const res = await client.mutate({
+        mutation: mutateEmailVerificationCheck,
+        variables,
+      });
+      const { data, errors } = res;
+
+      if (!data) {
+        errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
+        return dispatch({ type: AUTH_ERROR });
+      }
+
+      if (successMsg) {
+        dispatch(setAlert(successMsg, 'success'));
+      }
+
+      callback();
+    } catch (error) {
+      dispatch(setAlert(error.message, 'danger'));
+      dispatch({ type: AUTH_ERROR });
+    }
+  };
 
 // Register User
 export const register =

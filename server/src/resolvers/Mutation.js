@@ -8,7 +8,11 @@ import {
   nameValidation,
   authCheck,
 } from '../utils/userValidation';
-import sendEmail from '../utils/sendEmail';
+import {
+  sendEmail,
+  verifyEmail,
+  checkEmailVerificationStatus,
+} from '../utils/email';
 import getPresignedUrl from '../utils/fileUpload';
 import getUserId from '../utils/getUserId';
 import { s3_bucket } from '../utils/constants';
@@ -35,6 +39,12 @@ const Mutation = {
       user,
       token: generateToken(user.id),
     };
+  },
+  async verifyEmail(_, args, __, ___) {
+    return verifyEmail(args.email);
+  },
+  async checkEmailVerification(_, args, __, ___) {
+    return checkEmailVerificationStatus(args.email);
   },
   async login(parent, args, context, info) {
     const user = await prisma.user.findFirst({

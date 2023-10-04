@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
 import Follow from '../follow/Follow';
 import Moment from 'react-moment';
 
-const UserInfoBar = ({ loginUser, user, handleFollow, loading, followed }) => {
+const UserInfoBar = ({
+  verifyEmail,
+  loginUser,
+  user,
+  handleFollow,
+  loading,
+  followed,
+}) => {
   const [float, setFloat] = useState('');
   const [scroll, setScroll] = useState(0);
 
@@ -17,12 +23,39 @@ const UserInfoBar = ({ loginUser, user, handleFollow, loading, followed }) => {
     return () => window.removeEventListener('scroll', onScroll);
   }, [scroll]);
 
+  const sendEmailVerification = () => {
+    verifyEmail({
+      email: user.email,
+      isRegistering: false,
+      successMsg: `An email has been sent for verification. 
+          Please open your email and follow the instructions.`,
+    });
+  };
+
   return (
     <div className="d-flex justify-content-around main-user-info">
       <div className="user-info d-flex">
         <img src={user.photoUrl} alt="" className="profile-img" />
         <div className="ml-3">
           <div className="font-weight-bold font-lg">{user.fullname}</div>
+          {loginUser && loginUser.id === user.id && (
+            <div>
+              {'EMAIL: '}
+              {loginUser.emailVerified ? (
+                <span>Verified</span>
+              ) : (
+                <>
+                  <span className="text-secondary">Unverified</span>
+                  <button
+                    onClick={sendEmailVerification}
+                    className="btn btn-outline-primary rounded-pill px-1 py-0 ml-2 border-box"
+                  >
+                    Verify
+                  </button>
+                </>
+              )}
+            </div>
+          )}
           <div className="text-secondary">@{user.username}</div>
           <div className="text-secondary">
             Joined on{' '}
@@ -67,10 +100,7 @@ UserInfoBar.propTypes = {
   handleFollow: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   followed: PropTypes.bool.isRequired,
+  verifyEmail: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-});
-
-export default connect(mapStateToProps)(UserInfoBar);
+export default UserInfoBar;

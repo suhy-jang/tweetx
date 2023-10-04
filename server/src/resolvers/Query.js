@@ -1,6 +1,8 @@
 import { PrismaClient } from '@prisma/client';
-import { authCheck } from '../utils/userValidation';
+import { authCheck, emailValidation } from '../utils/userValidation';
 import getUserId from '../utils/getUserId';
+import { verifyEmail } from '../utils/email';
+const validator = require('validator');
 
 const prisma = new PrismaClient();
 
@@ -32,6 +34,16 @@ const Query = {
         id: userId,
       },
     });
+  },
+  async verifyEmail(_, args, __, ___) {
+    if (args.isRegistering) {
+      await emailValidation(prisma, args.email);
+    } else {
+      if (!validator.isEmail(args.email)) {
+        throw new Error('Email is not valid');
+      }
+    }
+    return verifyEmail(args.email);
   },
   async user(parent, args, context, info) {
     const user = await prisma.user.findUnique({

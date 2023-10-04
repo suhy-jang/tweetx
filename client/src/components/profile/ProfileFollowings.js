@@ -4,16 +4,17 @@ import Head from '../head/Head';
 import TabBar from './TabBar';
 import UserInfoBar from './UserInfoBar';
 import User from '../users/User';
-import { getProfile } from '../../actions/profile';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import MobileHeader from '../layouts/MobileHeader';
+import { getProfile } from '../../actions/profile';
 import {
   follow,
   unfollow,
   getFollowings,
   getUserFollowings,
 } from '../../actions/follow';
+import { verifyEmail } from '../../actions/auth';
 
 const ProfileFollowings = ({
   auth: { user },
@@ -24,6 +25,7 @@ const ProfileFollowings = ({
   getUserFollowings,
   follow,
   unfollow,
+  verifyEmail,
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -87,6 +89,7 @@ const ProfileFollowings = ({
       />
       <UserInfoBar
         loginUser={user}
+        verifyEmail={verifyEmail}
         user={profileInfo}
         handleFollow={handleFollow}
         followed={!!userFollowings.find((f) => f.following.id === profile.id)}
@@ -124,6 +127,7 @@ ProfileFollowings.propTypes = {
   getUserFollowings: PropTypes.func.isRequired,
   follow: PropTypes.func.isRequired,
   unfollow: PropTypes.func.isRequired,
+  verifyEmail: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -138,4 +142,5 @@ export default connect(mapStateToProps, {
   getUserFollowings,
   follow,
   unfollow,
+  verifyEmail,
 })(ProfileFollowings);

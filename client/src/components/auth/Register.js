@@ -4,11 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import SplashBg from './SplashBg';
 import { connect } from 'react-redux';
 import { setAlert } from '../../actions/alert';
-import {
-  register,
-  verifyEmail,
-  emailVerificationCheck,
-} from '../../actions/auth';
+import { register, verifyEmail } from '../../actions/auth';
 import Head from '../head/Head';
 import MobileHeader from '../layouts/MobileHeader';
 import { Tooltip } from 'react-tippy';
@@ -38,6 +34,7 @@ const Register = ({ auth, setAlert, register, verifyEmail }) => {
     verifyEmail(
       {
         email,
+        isRegistering: true,
         successMsg: `An email has been sent for verification. 
           Please open your email and follow the instructions.`,
       },
@@ -69,8 +66,6 @@ const Register = ({ auth, setAlert, register, verifyEmail }) => {
       ...formData,
       [e.target.name]: e.target.value,
     });
-
-    console.log(e.target.name);
   };
 
   useEffect(() => {

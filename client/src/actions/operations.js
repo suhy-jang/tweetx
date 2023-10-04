@@ -7,6 +7,7 @@ const fragments = {
       fullname
       username
       photoUrl
+      emailVerified
       createdAt
     }
   `,
@@ -61,14 +62,16 @@ export const mutateCreateUser = gql(`
 `);
 
 export const mutateVerifyEmail = gql(`
-  mutation($email: String!) {
-    verifyEmail(email: $email)
+  query($email: String!, $isRegistering: Boolean) {
+    verifyEmail(email: $email, isRegistering: $isRegistering)
   }
 `);
 
 export const mutateEmailVerificationCheck = gql(`
-  mutation($email: String!) {
-    checkEmailVerification(email: $email)
+  mutation {
+    checkEmailVerification {
+      success
+    }
   }
 `);
 

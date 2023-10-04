@@ -8,11 +8,7 @@ import {
   nameValidation,
   authCheck,
 } from '../utils/userValidation';
-import {
-  sendEmail,
-  verifyEmail,
-  checkEmailVerificationStatus,
-} from '../utils/email';
+import { sendEmail, checkEmailVerificationStatus } from '../utils/email';
 import getPresignedUrl from '../utils/fileUpload';
 import getUserId from '../utils/getUserId';
 import { s3_bucket } from '../utils/constants';
@@ -40,12 +36,39 @@ const Mutation = {
       token: generateToken(user.id),
     };
   },
-  async verifyEmail(_, args, __, ___) {
-    await emailValidation(prisma, args.email);
-    return verifyEmail(args.email);
-  },
-  async checkEmailVerification(_, args, __, ___) {
-    return checkEmailVerificationStatus(args.email);
+  async checkEmailVerification(_, __, context, ___) {
+    const userId = getUserId(context);
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+      select: {
+        email: true,
+        emailVerified: true,
+      },
+    });
+
+    if (user.emailVerified) {
+      return { success: true };
+    }
+
+    const { success, reason } = await checkEmailVerificationStatus(user.email);
+
+    if (!success) {
+      return { success: false, message: reason };
+    }
+
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        emailVerified: true,
+      },
+    });
+
+    return { success: true };
   },
   async login(parent, args, context, info) {
     const user = await prisma.user.findFirst({
@@ -73,6 +96,18 @@ const Mutation = {
     const userId = getUserId(context);
 
     await authCheck(prisma, userId);
+
+    await prisma.follow.deleteMany({
+      where: {
+        OR: [{ followingId: userId }, { followerId: userId }],
+      },
+    });
+
+    await prisma.post.deleteMany({
+      where: {
+        authorId: userId,
+      },
+    });
 
     return prisma.user.delete({
       where: {

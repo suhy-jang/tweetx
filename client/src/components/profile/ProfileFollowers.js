@@ -14,6 +14,7 @@ import {
   getUserFollowings,
   getFollowers,
 } from '../../actions/follow';
+import { verifyEmail } from '../../actions/auth';
 
 const ProfileFollowers = ({
   auth: { user },
@@ -24,6 +25,7 @@ const ProfileFollowers = ({
   getUserFollowings,
   follow,
   unfollow,
+  verifyEmail,
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -85,6 +87,7 @@ const ProfileFollowers = ({
       />
       <UserInfoBar
         loginUser={user}
+        verifyEmail={verifyEmail}
         user={profileInfo}
         handleFollow={handleFollow}
         followed={!!userFollowings.find((f) => f.following.id === profile.id)}
@@ -120,6 +123,7 @@ ProfileFollowers.propTypes = {
   getUserFollowings: PropTypes.func.isRequired,
   follow: PropTypes.func.isRequired,
   unfollow: PropTypes.func.isRequired,
+  verifyEmail: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -134,4 +138,5 @@ export default connect(mapStateToProps, {
   getProfile,
   getFollowers,
   getUserFollowings,
+  verifyEmail,
 })(ProfileFollowers);

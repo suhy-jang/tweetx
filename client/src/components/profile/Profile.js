@@ -5,11 +5,12 @@ import Post from '../posts/Post';
 import NewPostBtn from '../posts/NewPostBtn';
 import TabBar from './TabBar';
 import UserInfoBar from './UserInfoBar';
-import { getProfile } from '../../actions/profile';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import MobileHeader from '../layouts/MobileHeader';
+import { getProfile } from '../../actions/profile';
 import { follow, unfollow, getUserFollowings } from '../../actions/follow';
+import { checkEmailVerification, verifyEmail } from '../../actions/auth';
 
 const Profile = ({
   auth: { isAuthenticated, user },
@@ -19,6 +20,8 @@ const Profile = ({
   getUserFollowings,
   follow,
   unfollow,
+  checkEmailVerification,
+  verifyEmail,
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -34,6 +37,12 @@ const Profile = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profile, profileUser]);
+
+  useEffect(() => {
+    if (user.id === profile.id && !user.emailVerified) {
+      checkEmailVerification();
+    }
+  }, [user.id, user.emailVerified, profile.id]);
 
   useEffect(() => {
     if (profileUser && profileUser.id) {
@@ -67,6 +76,7 @@ const Profile = ({
       <MobileHeader title={profileInfo.fullname} optionTwo={true} />
       <UserInfoBar
         loginUser={user}
+        verifyEmail={verifyEmail}
         user={profileInfo}
         handleFollow={handleFollow}
         followed={!!userFollowings.find((f) => f.following.id === profile.id)}
@@ -95,6 +105,8 @@ Profile.propTypes = {
   follow: PropTypes.func.isRequired,
   unfollow: PropTypes.func.isRequired,
   getUserFollowings: PropTypes.func.isRequired,
+  checkEmailVerification: PropTypes.func.isRequired,
+  verifyEmail: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -108,4 +120,6 @@ export default connect(mapStateToProps, {
   unfollow,
   getProfile,
   getUserFollowings,
+  checkEmailVerification,
+  verifyEmail,
 })(Profile);

@@ -11,6 +11,7 @@ export const LOGOUT = 'LOGOUT';
 export const AUTH_LOADING = 'AUTH_LOADING';
 export const RESET_PASSWORD = 'RESET_PASSWORD';
 export const RESET_PASSWORD_CONFIRM = 'RESET_PASSWORD_CONFIRM';
+export const EMAIL_VERIFIED = 'EMAIL_VERIFIED';
 
 export const FOLLOW_LOADING = 'FOLLOW_LOADING';
 export const FOLLOW = 'FOLLOW';

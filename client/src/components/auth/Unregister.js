@@ -6,9 +6,9 @@ import { useNavigate } from 'react-router-dom';
 
 const Unregister = ({ auth: { isAuthenticated }, unregister }) => {
   const navigate = useNavigate();
-  const onClick = (e) => {
+  const onClick = () => {
     if (window.confirm('Are you sure you wish to delete your account?')) {
-      unregister();
+      unregister('Successfully deleted.');
     }
   };
 

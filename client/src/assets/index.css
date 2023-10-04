@@ -154,10 +154,9 @@ textarea {
 }
 
 .btn-outline-primary:hover,
-.btn-outline-primary:focus,
 .btn-outline-primary:active,
 .btn-outline-primary:disabled {
-  border: var(--primary-color);
+  border-color: var(--primary-color);
   background-color: var(--primary-color);
 }
 
@@ -209,6 +208,10 @@ textarea {
 .user-info-floating-btn-cover {
   width: 90px;
   height: 35px;
+}
+
+.border-box {
+  box-sizing: border-box;
 }
 
 .user-info-floating-btn {

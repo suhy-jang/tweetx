@@ -10,6 +10,7 @@ import {
   RESET_PASSWORD_CONFIRM,
   CREATE_POST,
   DELETE_POST,
+  EMAIL_VERIFIED,
 } from '../actions/types';
 
 const initialState = {
@@ -43,6 +44,15 @@ const Auth = (state = initialState, action) => {
         token: payload.token,
         user: payload.user,
         isAuthenticated: true,
+        loading: false,
+      };
+    case EMAIL_VERIFIED:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          emailVerified: payload,
+        },
         loading: false,
       };
     case EDIT_USER:

@@ -62,17 +62,15 @@ const checkEmailVerificationStatus = async (email) => {
     const data = await sesClient.send(command);
     const attributes = data.VerificationAttributes[email];
     if (attributes) {
-      console.log(
-        'Verification status for',
-        email,
-        ':',
-        attributes.VerificationStatus,
-      );
+      if (attributes.VerificationStatus === 'Success') {
+        return { success: true };
+      }
+      return { success: false, reason: attributes.VerificationStatus };
     } else {
-      console.log('No verification data available for', email);
+      throw new Error(`No verification data available for ${email}`);
     }
   } catch (error) {
-    console.error('Error checking verification status:', error);
+    throw new Error(`Error checking verification status: ${error}`);
   }
 };
 

@@ -53,6 +53,7 @@ const typeDefs = gql`
       orderBy: CommonOrderByInput
     ): [User]!
     me: User!
+    verifyEmail(email: String!, isRegistering: Boolean): Boolean
     posts(
       query: String
       first: Int
@@ -86,8 +87,7 @@ const typeDefs = gql`
 
   type Mutation {
     createUser(data: UserCreateInput!): AuthPayload
-    verifyEmail(email: String!): Boolean
-    checkEmailVerification(email: String!): Boolean
+    checkEmailVerification: CheckEmailVerificationReturn
     login(data: UserLoginInput!): AuthPayload
     deleteUser: User
     updateUser(data: UserUpdateInput!): User
@@ -99,6 +99,11 @@ const typeDefs = gql`
     forgotPassword(data: ForgotPasswordInput!): String
     resetPassword(data: ResetPasswordInput!): AuthPayload
     fileUploadSign(data: FileUploadInput!): FileSignedResult
+  }
+
+  type CheckEmailVerificationReturn {
+    success: Boolean!
+    message: String
   }
 
   type FileSignedResult {
@@ -159,6 +164,7 @@ const typeDefs = gql`
     username: String!
     fullname: String!
     email: String
+    emailVerified: Boolean
     photoUrl: String
     resetPasswordToken: String
     resetPasswordExpire: DateTime

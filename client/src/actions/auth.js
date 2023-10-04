@@ -9,6 +9,7 @@ import {
   AUTH_ERROR,
   LOGOUT,
   RESET_PASSWORD_CONFIRM,
+  EMAIL_VERIFIED,
 } from './types';
 import {
   mutateCreateUser,
@@ -56,51 +57,26 @@ export const loadUser = () => async (dispatch) => {
 
 // Verify Email
 export const verifyEmail =
-  ({ email, successMsg }, callback) =>
+  ({ email, isRegistering, successMsg }, callback) =>
   async (dispatch) => {
-    const variables = { email };
+    const variables = { email, isRegistering };
 
     try {
       const res = await client.mutate({
         mutation: mutateVerifyEmail,
         variables,
+        fetchPolicy: 'no-cache',
       });
       const { errors } = res;
 
       if (errors) {
-        errors.forEach((err) =>
-          dispatch(setAlert(err.extensions.originalError.message, 'danger')),
-        );
-        return dispatch({ type: AUTH_ERROR });
-      }
-
-      if (successMsg) {
-        dispatch(setAlert(successMsg, 'success'));
-      }
-
-      callback();
-    } catch (error) {
-      console.log(3, error);
-      dispatch(setAlert(error.message, 'danger'));
-      dispatch({ type: AUTH_ERROR });
-    }
-  };
-
-// Email Verification Check
-export const emailVerificationCheck =
-  ({ email, successMsg }, callback) =>
-  async (dispatch) => {
-    const variables = { email };
-
-    try {
-      const res = await client.mutate({
-        mutation: mutateEmailVerificationCheck,
-        variables,
-      });
-      const { errors } = res;
-
-      if (errors) {
+        if (errors.extensions) {
+          errors.forEach((err) =>
+            dispatch(setAlert(err.extensions.originalError.message, 'danger')),
+          );
+        }
         errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
+
         return dispatch({ type: AUTH_ERROR });
       }
 
@@ -108,12 +84,42 @@ export const emailVerificationCheck =
         dispatch(setAlert(successMsg, 'success'));
       }
 
-      callback();
+      callback?.();
     } catch (error) {
       dispatch(setAlert(error.message, 'danger'));
       dispatch({ type: AUTH_ERROR });
     }
   };
+
+// Check Email Verification
+export const checkEmailVerification = () => async (dispatch) => {
+  try {
+    const res = await client.mutate({
+      mutation: mutateEmailVerificationCheck,
+      fetchPolicy: 'no-cache',
+    });
+    const { data, errors } = res;
+
+    if (errors) {
+      errors.forEach((err) => dispatch(setAlert(err.message, 'danger')));
+      return;
+    }
+
+    const { success: payload, message } = data.checkEmailVerification;
+
+    if (message) {
+      dispatch(setAlert(`Email is unverified with reason: ${message}`));
+    }
+
+    dispatch({
+      type: EMAIL_VERIFIED,
+      payload,
+    });
+  } catch (error) {
+    dispatch(setAlert(error.message, 'danger'));
+    dispatch({ type: AUTH_ERROR });
+  }
+};
 
 // Register User
 export const register =
@@ -278,7 +284,7 @@ export const logout = () => (dispatch) => {
 };
 
 // Unregister User
-export const unregister = () => async (dispatch) => {
+export const unregister = (successMsg) => async (dispatch) => {
   try {
     const res = await client.mutate({ mutation: mutateDeleteUser });
 
@@ -295,6 +301,7 @@ export const unregister = () => async (dispatch) => {
       type: UNREGISTER,
       payload: data.deleteUser,
     });
+    dispatch(setAlert(successMsg, 'success'));
   } catch (err) {
     dispatch({ type: AUTH_ERROR });
   }

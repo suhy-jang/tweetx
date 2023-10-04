@@ -158,6 +158,7 @@ const Register = ({ auth, setAlert, register, verifyEmail }) => {
             </div>
             <div className="form-group">
               <Tooltip
+                key={emailVerificationSent.toString()}
                 title={
                   emailVerificationSent ? '' : 'Email verification is required'
                 }
